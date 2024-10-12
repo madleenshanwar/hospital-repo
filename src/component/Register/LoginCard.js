@@ -61,7 +61,7 @@ export default function LoginCard() {
       component="form"
       onSubmit={handleSubmit}
       sx={{
-        margin: "100px auto",
+        margin: "60px auto",
         p: 2,
         display: "flex",
         flexDirection: "column",
@@ -70,7 +70,7 @@ export default function LoginCard() {
         gap: 2,
         boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",
         borderRadius: 8,
-        backgroundColor: "rgba(255,255,255,0.9)",
+        backgroundColor: "rgba(255,255,255,0.8)",
         border: "1px solid #00ACB1",
         height: "400px",
         maxWidth: "500px",
@@ -117,6 +117,7 @@ export default function LoginCard() {
       <Button
         variant="outlined"
         sx={{ color: "#00ACB1", p: 1, fontWeight: "bold" }}
+        onClick={()=>route('/signup')}
       >
         Sign Up
       </Button>
