@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 const validationSchema = Yup.object().shape({
     name:Yup.string()
     .required("Department name is required")
+    .min(3, 'Name must have at least 3 letters')
     .max(25, "must contain at least 25 letters")
    ,
 //    headDepartment:Yup.string()

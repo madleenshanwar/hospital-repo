@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Button, TextField, Box, Typography } from "@mui/material";
+import { Button, TextField, Box, Typography, InputAdornment, IconButton } from "@mui/material";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-
+import EmailIcon from '@mui/icons-material/Email';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email format")
@@ -17,7 +19,16 @@ export default function LoginCard() {
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const route = useNavigate();
+  const [showPassword, setShowPassword] = React.useState(false);
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setLogin((prev) => ({
@@ -93,18 +104,44 @@ export default function LoginCard() {
         onChange={handleChange}
         error={Boolean(errors.email)}
         helperText={errors.email}
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <EmailIcon />
+              </InputAdornment>
+            ),
+          },
+        }}
       />
 
       <TextField
         placeholder="Enter Your Password"
         name="password"
-        type="password"
         fullWidth
         variant="outlined"
         value={login.password}
         onChange={handleChange}
         error={Boolean(errors.password)}
         helperText={errors.password}
+        type={showPassword ? 'text' : 'password'}
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                  <IconButton
+              aria-label="toggle password visibility"
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              onMouseUp={handleMouseUpPassword}
+              edge="end"
+            >
+              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            </IconButton>
+              </InputAdornment>
+            ),
+          },
+        }}
       />
       <Box sx={{display:'flex',gap:2}}>
       <Button
