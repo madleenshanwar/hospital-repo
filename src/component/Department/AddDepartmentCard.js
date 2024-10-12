@@ -17,29 +17,20 @@ export default function AddDepartmentCard() {
         name:'',
         headDepartment:['George',"Amjad","Sara"]
     });
-    const handleChange = (e) => {
+    const route=useNavigate(); 
+    const [errors, setErrors] = useState({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const handleChange = async(e) => {
         const { name, value } = e.target;
         setDepartment((prevD) => ({
           ...prevD,
           [name]: value,
         }));
-      };
-      const route=useNavigate();
-      //validation 
-      const [errors, setErrors] = useState({});
-      const [isSubmitted, setIsSubmitted] = useState(false);
-      const[touched,setTached]=useState({});
-      const handleBlur = async (e) => {
-        const { name } = e.target;
-        setTached({
-          ...touched,
-          [name]:true
-        })
         try {
-          await validationSchema.validateAt(name, { [name]: department[name] });
+          await validationSchema.validateAt(name, { [name]: value });
           setErrors((prev) => ({ ...prev, [name]: undefined }));
-        } catch (err) {
-          setErrors((prev) => ({ ...prev, [name]: err.message }));
+        } catch (error) {
+          setErrors((prev) => ({ ...prev, [name]: error.message }));
         }
       };
       const handleSubmit= async (e) => {
@@ -47,6 +38,7 @@ export default function AddDepartmentCard() {
         const values = { ...department};
         try {
           await validationSchema.validate(values, { abortEarly: false });
+          console.log("Department Info:", values);
           setErrors({});
           setIsSubmitted(true);
         } catch (err) {
@@ -60,7 +52,7 @@ export default function AddDepartmentCard() {
       };
       useEffect(() => {
         if (isSubmitted === true) {
-          route("/");
+          route("/department");
         }
       }, [isSubmitted, route]);
   return (
@@ -87,21 +79,18 @@ export default function AddDepartmentCard() {
             Add New DePartment
         </Typography>
          <TextField
+         placeholder="Department Name"
+         name="name"
          fullWidth
-          required
-          id="outlined-required"
-          placeholder="Department Name"
-          name="name"
+         variant="outlined"
           value={department.name}
           onChange={handleChange}
-          error={touched.name&&Boolean(errors.name)}
-          helperText={touched.name&&errors.name}
-          onBlur={handleBlur}
+          error={Boolean(errors.name)}
+          helperText={errors.name}
         />
         
         <TextField
         fullWidth
-        required
           id="outlined-select-currency"
           select
           label="please select your Head Of Department"
