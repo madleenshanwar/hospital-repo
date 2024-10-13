@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Department() {
   const route=useNavigate();
   return (
-    <Box sx={{marginTop:'100px',display:'flex',flexDirection:'column',alignItems:'center'}}>
+    <Box sx={{marginTop:'100px'}}>
      <Button
         variant="contained"
         sx={{ background: '#00ACB1',p:1,fontWeight:'bold' }}
