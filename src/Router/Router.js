@@ -4,6 +4,7 @@ import DepartmentPage from '../page/Department/DepartmentPage'
 import AddDepartment from '../page/Department/AddDepartment'
 import Login from '../page/Register/Login'
 import SignUp from '../page/Register/SignUp'
+import UpdateDepartment from '../page/Department/UpdateDepartment'
 export default function Router() {
   return (
     <BrowserRouter>
@@ -12,6 +13,7 @@ export default function Router() {
         <Route path='signup' element={<SignUp/>}/>
         <Route path='department' element={<DepartmentPage/>}/>
         <Route path='adddepartment' element={<AddDepartment/>}/>
+        <Route path='updatedepartment/:index' element={<UpdateDepartment/>}/>
     </Routes>
     </BrowserRouter>
   )

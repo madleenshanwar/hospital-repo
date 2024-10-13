@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom'
 import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +13,8 @@ const validationSchema = Yup.object().shape({
 //    .required("You must select an option")
 //    .oneOf('Invalid selection')
   });
-export default function AddDepartmentCard() {
+export default function UpdateDepartmentCard() {
+    const {index}=useParams();
     const[department,setDepartment]=useState({
         name:'',
         headDepartment:[]
@@ -76,7 +78,7 @@ export default function AddDepartmentCard() {
       }}
     >
         <Typography variant="h5" component="h2" sx={{color:'#00ACB1',textDecoration:'underline'}}>
-            Add New DePartment
+            UPdate DePartment
         </Typography>
          <TextField
          placeholder="Department Name"
@@ -118,5 +120,5 @@ export default function AddDepartmentCard() {
       </Button>
         </Box>
     </Box>
-  );
+  )
 }

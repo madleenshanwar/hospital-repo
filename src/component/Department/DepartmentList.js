@@ -5,6 +5,7 @@ import TablePagination from '@mui/material/TablePagination';
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Button, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 const columns = [
     { field: 'id', headerName:' ID',minWidth:200,align:'center',    format: (value) => value.toLocaleString('en-US')},
     { field: 'name', headerName: 'Name',minWidth:300,align:'center',    format: (value) => value.toLocaleString('en-US'),},
@@ -25,7 +26,7 @@ const columns = [
 export default function DepartmentList() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  
+    const route=useNavigate();
     const handleChangePage = (_event, newPage) => {
       setPage(newPage);
     };
@@ -34,10 +35,13 @@ export default function DepartmentList() {
       setRowsPerPage(+event.target.value);
       setPage(0);
     };
+    const handleUpdate=(index)=>{
+        route(`/updatedepartment/${index}`)
+    }
   return (
     <Container>
-      <Paper sx={{ width: '100%' ,boxShadow: "0px 4px 10px rgba(0,0,0,0.25)"}}>
-      <Table  aria-label="sticky table">
+      <Paper sx={{ width:'100%' ,boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",overflowX:'auto'}}>
+      <Table  aria-label="sticky table" >
         <TableHead>
           <TableRow>
             {columns.map((column) => (
@@ -54,7 +58,7 @@ export default function DepartmentList() {
         <TableBody>
           {rows
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row) => {
+            .map((row,index) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                      <TableCell
@@ -81,7 +85,7 @@ export default function DepartmentList() {
                         </Button>
                         <Button
                         title="update Device"
-                        // onClick={() => handleUpdate(index)}
+                        onClick={() => handleUpdate(index)}
                       >
                         <EditIcon sx={{color:'#07E4DB'}}/>
                       </Button>
