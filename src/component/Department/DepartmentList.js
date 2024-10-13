@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Button, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Button, Container, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 const columns = [
     { field: 'id', headerName:' ID',minWidth:200,align:'center',    format: (value) => value.toLocaleString('en-US')},
@@ -23,6 +23,14 @@ const columns = [
      {id:8,name:'Neurosurgery Department',heaDepartment_Name:''},
      {id:9,name:'Neurosurgery Department',heaDepartment_Name:''},
   ];
+  const style = {
+    bgcolor: "background.paper",
+    border: '2px solid #00ACB1',
+    boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",
+    margin: "50px auto",
+    p: 4,
+    // width: "fit-content",
+  };
 export default function DepartmentList() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -35,6 +43,20 @@ export default function DepartmentList() {
       setRowsPerPage(+event.target.value);
       setPage(0);
     };
+    //handle with delete
+     //delete
+  const [indexDelete, setIndexDelete] = useState(0);
+  const [openDelete, setOpenDelete] = useState(false);
+  const handleOpenDelete = (index) => {
+    setOpenDelete(true);
+    setIndexDelete(index);
+    console.log(index)
+  };
+  const handleCloseDelete = () => setOpenDelete(false);
+  function handleDelete(row) {
+      handleCloseDelete();
+    }
+    //handle with update
     const handleUpdate=(index)=>{
         route(`/updatedepartment/${index}`)
     }
@@ -79,10 +101,61 @@ export default function DepartmentList() {
                    <TableCell align="center">
                         <Button
                           title="Delete Device"
-                          // onClick={() => handleOpenDelete(index)}
+                          onClick={() => handleOpenDelete(index)}
                         >
                           <DeleteIcon sx={{color:'#07E4DB'}} />
                         </Button>
+                        <Modal
+                        open={openDelete}
+                        onClose={handleCloseDelete}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                      >
+                        <Box   sx={{
+                          margin:'100px auto',
+                          p:3,
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems:'center',
+                          justifyContent:'center',
+                          gap:3,
+                          boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",
+                          borderRadius: 8,
+                          backgroundColor: "rgba(255,255,255,0.9)",
+                          border:'1px solid #00ACB1',
+                          height:'200px',
+                          maxWidth:'550px'
+                        }}>
+                          <Typography
+                            id="modal-modal-title"
+                            variant="h6"
+                            component="h2"
+                          >
+                            Are You Sure You Won't To Delete This Department??
+                          </Typography>
+                          <Typography
+                            id="modal-modal-description"
+                            sx={{ mt: 2 }}
+                          >
+                            <Button
+                              type="submit"
+                              variant="contained"
+                              sx={{ background:'#00ACB1' }}
+                              onClick={() => handleDelete(row)}
+                            >
+                              Yes
+                            </Button>
+                            <Button
+                              type="submit"
+                              variant="outlined"
+                              sx={{ color:'#00ACB1', ml: 1 }}
+                              onClick={handleCloseDelete}
+                            >
+                              No
+                            </Button>
+                          </Typography>
+                        </Box>
+                      </Modal>
                         <Button
                         title="update Device"
                         onClick={() => handleUpdate(index)}
