@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
 export default function AddDepartmentCard() {
     const[department,setDepartment]=useState({
         name:'',
-        headDepartment:['George',"Amjad","Sara"]
+        headDepartment:[]
     });
     const route=useNavigate(); 
     const [errors, setErrors] = useState({});
@@ -62,7 +62,7 @@ export default function AddDepartmentCard() {
     onSubmit={handleSubmit}
       sx={{
         margin:'100px auto',
-        p:2,
+        p:3,
         display: "flex",
         flexDirection: "column",
         alignItems:'center',
@@ -73,7 +73,7 @@ export default function AddDepartmentCard() {
         backgroundColor: "rgba(255,255,255,0.9)",
         border:'1px solid #00ACB1',
         height:'400px',
-        maxWidth:'500px'
+        maxWidth:'550px'
       }}
     >
         <Typography variant="h5" component="h2" sx={{color:'#00ACB1',textDecoration:'underline'}}>
@@ -96,11 +96,11 @@ export default function AddDepartmentCard() {
           select
           label="please select your Head Of Department"
         >
-          {department.headDepartment.map((option,index) => (
-            <MenuItem key={index} value={option}>
-              {option}
+          {/* {department.headDepartment.length>0?department.headDepartment.map((option,index) => (
+            <MenuItem key={index} value={option.id} >
+              {option.name}
             </MenuItem>
-          ))}
+          )):''} */}
         </TextField>
         <Box sx={{display:'flex',gap:2}}>
         <Button

@@ -73,7 +73,7 @@ export default function LoginCard() {
       onSubmit={handleSubmit}
       sx={{
         margin: "60px auto",
-        p: 2,
+        p: 3,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -84,7 +84,7 @@ export default function LoginCard() {
         backgroundColor: "rgba(255,255,255,0.8)",
         border: "1px solid #00ACB1",
         height: "400px",
-        maxWidth: "500px",
+        maxWidth: "600px",
       }}
     >
       <Typography
@@ -108,7 +108,7 @@ export default function LoginCard() {
           input: {
             endAdornment: (
               <InputAdornment position="end">
-                <EmailIcon />
+                <EmailIcon sx={{color:'#07E4DB'}}/>
               </InputAdornment>
             ),
           },
@@ -136,7 +136,7 @@ export default function LoginCard() {
               onMouseUp={handleMouseUpPassword}
               edge="end"
             >
-              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              {showPassword ? <VisibilityOffIcon sx={{color:'#07E4DB'}}/> : <VisibilityIcon sx={{color:'#07E4DB'}}/>}
             </IconButton>
               </InputAdornment>
             ),
