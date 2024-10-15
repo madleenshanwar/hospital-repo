@@ -143,22 +143,13 @@ export default function LoginCard() {
           },
         }}
       />
-      <Box sx={{display:'flex',gap:2}}>
       <Button
         type="submit"
         variant="contained"
         sx={{ background: "#00ACB1", p: 1, fontWeight: "bold" }}
       >
-        Submit
+        Login
       </Button>
-      <Button
-        variant="outlined"
-        sx={{ color: "#00ACB1", p: 1, fontWeight: "bold" }}
-        onClick={()=>route('/signup')}
-      >
-        Sign Up
-      </Button>
-      </Box>
     </Box>
   );
 }

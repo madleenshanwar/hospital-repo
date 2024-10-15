@@ -60,13 +60,13 @@ export default function AddDepartmentCard() {
     component="form"
     onSubmit={handleSubmit}
       sx={{
-        margin:'100px auto',
+        margin:'70px auto',
         p:3,
         display: "flex",
         flexDirection: "column",
         alignItems:'center',
         justifyContent:'center',
-        gap:3,
+        gap:2,
         boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",
         borderRadius: 8,
         backgroundColor: "rgba(255,255,255,0.9)",
