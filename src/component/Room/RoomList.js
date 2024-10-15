@@ -7,22 +7,24 @@ import { Box, Button, Container, Modal, Table, TableBody, TableCell, TableContai
 import { useNavigate } from 'react-router-dom';
 const columns = [
     { field: 'id', headerName:' ID',minWidth:100,align:'center',    format: (value) => value.toLocaleString('en-US')},
-    { field: 'name', headerName: 'Name',minWidth:300,align:'center',    format: (value) => value.toLocaleString('en-US'),},
-    { field:'heaDepartment_Name', headerName:'HeadDepartment Name',minWidth:300,align:'center', format: (value) => value.toLocaleString('en-US')},
-    { field:'action', headerName:'Action',minWidth:300,align:'center', format: (value) => value.toLocaleString('en-US')}
+    { field: 'number', headerName: 'Number',minWidth:200,align:'center',    format: (value) => value.toLocaleString('en-US'),},
+    { field:'status', headerName:'Status',minWidth:200,align:'center', format: (value) => value.toLocaleString('en-US')},
+    { field:'department', headerName:'Department-Name',minWidth:200,align:'center', format: (value) => value.toLocaleString('en-US')},
+    { field:'Bed_numbers', headerName:'Bed_Numbers',minWidth:200,align:'center', format: (value) => value.toLocaleString('en-US')},
+    { field:'action', headerName:'Action',minWidth:200,align:'center', format: (value) => value.toLocaleString('en-US')}
   ];
   const rows = [
-     {id:1,name:'Neurosurgery Department',heaDepartment_Name:""},
-     {id:2,name:'Neurosurgery Department',heaDepartment_Name:""},
-     {id:3,name:'Neurosurgery Department',heaDepartment_Name:''},
-     {id:4,name:'Neurosurgery Department',heaDepartment_Name:''},
-     {id:5,name:'Neurosurgery Department',heaDepartment_Name:''},
-     {id:6,name:'Neurosurgery Department',heaDepartment_Name:""},
-     {id:7,name:'Neurosurgery Department',heaDepartment_Name:''},
-     {id:8,name:'Neurosurgery Department',heaDepartment_Name:''},
-     {id:9,name:'Neurosurgery Department',heaDepartment_Name:''},
+     {id:1,number:'250',status:"Vacant",department:"",Bed_numbers:"1"},
+     {id:2,number:'250',status:"Vacant",department:"",Bed_numbers:"1"},
+     {id:3,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
+     {id:4,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
+     {id:5,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
+     {id:6,number:'250',status:"Vacant",department:"",Bed_numbers:"1"},
+     {id:7,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
+     {id:8,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
+     {id:9,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
   ];
-export default function DepartmentList() {
+export default function RoomList() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const route=useNavigate();
@@ -49,7 +51,7 @@ export default function DepartmentList() {
     }
     //handle with update
     const handleUpdate=(index)=>{
-        route(`/updatedepartment/${index}`)
+        // route(`/updatedepartment/${index}`)
     }
   return (
     <Container>
@@ -82,12 +84,22 @@ export default function DepartmentList() {
                     <TableCell
                       align="center"
                     >
-                      {row.name}
+                      {row.number}
                     </TableCell>
                     <TableCell
                       align="center"
                     >
-                      {row.heaDepartment_Name}
+                      {row.status}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                    >
+                      {row.department}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                    >
+                      {row.Bed_numbers}
                     </TableCell>
                    <TableCell align="center">
                         <Button
@@ -122,7 +134,7 @@ export default function DepartmentList() {
                             variant="h6"
                             component="h2"
                           >
-                            Are You Sure You Won't To Delete This Department??
+                            Are You Sure You Won't To Delete This Room??
                           </Typography>
                           <Typography
                             id="modal-modal-description"
