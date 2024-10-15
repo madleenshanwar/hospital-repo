@@ -51,7 +51,7 @@ export default function RoomList() {
     }
     //handle with update
     const handleUpdate=(index)=>{
-        // route(`/updatedepartment/${index}`)
+        route(`/updatedroom/${index}`)
     }
   return (
     <Container>

@@ -62,7 +62,7 @@ export default function UpdateDepartmentCard() {
     component="form"
     onSubmit={handleSubmit}
       sx={{
-        margin:'100px auto',
+        margin:'50px auto',
         p:3,
         display: "flex",
         flexDirection: "column",

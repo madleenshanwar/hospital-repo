@@ -7,6 +7,7 @@ import SignUp from '../page/Register/SignUp'
 import UpdateDepartment from '../page/Department/UpdateDepartment'
 import RoomPage from '../page/Room/RoomPage'
 import AddRoom from '../page/Room/AddRoom'
+import UpdateRoom from '../page/Room/UpdateRoom'
 export default function Router() {
   return (
     <BrowserRouter>
@@ -18,6 +19,7 @@ export default function Router() {
         <Route path='updatedepartment/:index' element={<UpdateDepartment/>}/>
         <Route path='room' element={<RoomPage/>}/>
         <Route path='addroom' element={<AddRoom/>}/>
+        <Route path='updatedroom/:index' element={<UpdateRoom/>}/>
     </Routes>
     </BrowserRouter>
   )
