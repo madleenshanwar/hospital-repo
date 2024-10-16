@@ -10,19 +10,19 @@ const columns = [
     { field: 'number', headerName: 'Number',minWidth:200,align:'center',    format: (value) => value.toLocaleString('en-US'),},
     { field:'status', headerName:'Status',minWidth:200,align:'center', format: (value) => value.toLocaleString('en-US')},
     { field:'department', headerName:'Department-Name',minWidth:200,align:'center', format: (value) => value.toLocaleString('en-US')},
-    { field:'Bed_numbers', headerName:'Bed_Numbers',minWidth:200,align:'center', format: (value) => value.toLocaleString('en-US')},
+    { field:'bed_numbers', headerName:'Bed_numbers',minWidth:200,align:'center', format: (value) => value.toLocaleString('en-US')},
     { field:'action', headerName:'Action',minWidth:200,align:'center', format: (value) => value.toLocaleString('en-US')}
   ];
   const rows = [
-     {id:1,number:'250',status:"Vacant",department:"",Bed_numbers:"1"},
-     {id:2,number:'250',status:"Vacant",department:"",Bed_numbers:"1"},
-     {id:3,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
-     {id:4,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
-     {id:5,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
-     {id:6,number:'250',status:"Vacant",department:"",Bed_numbers:"1"},
-     {id:7,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
-     {id:8,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
-     {id:9,number:'250',status:'Vacant',department:"",Bed_numbers:"1"},
+     {id:1,number:'250',status:"Vacant",department:"",bed_numbers:"1"},
+     {id:2,number:'250',status:"Vacant",department:"",bed_numbers:"1"},
+     {id:3,number:'250',status:'Vacant',department:"",bed_numbers:"1"},
+     {id:4,number:'250',status:'Vacant',department:"",bed_numbers:"1"},
+     {id:5,number:'250',status:'Vacant',department:"",bed_numbers:"1"},
+     {id:6,number:'250',status:"Vacant",department:"",bed_numbers:"1"},
+     {id:7,number:'250',status:'Vacant',department:"",bed_numbers:"1"},
+     {id:8,number:'250',status:'Vacant',department:"",bed_numbers:"1"},
+     {id:9,number:'250',status:'Vacant',department:"",bed_numbers:"1"},
   ];
 export default function RoomList() {
     const [page, setPage] = React.useState(0);
@@ -99,7 +99,7 @@ export default function RoomList() {
                     <TableCell
                       align="center"
                     >
-                      {row.Bed_numbers}
+                      {row.bed_numbers}
                     </TableCell>
                    <TableCell align="center">
                         <Button

@@ -10,14 +10,14 @@ const validationSchema = Yup.object().shape({
   department:Yup.string()
   .required("This Feild is required")
   ,
-  Bed_numbers:Yup.string()
-  .required("Bed_numbers is required")
+  bed_numbers:Yup.string()
+  .required("bed_numbers is required")
   ,
    status:Yup.string()
    .required("You must select an option")
   //  .oneOf('Invalid selection')
   ,
-  Bed_numbers:Yup.string()
+  bed_numbers:Yup.string()
   .required("You must select an option")
   });
 export default function UpdateRoomCard() {
@@ -26,7 +26,7 @@ export default function UpdateRoomCard() {
         number:'',
         status:'',
         department:"",
-        Bed_numbers:''
+        bed_numbers:''
     });
     const route=useNavigate(); 
     const [errors, setErrors] = useState({});
@@ -146,10 +146,10 @@ export default function UpdateRoomCard() {
           select
           label="please select your Bed Numbers "
           onChange={handleChange}
-          value={room.Bed_numbers} 
-          name="Bed_numbers"
-          error={Boolean(errors.Bed_numbers)}
-          helperText={errors.Bed_numbers}
+          value={room.bed_numbers} 
+          name="bed_numbers"
+          error={Boolean(errors.bed_numbers)}
+          helperText={errors.bed_numbers}
         >
              <MenuItem  value="1">
              1
