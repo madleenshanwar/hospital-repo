@@ -15,7 +15,6 @@ const validationSchema = Yup.object().shape({
   ,
    status:Yup.string()
    .required("You must select an option")
-  //  .oneOf('Invalid selection')
   ,
   bed_numbers:Yup.string()
   .required("You must select an option")

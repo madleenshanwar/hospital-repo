@@ -8,8 +8,8 @@ import UpdateDepartment from '../page/Department/UpdateDepartment'
 import RoomPage from '../page/Room/RoomPage'
 import AddRoom from '../page/Room/AddRoom'
 import UpdateRoom from '../page/Room/UpdateRoom'
-import AddPatient from '../component/Patient/AddPatient'
 import PatientPage from '../page/Patient/PatientPage'
+import AddPatient from '../page/Patient/AddPatient'
 export default function Router() {
   return (
     <BrowserRouter>
