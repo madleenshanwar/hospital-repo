@@ -8,14 +8,10 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Name must have at least 3 letters')
     .max(25, "must contain at least 25 letters")
    ,
-//    headDepartment:Yup.string()
-//    .required("You must select an option")
-//    .oneOf('Invalid selection')
   });
 export default function AddDepartmentCard() {
     const[department,setDepartment]=useState({
         name:'',
-        headDepartment:[]
     });
     const route=useNavigate(); 
     const [errors, setErrors] = useState({});
@@ -88,19 +84,6 @@ export default function AddDepartmentCard() {
           error={Boolean(errors.name)}
           helperText={errors.name}
         />
-        
-        <TextField
-        fullWidth
-          id="outlined-select-currency"
-          select
-          label="please select your Head Of Department"
-        >
-          {/* {department.headDepartment.length>0?department.headDepartment.map((option,index) => (
-            <MenuItem key={index} value={option.id} >
-              {option.name}
-            </MenuItem>
-          )):''} */}
-        </TextField>
         <Box sx={{display:'flex',gap:2}}>
         <Button
         variant="contained"

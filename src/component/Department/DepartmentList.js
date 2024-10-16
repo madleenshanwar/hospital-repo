@@ -8,19 +8,18 @@ import { useNavigate } from 'react-router-dom';
 const columns = [
     { field: 'id', headerName:' ID',minWidth:100,align:'center',    format: (value) => value.toLocaleString('en-US')},
     { field: 'name', headerName: 'Name',minWidth:300,align:'center',    format: (value) => value.toLocaleString('en-US'),},
-    { field:'heaDepartment_Name', headerName:'HeadDepartment Name',minWidth:300,align:'center', format: (value) => value.toLocaleString('en-US')},
     { field:'action', headerName:'Action',minWidth:300,align:'center', format: (value) => value.toLocaleString('en-US')}
   ];
   const rows = [
-     {id:1,name:'Neurosurgery Department',heaDepartment_Name:""},
-     {id:2,name:'Neurosurgery Department',heaDepartment_Name:""},
-     {id:3,name:'Neurosurgery Department',heaDepartment_Name:''},
-     {id:4,name:'Neurosurgery Department',heaDepartment_Name:''},
-     {id:5,name:'Neurosurgery Department',heaDepartment_Name:''},
-     {id:6,name:'Neurosurgery Department',heaDepartment_Name:""},
-     {id:7,name:'Neurosurgery Department',heaDepartment_Name:''},
-     {id:8,name:'Neurosurgery Department',heaDepartment_Name:''},
-     {id:9,name:'Neurosurgery Department',heaDepartment_Name:''},
+     {id:1,name:'Neurosurgery Department'},
+     {id:2,name:'Neurosurgery Department'},
+     {id:3,name:'Neurosurgery Department'},
+     {id:4,name:'Neurosurgery Department'},
+     {id:5,name:'Neurosurgery Department'},
+     {id:6,name:'Neurosurgery Department'},
+     {id:7,name:'Neurosurgery Department'},
+     {id:8,name:'Neurosurgery Department'},
+     {id:9,name:'Neurosurgery Department'},
   ];
 export default function DepartmentList() {
     const [page, setPage] = React.useState(0);
@@ -83,11 +82,6 @@ export default function DepartmentList() {
                       align="center"
                     >
                       {row.name}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                    >
-                      {row.heaDepartment_Name}
                     </TableCell>
                    <TableCell align="center">
                         <Button
