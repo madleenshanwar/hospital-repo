@@ -8,6 +8,8 @@ import UpdateDepartment from '../page/Department/UpdateDepartment'
 import RoomPage from '../page/Room/RoomPage'
 import AddRoom from '../page/Room/AddRoom'
 import UpdateRoom from '../page/Room/UpdateRoom'
+import AddPatient from '../component/Patient/AddPatient'
+import PatientPage from '../page/Patient/PatientPage'
 export default function Router() {
   return (
     <BrowserRouter>
@@ -20,6 +22,8 @@ export default function Router() {
         <Route path='room' element={<RoomPage/>}/>
         <Route path='addroom' element={<AddRoom/>}/>
         <Route path='updatedroom/:index' element={<UpdateRoom/>}/>
+        <Route path='patient' element={<PatientPage/>}/>
+        <Route path='addpatient' element={<AddPatient/>}/>
     </Routes>
     </BrowserRouter>
   )
