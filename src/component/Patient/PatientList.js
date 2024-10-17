@@ -6,19 +6,19 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Box, Button, Container, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 const columns = [
-    { field: 'id', headerName:' ID',minWidth:100,align:'center',format: (value) => value.toLocaleString('en-US')},
-    { field: 'first_name', headerName: ' First_Name',minWidth:100,align:'center',    format: (value) => value.toLocaleString('en-US')},
-    { field:'last_name', headerName:'Last_Name',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')},
+    { field: 'id', headerName:' ID',minWidth:50,align:'center',format: (value) => value.toLocaleString('en-US')},
+    { field: 'first_name', headerName: ' First_Name',minWidth:50,align:'center',    format: (value) => value.toLocaleString('en-US')},
+    { field:'last_name', headerName:'Last_Name',minWidth:50,align:'center', format: (value) => value.toLocaleString('en-US')},
     { field:'address', headerName:'Address',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')},
-    { field:'birthday', headerName:'Birthday',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')},
-    { field:'gender', headerName:'Gender',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')},
-    { field:'blood_group', headerName:'blood_group',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')},
+    { field:'birthday', headerName:'Birthday',minWidth:50,align:'center', format: (value) => value.toLocaleString('en-US')},
+    { field:'gender', headerName:'Gender',minWidth:50,align:'center', format: (value) => value.toLocaleString('en-US')},
+    { field:'blood_group', headerName:'blood_group',minWidth:50,align:'center', format: (value) => value.toLocaleString('en-US')},
     { field:'allergies', headerName:'Allergies',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')},
     { field:'marital_status', headerName:'Marital_Status',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')},
     { field:'Children_Number', headerName:'children_number',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')},
     { field:'habits', headerName:'Habits',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')},
     { field:'medical_history', headerName:'Medical_History',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')},
-    { field:'action', headerName:'Action',minWidth:100,align:'center', format: (value) => value.toLocaleString('en-US')}
+    { field:'action', headerName:'Action',minWidth:200,align:'center', format: (value) => value.toLocaleString('en-US')}
   ];
   const rows = [
     {id:1,first_name:'Sara',last_name:"Gamal",address:"Homs/syria",birthday:"10/10/2010",gender:"Female",blood_group:"O-",allergies:"",marital_status:"single",children_number:"",habits:"",medical_history:""},
