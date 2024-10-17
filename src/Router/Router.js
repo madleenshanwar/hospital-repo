@@ -11,6 +11,9 @@ import UpdateRoom from '../page/Room/UpdateRoom'
 import PatientPage from '../page/Patient/PatientPage'
 import AddPatient from '../page/Patient/AddPatient'
 import UpdatePatient from '../page/Patient/UpdatePatient'
+import DoctorPage from '../page/Doctors/DoctorPage'
+import AddDoctor from '../page/Doctors/AddDoctor'
+import UpdateDoctor from '../page/Doctors/UpdateDoctor'
 export default function Router() {
   return (
     <BrowserRouter>
@@ -26,6 +29,9 @@ export default function Router() {
         <Route path='patient' element={<PatientPage/>}/>
         <Route path='addpatient' element={<AddPatient/>}/>
         <Route path="updatePatient/:index" element={<UpdatePatient/>}/>
+        <Route path="doctor" element={<DoctorPage/>}/>
+        <Route path="adddoctor" element={<AddDoctor/>}/>
+        <Route path="updatedoctor/:index" element={<UpdateDoctor/>}/>
     </Routes>
     </BrowserRouter>
   )

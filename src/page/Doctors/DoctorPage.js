@@ -1,10 +1,11 @@
+import { Box } from "@mui/material";
 import React from "react";
 import SideBar from "../../component/SideBar/SideBar";
-import Department from "../../component/Department/Department";
-import { Box } from "@mui/material";
-import DepartmentList from "../../component/Department/DepartmentList";
+import AddDoctorCard from "../../component/Doctors/AddDoctorCard";
+import Doctor from "../../component/Doctors/Doctor";
+import DoctorList from "../../component/Doctors/DoctorList";
 
-export default function DepartmentPage() {
+export default function DoctorPage() {
   return (
     <Box>
       <SideBar />
@@ -16,8 +17,8 @@ export default function DepartmentPage() {
           alignItems: "center",
         }}
       >
-        <Department />
-        <DepartmentList />
+        <Doctor />
+        <DoctorList />
       </Box>
     </Box>
   );

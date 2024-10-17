@@ -47,58 +47,37 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "birthday",
-    headerName: "Birthday",
+    field: "specialty",
+    headerName: "Specialty",
     minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "gender",
-    headerName: "Gender",
+    field: "phone",
+    headerName: "Phone Number",
     minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "blood_group",
-    headerName: "blood_group",
+    field: "LicenseNumber",
+    headerName: "LicenseNumber",
     minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "allergies",
-    headerName: "Allergies",
-    minWidth: 100,
+    field: "status",
+    headerName: "status",
+    minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "marital_status",
-    headerName: "Marital_Status",
-    minWidth: 100,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "Children_Number",
-    headerName: "children_number",
-    minWidth: 100,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "habits",
-    headerName: "Habits",
-    minWidth: 100,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "medical_history",
-    headerName: "Medical_History",
-    minWidth: 100,
+    field: "department_head",
+    headerName: "department_head",
+    minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
@@ -116,73 +95,14 @@ const rows = [
     first_name: "Sara",
     last_name: "Gamal",
     address: "Homs/syria",
-    birthday: "10/10/2010",
-    gender: "Female",
-    blood_group: "O-",
-    allergies: "",
-    marital_status: "single",
-    children_number: "",
-    habits: "",
-    medical_history: "",
-  },
-  {
-    id: 2,
-    first_name: "Sara",
-    last_name: "Gamal",
-    address: "Homs/syria",
-    birthday: "10/10/2010",
-    gender: "Female",
-    blood_group: "O-",
-    allergies: "",
-    marital_status: "single",
-    children_number: "",
-    habits: "",
-    medical_history: "",
-  },
-  {
-    id: 3,
-    first_name: "Sara",
-    last_name: "Gamal",
-    address: "Homs/syria",
-    birthday: "10/10/2010",
-    gender: "Female",
-    blood_group: "O-",
-    allergies: "",
-    marital_status: "single",
-    children_number: "",
-    habits: "",
-    medical_history: "",
-  },
-  {
-    id: 4,
-    first_name: "Sara",
-    last_name: "Gamal",
-    address: "Homs/syria",
-    birthday: "10/10/2010",
-    gender: "Female",
-    blood_group: "O-",
-    allergies: "",
-    marital_status: "single",
-    children_number: "",
-    habits: "",
-    medical_history: "",
-  },
-  {
-    id: 5,
-    first_name: "Sara",
-    last_name: "Gamal",
-    address: "Homs/syria",
-    birthday: "10/10/2010",
-    gender: "Female",
-    blood_group: "O-",
-    allergies: "",
-    marital_status: "single",
-    children_number: "",
-    habits: "",
-    medical_history: "",
+    specialty: "surgeon",
+    phone: "0967677464",
+    LicenseNumber: "21430",
+    status: "active",
+    department_head: "No",
   },
 ];
-export default function PatientList() {
+export default function DoctorList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const route = useNavigate();
@@ -209,7 +129,7 @@ export default function PatientList() {
   }
   //handle with update
   const handleUpdate = (index) => {
-    route(`/updatePatient/${index}`);
+    route(`/updatedoctor/${index}`);
   };
   return (
     <Container>
@@ -249,14 +169,11 @@ export default function PatientList() {
                     <TableCell align="center">{row.first_name}</TableCell>
                     <TableCell align="center">{row.last_name}</TableCell>
                     <TableCell align="center">{row.address}</TableCell>
-                    <TableCell align="center">{row.birthday}</TableCell>
-                    <TableCell align="center">{row.gender}</TableCell>
-                    <TableCell align="center">{row.blood_group}</TableCell>
-                    <TableCell align="center">{row.allergies}</TableCell>
-                    <TableCell align="center">{row.marital_status}</TableCell>
-                    <TableCell align="center">{row.children_number}</TableCell>
-                    <TableCell align="center">{row.habits}</TableCell>
-                    <TableCell align="center">{row.medical_history}</TableCell>
+                    <TableCell align="center">{row.specialty}</TableCell>
+                    <TableCell align="center">{row.phone}</TableCell>
+                    <TableCell align="center">{row.LicenseNumber}</TableCell>
+                    <TableCell align="center">{row.status}</TableCell>
+                    <TableCell align="center">{row.department_head}</TableCell>
                     <TableCell align="center">
                       <Button
                         title="Delete Device"
@@ -292,7 +209,7 @@ export default function PatientList() {
                             variant="h6"
                             component="h2"
                           >
-                            Are You Sure You Won't To Delete This Patient??
+                            Are You Sure You Won't To Delete This Doctor??
                           </Typography>
                           <Typography
                             id="modal-modal-description"

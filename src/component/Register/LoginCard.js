@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Button, TextField, Box, Typography, InputAdornment, IconButton } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Box,
+  Typography,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import EmailIcon from '@mui/icons-material/Email';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import EmailIcon from "@mui/icons-material/Email";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email format")
@@ -45,7 +52,7 @@ export default function LoginCard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const values = { ...login};
+    const values = { ...login };
     try {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("Form Submitted:", values);
@@ -108,7 +115,7 @@ export default function LoginCard() {
           input: {
             endAdornment: (
               <InputAdornment position="end">
-                <EmailIcon sx={{color:'#07E4DB'}}/>
+                <EmailIcon sx={{ color: "#07E4DB" }} />
               </InputAdornment>
             ),
           },
@@ -124,20 +131,24 @@ export default function LoginCard() {
         onChange={handleChange}
         error={Boolean(errors.password)}
         helperText={errors.password}
-        type={showPassword ? 'text' : 'password'}
+        type={showPassword ? "text" : "password"}
         slotProps={{
           input: {
             endAdornment: (
               <InputAdornment position="end">
-                  <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              onMouseUp={handleMouseUpPassword}
-              edge="end"
-            >
-              {showPassword ? <VisibilityOffIcon sx={{color:'#07E4DB'}}/> : <VisibilityIcon sx={{color:'#07E4DB'}}/>}
-            </IconButton>
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  onMouseUp={handleMouseUpPassword}
+                  edge="end"
+                >
+                  {showPassword ? (
+                    <VisibilityOffIcon sx={{ color: "#07E4DB" }} />
+                  ) : (
+                    <VisibilityIcon sx={{ color: "#07E4DB" }} />
+                  )}
+                </IconButton>
               </InputAdornment>
             ),
           },
