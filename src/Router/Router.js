@@ -14,6 +14,9 @@ import UpdatePatient from '../page/Patient/UpdatePatient'
 import DoctorPage from '../page/Doctors/DoctorPage'
 import AddDoctor from '../page/Doctors/AddDoctor'
 import UpdateDoctor from '../page/Doctors/UpdateDoctor'
+import ServicesInfo from '../page/Services/ServicesInfo'
+import SchedulesPage from '../page/Schedules/SchedulesPage'
+import AddSchedules from '../page/Schedules/AddSchedules'
 export default function Router() {
   return (
     <BrowserRouter>
@@ -32,6 +35,9 @@ export default function Router() {
         <Route path="doctor" element={<DoctorPage/>}/>
         <Route path="adddoctor" element={<AddDoctor/>}/>
         <Route path="updatedoctor/:index" element={<UpdateDoctor/>}/>
+        <Route path='services' element={<ServicesInfo/>}></Route>
+        <Route path='schedules' element={<SchedulesPage/>}></Route>
+        <Route path="addnewday" element={<AddSchedules/>}/>
     </Routes>
     </BrowserRouter>
   )

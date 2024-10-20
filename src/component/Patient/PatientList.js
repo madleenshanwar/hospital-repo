@@ -103,6 +103,13 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
+    field: "more_details",
+    headerName: "More Details",
+    minWidth: 200,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
     field: "action",
     headerName: "Action",
     minWidth: 200,
@@ -258,9 +265,19 @@ export default function PatientList() {
                     <TableCell align="center">{row.habits}</TableCell>
                     <TableCell align="center">{row.medical_history}</TableCell>
                     <TableCell align="center">
+                    <Button
+                        title="More Details"
+                        // onClick={() => handleOpenDelete(row.id)}
+                        variant="contained"
+                              sx={{ background: "#07E4DB" }}
+                      >
+                        More Details
+                      </Button>
+                    </TableCell>
+                    <TableCell align="center">
                       <Button
-                        title="Delete Device"
-                        onClick={() => handleOpenDelete(index)}
+                        title="Delete Patient"
+                        onClick={() => handleOpenDelete(row.id)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
                       </Button>
@@ -318,8 +335,8 @@ export default function PatientList() {
                         </Box>
                       </Modal>
                       <Button
-                        title="update Device"
-                        onClick={() => handleUpdate(index)}
+                        title="update Patient"
+                        onClick={() => handleUpdate(row.id)}
                       >
                         <EditIcon sx={{ color: "#07E4DB" }} />
                       </Button>

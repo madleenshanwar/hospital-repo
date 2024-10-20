@@ -207,7 +207,7 @@ export default function UpdateDoctorCard() {
         >
           <MenuItem value="active">Active</MenuItem>
           <MenuItem value="leave">Leave</MenuItem>
-          <MenuItem value="resign">Resign</MenuItem>
+          <MenuItem value="resigned">Resigned</MenuItem>
         </TextField>
         <TextField
           id="outlined-select-currency"
