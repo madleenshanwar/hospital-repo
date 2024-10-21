@@ -5,16 +5,20 @@ import * as Yup from "yup";
 const validationSchema = Yup.object().shape({
   shift_type: Yup.string()
     .required("shift_type is required"),
+    date: Yup.string()
+    .required("date is required"),
     start_time: Yup.string()
-    .required("shift_type is required"),
+    .required("start_time is required"),
     end_time: Yup.string()
-    .required("shift_type is required"),
+    .required("end_time is required"),
     doctor_id:Yup.string()
-    .required("you must select un option")
+    .min(1,"you must select at least one option")
+    .required('option is required')
 });
 export default function AddSchedulesCard() {
   const [schedule,setSchedule]=useState({
     shift_type:'',
+    date:'',
     start_time:"",
     end_time:"",
     doctor_id:[]
@@ -29,6 +33,7 @@ export default function AddSchedulesCard() {
       ...prevD,
       [name]: value,
     }));
+    console.log(schedule)
     try {
       await validationSchema.validateAt(name, { [name]: value });
       setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -94,6 +99,16 @@ export default function AddSchedulesCard() {
           <MenuItem value="evening">Evining</MenuItem>
         </TextField>
         <TextField
+          type='date'
+          name="date"
+          variant="outlined"
+          value={schedule.date}
+          onChange={handleChange}
+          error={Boolean(errors.date)}
+          helperText={errors.date}
+          fullWidth
+        />
+        <TextField
           placeholder="Start Time"
           type='time'
           name="start_time"
@@ -119,7 +134,7 @@ export default function AddSchedulesCard() {
           id="outlined-select-currency"
           select
           multiple
-          label="please select your shift_type"
+          label="please select doctors team"
           onChange={handleChange}
           value={schedule.doctor_id}
           name="doctor_id"
