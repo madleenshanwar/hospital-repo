@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, Select, TextField } from '@mui/material';
+import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import * as Yup from "yup";
@@ -11,10 +11,10 @@ const validationSchema = Yup.object().shape({
     .required("start_time is required"),
     end_time: Yup.string()
     .required("end_time is required"),
-    doctor_id:Yup.string()
+    doctor_id:Yup.array()
     .min(1,"you must select at least one option")
-    .required('option is required')
-});
+    .of(Yup.string().required('option is required'))
+  })
 export default function AddSchedulesCard() {
   const [schedule,setSchedule]=useState({
     shift_type:'',
@@ -130,20 +130,28 @@ export default function AddSchedulesCard() {
           helperText={errors.end_time}
           fullWidth
         />
+        <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label"> doctors team</InputLabel>
         <Select
-          id="outlined-select-currency"
+          id="demo-simple-select-label"
           select
           multiple
-          label="please select doctors team"
           onChange={handleChange}
           value={schedule.doctor_id}
           name="doctor_id"
           error={Boolean(errors.doctor_id)}
           helperText={errors.doctor_id}
-          fullWidth
+          renderValue={(selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((value) => (
+                <Chip key={value} label={value} />
+              ))}
+            </Box>
+          )}
         >
-          {Doctors.map(doctor=><MenuItem value={doctor.id}>{doctor.name}</MenuItem>)}
+          {Doctors.map(doctor=><MenuItem key={doctor.id} value={doctor.name}>{doctor.name}</MenuItem>)}
         </Select>
+        </FormControl>
         <Box sx={{ display: "flex", gap: 2 }}>
         <Button
           variant="contained"
