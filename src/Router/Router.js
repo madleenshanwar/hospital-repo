@@ -17,6 +17,7 @@ import UpdateDoctor from '../page/Doctors/UpdateDoctor'
 import ServicesInfo from '../page/Services/ServicesInfo'
 import SchedulesPage from '../page/Schedules/SchedulesPage'
 import AddSchedules from '../page/Schedules/AddSchedules'
+import UpdateSchedules from '../page/Schedules/UpdateSchedules'
 export default function Router() {
   return (
     <BrowserRouter>
@@ -38,6 +39,7 @@ export default function Router() {
         <Route path='services' element={<ServicesInfo/>}></Route>
         <Route path='schedules' element={<SchedulesPage/>}></Route>
         <Route path="addnewday" element={<AddSchedules/>}/>
+        <Route path='updateshift/:index' element={<UpdateSchedules/>}/>
     </Routes>
     </BrowserRouter>
   )

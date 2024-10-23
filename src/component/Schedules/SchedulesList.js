@@ -112,7 +112,7 @@ export default function SchedulesList() {
     }
     //handle with update
     const handleUpdate = (index) => {
-      // route(`/updaterow/${index}`);
+      route(`/updateshift/${index}`);
     };
   return (
     <>
