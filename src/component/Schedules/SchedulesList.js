@@ -142,7 +142,7 @@ export default function SchedulesList() {
           <MenuItem value="12">December</MenuItem>
         </TextField>
     </Box>
-    <Container>
+    {schedule.length>0? <Container>
     <Paper
       sx={{
         width: "100%",
@@ -262,7 +262,7 @@ export default function SchedulesList() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
-  </Container>
+  </Container>:""}
     </>
   )
 }
