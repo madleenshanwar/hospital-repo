@@ -18,12 +18,16 @@ import ServicesInfo from '../page/Services/ServicesInfo'
 import SchedulesPage from '../page/Schedules/SchedulesPage'
 import AddSchedules from '../page/Schedules/AddSchedules'
 import UpdateSchedules from '../page/Schedules/UpdateSchedules'
+import AddRays from '../page/Services/Rays/AddRays'
+import UpdateRays from '../page/Services/Rays/UpdateRays'
+import AddTest from '../page/Services/Test/AddTest'
+import UpdateTest from '../page/Services/Test/UpdateTest'
 export default function Router() {
   return (
     <BrowserRouter>
     <Routes>
         <Route path="/" element={<Login/>}></Route>
-        <Route path='signup' element={<SignUp/>}/>
+        <Route path='register' element={<SignUp/>}/>
         <Route path='department' element={<DepartmentPage/>}/>
         <Route path='adddepartment' element={<AddDepartment/>}/>
         <Route path='updatedepartment/:index' element={<UpdateDepartment/>}/>
@@ -40,6 +44,10 @@ export default function Router() {
         <Route path='schedules' element={<SchedulesPage/>}></Route>
         <Route path="addnewday" element={<AddSchedules/>}/>
         <Route path='updateshift/:index' element={<UpdateSchedules/>}/>
+        <Route path='addray' element={<AddRays/>}/>
+        <Route path='updaterays/:index' element={<UpdateRays/>}/>
+        <Route path='addtest' element={<AddTest/>}/>
+        <Route path='updatetest/:index' element={<UpdateTest/>}/>
     </Routes>
     </BrowserRouter>
   )

@@ -3,6 +3,7 @@ import {
   Button,
   IconButton,
   InputAdornment,
+  MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
@@ -14,6 +15,8 @@ import EmailIcon from "@mui/icons-material/Email";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import HomeIcon from '@mui/icons-material/Home';
+import { GridColumnMenuManageItem } from "@mui/x-data-grid";
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .required("name is required")
@@ -26,6 +29,8 @@ const validationSchema = Yup.object().shape({
   phone: Yup.string()
     .matches(/^[0-9]{10}$/, "phone must be 10 numbers")
     .required("phone is required"),
+    address:Yup.string()
+    .required("address is required")
 });
 export default function SignUpCard() {
   const [signUp, setSignUp] = useState({
@@ -34,6 +39,7 @@ export default function SignUpCard() {
     password: "",
     phone: "",
     address: "",
+    role:""
   });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -95,12 +101,12 @@ export default function SignUpCard() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: 2,
+        gap: 3,
         boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",
         borderRadius: 8,
         backgroundColor: "rgba(255,255,255,0.8)",
         border: "1px solid #00ACB1",
-        height: "400px",
+        height: "fit-content",
         maxWidth: "600px",
       }}
     >
@@ -111,7 +117,7 @@ export default function SignUpCard() {
       >
         SIGN UP
       </Typography>
-      <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+      <Box sx={{ display: "flex",flexWrap:'wrap', justifyContent: "center", gap: 2 }}>
         <TextField
           placeholder="Enter Your Name"
           name="name"
@@ -129,7 +135,7 @@ export default function SignUpCard() {
               ),
             },
           }}
-          sx={{ maxWidth: "50%" }}
+          sx={{ maxWidth: "250px" }}
         />
         <TextField
           placeholder="Enter Your Email"
@@ -149,10 +155,8 @@ export default function SignUpCard() {
               ),
             },
           }}
-          sx={{ maxWidth: "50%" }}
+          sx={{ maxWidth: "250px" }}
         />
-      </Box>
-      <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
         <TextField
           placeholder="Enter Your Password"
           name="password"
@@ -183,7 +187,7 @@ export default function SignUpCard() {
               ),
             },
           }}
-          sx={{ maxWidth: "50%" }}
+          sx={{ maxWidth: "250px" }}
         />
         <TextField
           placeholder="Enter Your phone"
@@ -202,20 +206,57 @@ export default function SignUpCard() {
               ),
             },
           }}
-          sx={{ maxWidth: "50%" }}
+          sx={{ maxWidth: "250px" }}
         />
+          <TextField
+          placeholder="Enter Your Address"
+          name="address"
+          fullWidth
+          variant="outlined"
+          value={signUp.address}
+          onChange={handleChange}
+          error={Boolean(errors.address)}
+          helperText={errors.address}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <HomeIcon sx={{ color: "#07E4DB" }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+          sx={{ maxWidth: "250px" }}
+        />
+         <TextField
+        id="outlined-select-currency"
+        select
+        label="please select employee role"
+        onChange={handleChange}
+        value={signUp.role}
+        name="role"
+        error={Boolean(errors.role)}
+        helperText={errors.role}
+        sx={{ width: "250px"}}
+      >
+        <MenuItem value="superAdmin">Super Admin</MenuItem>
+        <MenuItem value="manager">Manager</MenuItem>
+        <MenuItem value="admissionStaff">Admissin Staff</MenuItem>
+        <MenuItem value="ambulanceStaff">Ambulance Staff</MenuItem>
+        <MenuItem value="hrStaff">HR Staff</MenuItem>
+      </TextField>
       </Box>
       <Box sx={{ display: "flex", gap: 2 }}>
         <Button
           type="submit"
           variant="contained"
-          sx={{ background: "#00ACB1", p: 1, fontWeight: "bold" }}
+          sx={{ background: "#00ACB1", p: 1, fontWeight: "bold" ,width:'100px'}}
         >
           Submit
         </Button>
         <Button
           variant="outlined"
-          sx={{ color: "#00ACB1", p: 1, fontWeight: "bold" }}
+          sx={{ color: "#00ACB1", p: 1, fontWeight: "bold" ,width:'100px'}}
           onClick={() => route("/")}
         >
           Back

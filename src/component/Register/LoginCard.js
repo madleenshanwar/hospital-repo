@@ -157,7 +157,7 @@ export default function LoginCard() {
       <Button
         type="submit"
         variant="contained"
-        sx={{ background: "#00ACB1", p: 1, fontWeight: "bold" }}
+        sx={{ background: "#00ACB1", p: 1, fontWeight: "bold",width:'100px' }}
       >
         Login
       </Button>

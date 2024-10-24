@@ -7,6 +7,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -91,6 +92,13 @@ export default function AddSchedulesCard() {
         maxWidth: "500px",
       }}
     >
+      <Typography
+        variant="h5"
+        component="h2"
+        sx={{ color: "#00ACB1", textDecoration: "underline" }}
+      >
+        Add Schedule
+      </Typography>
       <TextField
         id="outlined-select-currency"
         select
