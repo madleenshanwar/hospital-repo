@@ -39,20 +39,6 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "address",
-    headerName: "Address",
-    minWidth: 100,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "birthday",
-    headerName: "Birthday",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
     field: "gender",
     headerName: "Gender",
     minWidth: 50,
@@ -63,41 +49,6 @@ const columns = [
     field: "blood_group",
     headerName: "blood_group",
     minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "allergies",
-    headerName: "Allergies",
-    minWidth: 100,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "marital_status",
-    headerName: "Marital_Status",
-    minWidth: 100,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "Children_Number",
-    headerName: "children_number",
-    minWidth: 100,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "habits",
-    headerName: "Habits",
-    minWidth: 100,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "medical_history",
-    headerName: "Medical_History",
-    minWidth: 100,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
@@ -254,19 +205,12 @@ export default function PatientList() {
                     <TableCell align="center">{row.id}</TableCell>
                     <TableCell align="center">{row.first_name}</TableCell>
                     <TableCell align="center">{row.last_name}</TableCell>
-                    <TableCell align="center">{row.address}</TableCell>
-                    <TableCell align="center">{row.birthday}</TableCell>
                     <TableCell align="center">{row.gender}</TableCell>
                     <TableCell align="center">{row.blood_group}</TableCell>
-                    <TableCell align="center">{row.allergies}</TableCell>
-                    <TableCell align="center">{row.marital_status}</TableCell>
-                    <TableCell align="center">{row.children_number}</TableCell>
-                    <TableCell align="center">{row.habits}</TableCell>
-                    <TableCell align="center">{row.medical_history}</TableCell>
                     <TableCell align="center">
                     <Button
                         title="More Details"
-                        // onClick={() => handleOpenDelete(row.id)}
+                        onClick={() => route(`/readmore/${row.id}`)}
                         variant="contained"
                               sx={{ background: "#07E4DB" }}
                       >
