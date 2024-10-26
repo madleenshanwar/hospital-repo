@@ -83,6 +83,7 @@ export default function SchedulesList() {
     const[month,setMonth]=useState('');
     const [schedule, setSchedule] = useState([{}]);
     useEffect(()=>{
+      setMonth(localStorage.getItem('month'))
         console.log(rows.filter(el=>el.date.split("/")[1]===month))
     setSchedule(rows.filter(el=>el.date.split("/")[1]===month))
     },[month])
@@ -122,7 +123,8 @@ export default function SchedulesList() {
           select
           label="please select your month"
           onChange={(e)=>{setMonth(e.target.value)
-            console.log(month)
+            localStorage.setItem('month',e.target.value)
+
           }}
           value={month}
           name="month"
