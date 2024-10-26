@@ -118,7 +118,7 @@ export default function DepartmentList() {
                     <TableCell align="center">{row.name}</TableCell>
                     <TableCell align="center">
                       <Button
-                        title="Delete Device"
+                        title="Delete Department"
                         onClick={() => handleOpenDelete(index)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
@@ -177,7 +177,7 @@ export default function DepartmentList() {
                         </Box>
                       </Modal>
                       <Button
-                        title="update Device"
+                        title="update Department"
                         onClick={() => handleUpdate(index)}
                       >
                         <EditIcon sx={{ color: "#07E4DB" }} />

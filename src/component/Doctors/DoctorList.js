@@ -176,7 +176,7 @@ export default function DoctorList() {
                     <TableCell align="center">{row.department_head}</TableCell>
                     <TableCell align="center">
                       <Button
-                        title="Delete Device"
+                        title="Delete Doctor"
                         onClick={() => handleOpenDelete(index)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
@@ -235,7 +235,7 @@ export default function DoctorList() {
                         </Box>
                       </Modal>
                       <Button
-                        title="update Device"
+                        title="update Doctor"
                         onClick={() => handleUpdate(index)}
                       >
                         <EditIcon sx={{ color: "#07E4DB" }} />

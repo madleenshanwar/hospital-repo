@@ -184,7 +184,7 @@ export default function SchedulesList() {
                   <TableCell align="center">{row.doctors}</TableCell>
                   <TableCell align="center">
                     <Button
-                      title="Delete Patient"
+                      title="Delete Schedule"
                       onClick={() => handleOpenDelete(row.id)}
                     >
                       <DeleteIcon sx={{ color: "#07E4DB" }} />
@@ -243,7 +243,7 @@ export default function SchedulesList() {
                       </Box>
                     </Modal>
                     <Button
-                      title="update Patient"
+                      title="update Schedule"
                       onClick={() => handleUpdate(row.id)}
                     >
                       <EditIcon sx={{ color: "#07E4DB" }} />

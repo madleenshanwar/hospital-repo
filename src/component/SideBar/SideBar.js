@@ -16,7 +16,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Avatar, Menu, MenuItem } from "@mui/material";
+import { Avatar, Button, Menu, MenuItem, Modal } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 const drawerWidth = 240;
 
@@ -97,6 +97,17 @@ function SideBar(props) {
     setAnchorEl(event.currentTarget);
   };
   const route = useNavigate();
+  //handle with logout
+  const handleLogOut = () => {
+    handleCloseLogOut();
+  };
+  const [openLogOut, setOpenLogOut] = React.useState(false);
+  const handleOpenLogOut = () => {
+    setOpenLogOut(true);
+  };
+  const handleCloseLogOut= () =>{
+    route('/') 
+    setOpenLogOut(false)};
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -151,7 +162,57 @@ function SideBar(props) {
               onClose={handleClose}
             >
               <MenuItem>Profile</MenuItem>
-              <MenuItem>LogOut</MenuItem>
+              <MenuItem onClick={handleOpenLogOut}>LogOut</MenuItem>
+              <Modal
+                open={openLogOut}
+                onClose={handleCloseLogOut}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  sx={{
+                    margin: "100px auto",
+                    p: 3,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 3,
+                    boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",
+                    borderRadius: 8,
+                    backgroundColor: "rgba(255,255,255,0.9)",
+                    border: "1px solid #00ACB1",
+                    height: "200px",
+                    maxWidth: "550px",
+                  }}
+                >
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                  >
+                    Are You Sure You Won't To LogOut??
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ background: "#00ACB1" }}
+                      onClick={() => handleLogOut()}
+                    >
+                      Yes
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="outlined"
+                      sx={{ color: "#00ACB1", ml: 1 }}
+                      onClick={handleCloseLogOut}
+                    >
+                      No
+                    </Button>
+                  </Typography>
+                </Box>
+              </Modal>
             </Menu>
           </Typography>
         </Toolbar>
@@ -185,7 +246,17 @@ function SideBar(props) {
             <ListItem disablePadding>
               <ListItemButton onClick={() => route("/register")}>
                 <ListItemIcon>
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#015D67" d="M15 4a4 4 0 0 0-4 4a4 4 0 0 0 4 4a4 4 0 0 0 4-4a4 4 0 0 0-4-4m0 1.9a2.1 2.1 0 1 1 0 4.2A2.1 2.1 0 0 1 12.9 8A2.1 2.1 0 0 1 15 5.9M4 7v3H1v2h3v3h2v-3h3v-2H6V7zm11 6c-2.67 0-8 1.33-8 4v3h16v-3c0-2.67-5.33-4-8-4m0 1.9c2.97 0 6.1 1.46 6.1 2.1v1.1H8.9V17c0-.64 3.1-2.1 6.1-2.1"/></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="#015D67"
+                      d="M15 4a4 4 0 0 0-4 4a4 4 0 0 0 4 4a4 4 0 0 0 4-4a4 4 0 0 0-4-4m0 1.9a2.1 2.1 0 1 1 0 4.2A2.1 2.1 0 0 1 12.9 8A2.1 2.1 0 0 1 15 5.9M4 7v3H1v2h3v3h2v-3h3v-2H6V7zm11 6c-2.67 0-8 1.33-8 4v3h16v-3c0-2.67-5.33-4-8-4m0 1.9c2.97 0 6.1 1.46 6.1 2.1v1.1H8.9V17c0-.64 3.1-2.1 6.1-2.1"
+                    />
+                  </svg>
                 </ListItemIcon>
                 <ListItemText>
                   <p className="font-bold">Register</p>
@@ -303,7 +374,46 @@ function SideBar(props) {
             <ListItem disablePadding>
               <ListItemButton onClick={() => route("/services")}>
                 <ListItemIcon>
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 48 48"><path fill="none" stroke="#015D67" stroke-linecap="round" stroke-linejoin="round" d="M10.99 9.739a1.239 1.239 0 1 1-2.477 0a1.239 1.239 0 0 1 2.478 0m28.496 0a1.239 1.239 0 1 1-2.478 0a1.239 1.239 0 0 1 2.478 0M10.99 38.261a1.239 1.239 0 1 1-2.477 0a1.239 1.239 0 0 1 2.478 0m28.496 0a1.239 1.239 0 1 1-2.478 0a1.239 1.239 0 0 1 2.478 0m-18.89-23.775c-.586-.936-1.275-1.369-3.006-1.369H11.5m25 0h-6.34c-1.732 0-2.421.433-3.007 1.37m.152 5.355s7.367.217 6.29-2.387m-6.571-.379s4.043.119 3.452-1.31m-3.486 6.398s8.918 1.44 7.895-1.893m-8.066 3.955s8.263 4.31 8.319-.202m-8.798 1.914s10.212 9.029 8.347 2.09"/><path fill="none" stroke="#015D67" stroke-linecap="round" stroke-linejoin="round" d="M26.34 25.938s6.135 14.53 7.7 6.553M20.468 19.842s-7.366.217-6.289-2.387m6.571-.379s-4.044.119-3.452-1.31m3.486 6.494s-8.919 1.44-7.896-1.893m8.067 3.859s-8.264 4.31-8.32-.202m8.798 1.914s-10.212 9.029-8.347 2.09"/><path fill="none" stroke="#015D67" stroke-linecap="round" stroke-linejoin="round" d="M21.433 25.938s-6.134 14.53-7.7 6.553m10.247-5.115V15.399"/><rect width="37" height="37" x="5.5" y="5.5" fill="none" stroke="#015D67" stroke-linecap="round" stroke-linejoin="round" rx="4" ry="4"/></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 48 48"
+                  >
+                    <path
+                      fill="none"
+                      stroke="#015D67"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M10.99 9.739a1.239 1.239 0 1 1-2.477 0a1.239 1.239 0 0 1 2.478 0m28.496 0a1.239 1.239 0 1 1-2.478 0a1.239 1.239 0 0 1 2.478 0M10.99 38.261a1.239 1.239 0 1 1-2.477 0a1.239 1.239 0 0 1 2.478 0m28.496 0a1.239 1.239 0 1 1-2.478 0a1.239 1.239 0 0 1 2.478 0m-18.89-23.775c-.586-.936-1.275-1.369-3.006-1.369H11.5m25 0h-6.34c-1.732 0-2.421.433-3.007 1.37m.152 5.355s7.367.217 6.29-2.387m-6.571-.379s4.043.119 3.452-1.31m-3.486 6.398s8.918 1.44 7.895-1.893m-8.066 3.955s8.263 4.31 8.319-.202m-8.798 1.914s10.212 9.029 8.347 2.09"
+                    />
+                    <path
+                      fill="none"
+                      stroke="#015D67"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M26.34 25.938s6.135 14.53 7.7 6.553M20.468 19.842s-7.366.217-6.289-2.387m6.571-.379s-4.044.119-3.452-1.31m3.486 6.494s-8.919 1.44-7.896-1.893m8.067 3.859s-8.264 4.31-8.32-.202m8.798 1.914s-10.212 9.029-8.347 2.09"
+                    />
+                    <path
+                      fill="none"
+                      stroke="#015D67"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M21.433 25.938s-6.134 14.53-7.7 6.553m10.247-5.115V15.399"
+                    />
+                    <rect
+                      width="37"
+                      height="37"
+                      x="5.5"
+                      y="5.5"
+                      fill="none"
+                      stroke="#015D67"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      rx="4"
+                      ry="4"
+                    />
+                  </svg>
                 </ListItemIcon>
                 <ListItemText>
                   <p className="font-bold">Services</p>
@@ -316,7 +426,27 @@ function SideBar(props) {
             <ListItem disablePadding>
               <ListItemButton onClick={() => route("/schedules")}>
                 <ListItemIcon>
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 48 48"><g fill="#015D67"><path fill-rule="evenodd" d="M10 23a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2zm4 0v2h-2v-2zm6-2a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2zm2 2h-2v2h2zm4 0a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2zm2 0h2v2h-2zm-16 6a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2zm0 2v2h2v-2zm6 0a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2zm2 0h2v2h-2z" clip-rule="evenodd"/><path d="M35 31.5a1 1 0 0 1 1 1v2.086l.707.707a1 1 0 0 1-1.414 1.414L34 35.414V32.5a1 1 0 0 1 1-1"/><path fill-rule="evenodd" d="M12 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0v-1H9a1 1 0 0 0-1 1v4h26v-4a1 1 0 0 0-1-1h-3V9h3a3 3 0 0 1 3 3v16.07A7.001 7.001 0 0 1 35 42a6.99 6.99 0 0 1-5.745-3H9a3 3 0 0 1-3-3V12a3 3 0 0 1 3-3h3zm16 28a7 7 0 0 1 6-6.93V18H8v18a1 1 0 0 0 1 1h19.29a7 7 0 0 1-.29-2m7 5a5 5 0 1 0 0-10a5 5 0 0 0 0 10" clip-rule="evenodd"/><path d="M27 13a1 1 0 0 1-1-1v-1H16V9h10V7a1 1 0 1 1 2 0v5a1 1 0 0 1-1 1"/></g></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 48 48"
+                  >
+                    <g fill="#015D67">
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 23a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2zm4 0v2h-2v-2zm6-2a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2zm2 2h-2v2h2zm4 0a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2zm2 0h2v2h-2zm-16 6a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2zm0 2v2h2v-2zm6 0a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2zm2 0h2v2h-2z"
+                        clip-rule="evenodd"
+                      />
+                      <path d="M35 31.5a1 1 0 0 1 1 1v2.086l.707.707a1 1 0 0 1-1.414 1.414L34 35.414V32.5a1 1 0 0 1 1-1" />
+                      <path
+                        fill-rule="evenodd"
+                        d="M12 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0v-1H9a1 1 0 0 0-1 1v4h26v-4a1 1 0 0 0-1-1h-3V9h3a3 3 0 0 1 3 3v16.07A7.001 7.001 0 0 1 35 42a6.99 6.99 0 0 1-5.745-3H9a3 3 0 0 1-3-3V12a3 3 0 0 1 3-3h3zm16 28a7 7 0 0 1 6-6.93V18H8v18a1 1 0 0 0 1 1h19.29a7 7 0 0 1-.29-2m7 5a5 5 0 1 0 0-10a5 5 0 0 0 0 10"
+                        clip-rule="evenodd"
+                      />
+                      <path d="M27 13a1 1 0 0 1-1-1v-1H16V9h10V7a1 1 0 1 1 2 0v5a1 1 0 0 1-1 1" />
+                    </g>
+                  </svg>
                 </ListItemIcon>
                 <ListItemText>
                   <p className="font-bold">Schedules</p>

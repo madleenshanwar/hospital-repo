@@ -125,7 +125,7 @@ export default function RaysList() {
                     <TableCell align="center">{row.amount}</TableCell>
                     <TableCell align="center">
                       <Button
-                        title="Delete Device"
+                        title="Delete Rays"
                         onClick={() => handleOpenDelete(index)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
@@ -184,7 +184,7 @@ export default function RaysList() {
                         </Box>
                       </Modal>
                       <Button
-                        title="update Device"
+                        title="update Rays"
                         onClick={() => handleUpdate(index)}
                       >
                         <EditIcon sx={{ color: "#07E4DB" }} />

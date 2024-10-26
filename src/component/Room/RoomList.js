@@ -142,7 +142,7 @@ export default function RoomList() {
                     <TableCell align="center">{row.bed_numbers}</TableCell>
                     <TableCell align="center">
                       <Button
-                        title="Delete Device"
+                        title="Delete Room"
                         onClick={() => handleOpenDelete(index)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
@@ -201,7 +201,7 @@ export default function RoomList() {
                         </Box>
                       </Modal>
                       <Button
-                        title="update Device"
+                        title="update Room"
                         onClick={() => handleUpdate(index)}
                       >
                         <EditIcon sx={{ color: "#07E4DB" }} />
