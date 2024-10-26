@@ -63,6 +63,7 @@ export default function UpdateRoomCard() {
     <Box
       component="form"
       onSubmit={handleSubmit}
+       className="update-item"
       sx={{
         margin: "50px auto",
         p: 3,

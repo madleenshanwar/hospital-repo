@@ -78,6 +78,7 @@ export default function LoginCard() {
     <Box
       component="form"
       onSubmit={handleSubmit}
+      className="at-item"
       sx={{
         margin: "60px auto",
         p: 3,

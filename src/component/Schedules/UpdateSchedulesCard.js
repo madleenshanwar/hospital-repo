@@ -77,6 +77,7 @@ export default function UpdateSchedulesCard() {
     <Box
       component="form"
       onSubmit={handleSubmit}
+       className="update-item"
       sx={{
         margin: "70px auto",
         p: 3,

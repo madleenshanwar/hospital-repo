@@ -59,6 +59,7 @@ export default function AddRoomCard() {
   }, [isSubmitted, route]);
   return (
     <Box
+    className="add-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{

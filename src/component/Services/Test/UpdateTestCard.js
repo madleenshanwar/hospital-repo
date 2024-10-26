@@ -60,6 +60,7 @@ export default function UpdateTestCard() {
     <Box
       component="form"
       onSubmit={handleSubmit}
+       className="update-item"
       sx={{
         margin: "80px auto",
         p: 3,

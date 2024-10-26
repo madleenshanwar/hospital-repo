@@ -80,6 +80,7 @@ export default function UpdatePatientCard() {
   }, [isSubmitted, route]);
   return (
     <Box
+     className="update-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{

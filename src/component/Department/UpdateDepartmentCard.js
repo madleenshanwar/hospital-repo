@@ -61,6 +61,7 @@ export default function UpdateDepartmentCard() {
   }, [isSubmitted, route]);
   return (
     <Box
+    className="update-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{

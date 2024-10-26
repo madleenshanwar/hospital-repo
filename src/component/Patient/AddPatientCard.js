@@ -78,6 +78,7 @@ export default function AddPatientCard() {
   }, [isSubmitted, route]);
   return (
     <Box
+    className="add-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{

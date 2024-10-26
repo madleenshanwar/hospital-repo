@@ -92,6 +92,7 @@ export default function SignUpCard() {
   }, [isSubmitted, route]);
   return (
     <Box
+    className="at-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{

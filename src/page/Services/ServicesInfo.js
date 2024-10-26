@@ -1,11 +1,14 @@
 import { Box, Button, MenuItem, TextField } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SideBar from '../../component/SideBar/SideBar';
 import RaysPage from './Rays/RaysPage';
 import TestPage from './Test/TestPage';
 
 export default function ServicesInfo() {
   const[service,setService]=useState('')
+  useEffect(()=>{
+    setService(localStorage.getItem('service'))
+  },[service])
   return (
     <Box>
       <SideBar />
@@ -15,6 +18,7 @@ export default function ServicesInfo() {
           select
           label="please select your service"
           onChange={(e)=>{setService(e.target.value)
+            localStorage.setItem('service',e.target.value)
           }}
           value={service}
           name="service"
