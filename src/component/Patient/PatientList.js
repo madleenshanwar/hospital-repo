@@ -3,6 +3,8 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import LogoutIcon from '@mui/icons-material/Logout';
+import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
   Button,
@@ -77,9 +79,7 @@ const rows = [
     gender: "Female",
     blood_group: "O-",
     allergies: "",
-    marital_status: "single",
-    children_number: "",
-    habits: "",
+    patient_complaint: "",
     medical_history: "",
   },
   {
@@ -91,9 +91,7 @@ const rows = [
     gender: "Female",
     blood_group: "O-",
     allergies: "",
-    marital_status: "single",
-    children_number: "",
-    habits: "",
+    patient_complaint: "",
     medical_history: "",
   },
   {
@@ -105,9 +103,7 @@ const rows = [
     gender: "Female",
     blood_group: "O-",
     allergies: "",
-    marital_status: "single",
-    children_number: "",
-    habits: "",
+    patient_complaint: "",
     medical_history: "",
   },
   {
@@ -119,9 +115,7 @@ const rows = [
     gender: "Female",
     blood_group: "O-",
     allergies: "",
-    marital_status: "single",
-    children_number: "",
-    habits: "",
+    patient_complaint: "",
     medical_history: "",
   },
   {
@@ -133,9 +127,7 @@ const rows = [
     gender: "Female",
     blood_group: "O-",
     allergies: "",
-    marital_status: "single",
-    children_number: "",
-    habits: "",
+    patient_complaint: "",
     medical_history: "",
   },
 ];
@@ -168,6 +160,14 @@ export default function PatientList() {
   const handleUpdate = (index) => {
     route(`/updatePatient/${index}`);
   };
+  //handle with Discharge
+  const handleDischarge=(id)=>{
+    route(`/discharge/${id}`)
+  }
+  //handle with book a room
+  const handleBookRoom=(id)=>{
+
+  }
   return (
     <Container>
       <Paper
@@ -203,7 +203,7 @@ export default function PatientList() {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     <TableCell align="center">{row.id}</TableCell>
-                    <TableCell align="center">{row.first_name}</TableCell>
+                    <TableCell align="center">{row.first_name} </TableCell>
                     <TableCell align="center">{row.last_name}</TableCell>
                     <TableCell align="center">{row.gender}</TableCell>
                     <TableCell align="center">{row.blood_group}</TableCell>
@@ -282,6 +282,20 @@ export default function PatientList() {
                         onClick={() => handleUpdate(row.id)}
                       >
                         <EditIcon sx={{ color: "#07E4DB" }} />
+                      </Button>
+                      <Button
+                        title="discharge Patient"
+                        onClick={() => handleDischarge(row.id)}
+                      >
+                        <LogoutIcon sx={{ color: "#07E4DB" }} />
+                      </Button>
+                      <Button
+                        title="book a room"
+                        onClick={() => handleBookRoom(row.id)}
+                      >
+                        <AddIcon sx={{ color: "#07E4DB" ,  border: "1px solid #07E4DB",
+                        fontWeight: "bold",
+                        borderRadius: "50%",}} />
                       </Button>
                     </TableCell>
                   </TableRow>

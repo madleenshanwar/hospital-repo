@@ -217,7 +217,7 @@ export default function SchedulesList() {
                           variant="h6"
                           component="h2"
                         >
-                          Are You Sure You Won't To Delete This rows??
+                          Are You Sure You Won't To Delete This Row??
                         </Typography>
                         <Typography
                           id="modal-modal-description"

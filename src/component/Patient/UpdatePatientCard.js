@@ -22,8 +22,6 @@ const validationSchema = Yup.object().shape({
   //  .required("allergies is required"),
   //  medical_history:Yup.string()
   //  .required("medical_history is required"),
-  //  habits:Yup.string()
-  //  .required("habits is required"),
 });
 export default function UpdatePatientCard() {
   const { index } = useParams();
@@ -36,9 +34,7 @@ export default function UpdatePatientCard() {
     blood_group: "",
     allergies: "",
     medical_history: "",
-    marital_status: "",
-    children_number: "",
-    habits: "",
+    patient_complaint:""
   });
   const route = useNavigate();
   const [errors, setErrors] = useState({});
@@ -189,26 +185,15 @@ export default function UpdatePatientCard() {
           <MenuItem value="O-">O-</MenuItem>
           <MenuItem value="O-">O-</MenuItem>
         </TextField>
-        <TextField
-          id="outlined-select-currency"
-          select
-          label="please select your marital_status"
-          onChange={handleChange}
-          value={patient.marital_status}
-          name="marital_status"
-          error={Boolean(errors.marital_status)}
-          helperText={errors.marital_status}
-          sx={{ width: "230px" }}
-        >
-          <MenuItem value="Single">Single</MenuItem>
-          <MenuItem value="Married">Married</MenuItem>
-        </TextField>
-        <TextField
-          placeholder="Children_number if there is"
-          name="children_number"
+        <Textarea
+          size="sm"
+          placeholder="add the patient complaint "
+          name="patient_complaint"
           variant="outlined"
-          value={patient.children_number}
+          value={patient.patient_complaint}
           onChange={handleChange}
+          error={Boolean(errors.patient_complaint)}
+          helperText={errors.patient_complaint}
           sx={{ width: "230px" }}
         />
         <Textarea
@@ -220,17 +205,6 @@ export default function UpdatePatientCard() {
           onChange={handleChange}
           // error={Boolean(errors.allergies)}
           // helperText={errors.allergies}
-          sx={{ width: "230px" }}
-        />
-        <Textarea
-          size="sm"
-          placeholder="Do you have any habits? Please explain this if there is "
-          name="habits"
-          variant="outlined"
-          value={patient.habits}
-          onChange={handleChange}
-          // error={Boolean(errors.habits)}
-          // helperText={errors.habits}
           sx={{ width: "230px" }}
         />
         <Textarea

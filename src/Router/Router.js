@@ -23,6 +23,10 @@ import UpdateRays from '../page/Services/Rays/UpdateRays'
 import AddTest from '../page/Services/Test/AddTest'
 import UpdateTest from '../page/Services/Test/UpdateTest'
 import ReadMore from '../page/Patient/ReadMore'
+import Discharge from '../page/Patient/Discharge'
+import AddSurgery from '../page/surgery/AddSurgery'
+import SurgeryPage from '../page/surgery/SurgeryPage'
+import UpdateSurgery from '../page/surgery/UpdateSurgery'
 export default function Router() {
   return (
     <BrowserRouter>
@@ -50,6 +54,10 @@ export default function Router() {
         <Route path='updaterays/:index' element={<UpdateRays/>}/>
         <Route path='addtest' element={<AddTest/>}/>
         <Route path='updatetest/:index' element={<UpdateTest/>}/>
+        <Route path='discharge/:id' element={<Discharge/>}/>
+        <Route path='surgery' element={<SurgeryPage/>}/>
+        <Route path='addsurgery' element={<AddSurgery/>}></Route>
+        <Route path='updatesurgery/:index' element={<UpdateSurgery/>}></Route>
     </Routes>
     </BrowserRouter>
   )

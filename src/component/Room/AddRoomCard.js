@@ -6,7 +6,7 @@ const validationSchema = Yup.object().shape({
   number: Yup.string()
     .required("Number is required")
     .matches(/[0-9]/, "must contain numbers"),
-  department: Yup.string().required("This Feild is required"),
+  department_id: Yup.string().required("This Feild is required"),
   bed_numbers: Yup.string().required("bed_numbers is required"),
   status: Yup.string().required("You must select an option"),
   bed_numbers: Yup.string().required("You must select an option"),
@@ -15,7 +15,7 @@ export default function AddRoomCard() {
   const [room, setRoom] = useState({
     number: "",
     status: "",
-    department: "",
+    department_id: "",
     bed_numbers: "",
   });
   const route = useNavigate();
@@ -99,7 +99,7 @@ export default function AddRoomCard() {
         fullWidth
         id="outlined-select-currency"
         select
-        label="please select your Head Of Department"
+        label="please select status"
         onChange={handleChange}
         value={room.status}
         name="status"
@@ -115,10 +115,10 @@ export default function AddRoomCard() {
         id="outlined-select-currency"
         select
         label="please select your Department"
-        value={room.department}
+        value={room.department_id}
         onChange={handleChange}
-        error={Boolean(errors.department)}
-        helperText={errors.department}
+        error={Boolean(errors.department_id)}
+        helperText={errors.department_id}
       >
         <MenuItem disabled value="">
           <em>Please Select Department</em>

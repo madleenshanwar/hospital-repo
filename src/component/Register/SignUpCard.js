@@ -18,25 +18,33 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import HomeIcon from '@mui/icons-material/Home';
 import { GridColumnMenuManageItem } from "@mui/x-data-grid";
 const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .required("name is required")
+  full_name: Yup.string()
+    .required("full_name is required")
     .min(3, "Name must have at least 3 letters")
     .max(25, "Name must have at most 30 letters"),
-  email: Yup.string().email("email is invalid").required("cemail is required"),
+  email: Yup.string()
+  .email("email is invalid")
+  .required("email is required"),
   password: Yup.string()
     .min(8, "Password should be at least 8 characters")
     .required("Password is required"),
+  password_confirmation:Yup.string()
+  .min(8, "ConfirmPassword should be at least 8 characters")
+  .required("ConfirmPassword is required"),
   phone: Yup.string()
     .matches(/^[0-9]{10}$/, "phone must be 10 numbers")
     .required("phone is required"),
     address:Yup.string()
-    .required("address is required")
+    .required("address is required"),
+  role:Yup.string()
+  .required("role is required")
 });
 export default function SignUpCard() {
   const [signUp, setSignUp] = useState({
-    name: "",
+    full_name: "",
     email: "",
     password: "",
+    password_confirmation:'',
     phone: "",
     address: "",
     role:""
@@ -60,6 +68,7 @@ export default function SignUpCard() {
       ...prev,
       [name]: value,
     }));
+    console.log(signUp)
     try {
       await validationSchema.validateAt(name, { [name]: value });
       setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -120,13 +129,13 @@ export default function SignUpCard() {
       </Typography>
       <Box sx={{ display: "flex",flexWrap:'wrap', justifyContent: "center", gap: 2 }}>
         <TextField
-          placeholder="Enter Your Name"
-          name="name"
+          placeholder="Enter Your Full_Name"
+          name="full_name"
           variant="outlined"
-          value={signUp.name}
+          value={signUp.full_name}
           onChange={handleChange}
-          error={Boolean(errors.name)}
-          helperText={errors.name}
+          error={Boolean(errors.full_name)}
+          helperText={errors.full_name}
           slotProps={{
             input: {
               endAdornment: (
@@ -191,6 +200,38 @@ export default function SignUpCard() {
           sx={{ maxWidth: "250px" }}
         />
         <TextField
+          placeholder="Confirm Your Password"
+          name="password_confirmation"
+          variant="outlined"
+          value={signUp.password_confirmation}
+          onChange={handleChange}
+          error={Boolean(errors.password_confirmation)}
+          helperText={errors.password_confirmation}
+          type={showPassword ? "text" : "password"}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    onMouseUp={handleMouseUpPassword}
+                    edge="end"
+                  >
+                    {showPassword ? (
+                      <VisibilityOffIcon sx={{ color: "#07E4DB" }} />
+                    ) : (
+                      <VisibilityIcon sx={{ color: "#07E4DB" }} />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
+          }}
+          sx={{ maxWidth: "250px" }}
+        />
+        <TextField
           placeholder="Enter Your phone"
           name="phone"
           variant="outlined"
@@ -229,6 +270,7 @@ export default function SignUpCard() {
           }}
           sx={{ maxWidth: "250px" }}
         />
+      </Box>
          <TextField
         id="outlined-select-currency"
         select
@@ -238,7 +280,7 @@ export default function SignUpCard() {
         name="role"
         error={Boolean(errors.role)}
         helperText={errors.role}
-        sx={{ width: "250px"}}
+        sx={{ width: "520px" }}
       >
         <MenuItem value="superAdmin">Super Admin</MenuItem>
         <MenuItem value="manager">Manager</MenuItem>
@@ -246,7 +288,6 @@ export default function SignUpCard() {
         <MenuItem value="ambulanceStaff">Ambulance Staff</MenuItem>
         <MenuItem value="hrStaff">HR Staff</MenuItem>
       </TextField>
-      </Box>
       <Box sx={{ display: "flex", gap: 2 }}>
         <Button
           type="submit"
@@ -258,7 +299,7 @@ export default function SignUpCard() {
         <Button
           variant="outlined"
           sx={{ color: "#00ACB1", p: 1, fontWeight: "bold" ,width:'100px'}}
-          onClick={() => route("/")}
+          onClick={() => route("/department")}
         >
           Back
         </Button>
