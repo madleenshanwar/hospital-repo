@@ -2,10 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-.logo{
-  font-style: italic;
-}
+} 
 /*animation*/
 .at-item {
   animation: shutter-in-top 1.5s linear 0s 1 normal none; 
@@ -49,5 +46,21 @@
   }
   100% {
     transform:translateZ(0) rotateX(0);
+  }
+}
+.read-item {
+  animation: puff-in-horizontal 1s linear 0s 1 normal none;
+}
+@keyframes puff-in-horizontal {
+    
+  0% {
+    transform:scaleX(2);
+    filter:blur(4px);
+    opacity:0;
+  }
+  100% {
+    transform:scaleX(1);
+    filter:blur(0);
+    opacity:1;
   }
 }
