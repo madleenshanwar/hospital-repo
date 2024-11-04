@@ -66,6 +66,18 @@ export default function UpdateSchedulesCard() {
     fetchSchedule();
     fetchDepartments();
   }, [index]);
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const result = await FetchTeamDoctors(schedule.shiftable_id);
+        console.log(result.data.data);
+        setDoctors(result.data.data);
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      }
+    };
+    fetchDoctors();
+  }, [schedule.shiftable_id]);
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
@@ -75,6 +87,7 @@ export default function UpdateSchedulesCard() {
         [name]: value,
         doctor_ids: [], 
       }));
+      console.log(schedule)
       try {
         const result = await FetchTeamDoctors(value);
         setDoctors(result.data.data);
@@ -174,6 +187,7 @@ export default function UpdateSchedulesCard() {
           <MenuItem value="evening">Evening</MenuItem>
         </TextField>
         <TextField
+          label="Date"
           type="date"
           name="date"
           variant="outlined"
@@ -216,31 +230,26 @@ export default function UpdateSchedulesCard() {
             helperText={errors.doctor_ids}
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => {
+                {schedule.shiftable_id?selected.map((value) => {
                   const doctor = doctors.find((doc) => doc.id === value);
-                  return (
-                    <Chip
-                      key={value}
-                      label={
-                        doctor ? `${doctor.first_name} ${doctor.last_name}` : ""
-                      }
-                    />
-                  );
-                })}
+                  return <Chip key={value} label={doctor ? doctor.first_name+" "+ doctor.last_name: ""} />;
+                }):""}
               </Box>
             )}
           >
-            {doctors.map((doctor) => (
+            {schedule.shiftable_id?
+            doctors.map((doctor) => (
               <MenuItem key={doctor.id} value={doctor.id}>
-                {doctor.first_name} {doctor.last_name}
+                {doctor.first_name+" "+ doctor.last_name}
               </MenuItem>
-            ))}
+            ))
+            :""}
           </Select>
         </FormControl>
         <TextField
           sx={{ width: "270px" }}
           select
-          label="Please select your Department"
+          placeholder="Please select your Department"
           value={schedule.shiftable_id}
           name="shiftable_id"
           onChange={handleChange}

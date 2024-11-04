@@ -1,14 +1,14 @@
-import { axiosInstance } from "../axiosInstance";
+import { axiosInstance } from "../../axiosInstance";
 
-export const AddDoctors=async(doctor)=>{
+export const AddTestApi=async(test)=>{
     try{
-        const result= await axiosInstance.post('/doctors',doctor,{
+        const result= await axiosInstance.post('/test',test,{
             headers:{
                 "Content-Type":'application/json'
             }
         })
         if (result) {
-            console.log('Add Doctor:', result);
+            console.log('Add Test:', result);
             return result
             ;
         } else {
@@ -17,7 +17,7 @@ export const AddDoctors=async(doctor)=>{
         }
     }
     catch(error){
-        console.error("Error in add Doctor",error);
+        console.error("Error in add Test",error);
         return null;
     }
 }

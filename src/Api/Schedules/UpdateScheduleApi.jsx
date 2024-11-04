@@ -3,7 +3,7 @@ import { axiosInstance } from "../axiosInstance"
 export const UpdateScheduleApi=async(schedule,id)=>{
     console.log(id)
     try{
-        const result=await axiosInstance.post(`updateShift/${parseInt(id)}`,schedule,{
+        const result=await axiosInstance.put(`updateShift/${parseInt(id)}`,schedule,{
             headers: {
                 'Content-Type': 'application/json'
               }

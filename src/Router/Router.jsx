@@ -14,9 +14,11 @@ import UpdateDoctor from '../Pages/Doctors/UpdateDoctor';
 import AddSchedules from '../Pages/Schedules/AddSchedules';
 import SchedulesPage from '../Pages/Schedules/SchedulesPage';
 import UpdateSchedules from '../Pages/Schedules/UpdateSchedules';
-
-
-
+import ServicesInfo from '../Pages/Services/ServicesInfo';
+import AddRays from '../Pages/Services/Rays/AddRays';
+import UpdateRays from '../Pages/Services/Rays/UpdateRays'
+import AddTest from '../Pages/Services/Test/AddTest'
+import UpdateTest from '../Pages/Services/Test/UpdateTest'
 
 export default function Router() {
   return (
@@ -40,6 +42,14 @@ export default function Router() {
         <Route path='schedules' element={<SchedulesPage/>}></Route>
         <Route path="addnewday" element={<AddSchedules/>}/>
         <Route path='updateshift/:index' element={<UpdateSchedules/>}/>
+        {/* service */}
+        <Route path='services' element={<ServicesInfo/>}></Route>
+        {/* rays */}
+        <Route path='addray' element={<AddRays/>}/>
+        <Route path='updaterays/:index' element={<UpdateRays/>}/>
+        {/* test */}
+        <Route path='addtest' element={<AddTest/>}/>
+        <Route path='updatetest/:index' element={<UpdateTest/>}/>
     </Routes>
   </BrowserRouter>
   )

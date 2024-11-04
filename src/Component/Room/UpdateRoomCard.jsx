@@ -43,7 +43,7 @@ export default function UpdateRoomCard() {
       }
     };
     fetchRoom();
-  },[])
+  },[index])
   const route = useNavigate();
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);

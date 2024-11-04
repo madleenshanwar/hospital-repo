@@ -7,118 +7,73 @@ import {
   Box,
   Button,
   Container,
+  MenuItem,
   Modal,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ShowDoctors } from "../../api/Doctors/ShowDoctors";
-import { DeleteDoctor } from "../../Api/Doctors/DeleteDoctor";
-import { ShowDepartments } from "../../api/Department/Show";
+import { FetchRays } from "../../../Api/services/rays/FetchRays";
+import { DeleteRays } from "../../../Api/services/rays/DeleteRays";
 const columns = [
   {
-    field: "full_name",
-    headerName: "Full Name",
-    minWidth: 120,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "Speciality",
-    headerName: "speciality",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "phone",
-    headerName: "Phone",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "address",
-    headerName: "Address",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "LicenseNumber",
-    headerName: "LicenseNumber",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "status",
-    headerName: "status",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "department",
-    headerName: "Department",
+    field: "id",
+    headerName: "ID",
     minWidth: 100,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "department_head",
-    headerName: "is a head?",
-    minWidth: 150,
+    field: "name",
+    headerName: "Name",
+    minWidth: 200,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "type",
+    headerName: "Type",
+    minWidth: 200,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "amount",
+    headerName: "Amount",
+    minWidth: 200,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "action",
     headerName: "Action",
-    minWidth: 150,
+    minWidth: 200,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
 ];
-export default function DoctorList() {
+export default function RaysList() {
+  const[rows,setRows]=useState([])
   const [page, setPage] = React.useState(0);
-  const [rows, setRows] = useState([]);
-  const [departments, setDepartments] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const route = useNavigate();
   useEffect(() => {
-    const fetchDoctors = async () => {
+    const fetchRays = async () => {
       try {
-        const result = await ShowDoctors();
-        setRows(result.data.data);
+        const result = await FetchRays();
+        console.log(result.data.data.data)
+        setRows(result.data.data.data);
       } catch (error) {
-        console.error("Error fetching doctors:", error);
+        console.error("Error fetching rays:", error);
       }
     };
-
-    const fetchDepartments = async () => {
-      try {
-        const result = await ShowDepartments();
-        const departmentsData = result.data.data;
-        const departmentsMap = {};
-        departmentsData.forEach(department => {
-          departmentsMap[department.id] = department;
-        });
-        setDepartments(departmentsMap);
-      } catch (error) {
-        console.error("Error fetching departments:", error);
-      }
-    };
-
-    fetchDoctors();
-    fetchDepartments();
+    fetchRays();
   }, []);
-
   const handleChangePage = (_event, newPage) => {
     setPage(newPage);
   };
@@ -138,17 +93,17 @@ export default function DoctorList() {
   };
   const handleCloseDelete = () => setOpenDelete(false);
   const handleDelete = async () => {
-    const result = await DeleteDoctor(indexDelete);
+    const result = await DeleteRays(indexDelete);
     if (result) {
       handleCloseDelete();
-      console.log("Doctor delete successfully!");
+      console.log("ray delete successfully!");
     } else {
-      console.log("Failed to delete doctor.");
+      console.log("Failed to delete ray.");
     }
   };
   //handle with update
-  const handleUpdate = (row) => {
-    route(`/updatedoctor/${row.id}`);
+  const handleUpdate = (id) => {
+    route(`/updaterays/${id}`);
   };
   return (
     <Container>
@@ -184,25 +139,13 @@ export default function DoctorList() {
               .map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align="center">
-                      {row.first_name} {row.last_name}
-                    </TableCell>
-                    <TableCell align="center">{row.speciality}</TableCell>
-                    <TableCell align="center">{row.phone}</TableCell>
-                    <TableCell align="center">
-                      {row.city}/{row.street}
-                    </TableCell>
-                    <TableCell align="center">{row.license_number}</TableCell>
-                    <TableCell align="center">{row.status}</TableCell>
-                    <TableCell align="center">
-                    {departments[row.department_id]?.name || 'Unknown Department'}
-                    </TableCell>
-                    <TableCell align="center">
-                      {row.department_head ? "Yes" : "No"}
-                    </TableCell>
+                    <TableCell align="center">{row.id}</TableCell>
+                    <TableCell align="center">{row.name}</TableCell>
+                    <TableCell align="center">{row.type}</TableCell>
+                    <TableCell align="center">{row.amount}LS</TableCell>
                     <TableCell align="center">
                       <Button
-                        title="Delete Doctor"
+                        title="Delete Rays"
                         onClick={() => handleOpenDelete(row)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
@@ -235,7 +178,7 @@ export default function DoctorList() {
                             variant="h6"
                             component="h2"
                           >
-                            Are You Sure You Won't To Delete This Doctor??
+                            Are You Sure You Won't To Delete This Row??
                           </Typography>
                           <Typography
                             id="modal-modal-description"
@@ -261,8 +204,8 @@ export default function DoctorList() {
                         </Box>
                       </Modal>
                       <Button
-                        title="update Doctor"
-                        onClick={() => handleUpdate(row)}
+                        title="update Rays"
+                        onClick={() => handleUpdate(row.id)}
                       >
                         <EditIcon sx={{ color: "#07E4DB" }} />
                       </Button>

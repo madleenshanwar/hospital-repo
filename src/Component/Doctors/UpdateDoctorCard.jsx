@@ -64,7 +64,7 @@ export default function UpdateDoctorCard() {
     };
   
     fetchDepartments();
-  },[])
+  },[index])
   const route = useNavigate();
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
