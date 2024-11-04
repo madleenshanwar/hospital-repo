@@ -41,12 +41,13 @@ export default function UpdateDoctorCard() {
     department_head: "",
     department_id: "",
   });
-  const[departments,setDepartments]=useState([])
+  const[departments,setDepartments]=useState([]);
+  const[department_name,setDepartment_Name]=useState('')
   useEffect(()=>{
     const fetchDoctors = async () => {
       try {
         const result = await FetchOneDoctor(index);
-        console.log(result.data.data)
+        console.log("fetch one doctor",result.data.data)
         setDoctor(result.data.data)
       } catch (error) {
         console.log(error);
@@ -68,6 +69,7 @@ export default function UpdateDoctorCard() {
   const route = useNavigate();
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setDoctor((prevD) => ({

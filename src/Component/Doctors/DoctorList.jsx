@@ -104,7 +104,12 @@ export default function DoctorList() {
     const fetchDepartments = async () => {
       try {
         const result = await ShowDepartments();
-        setDepartments(result.data.data);
+        const departmentsData = result.data.data;
+        const departmentsMap = {};
+        departmentsData.forEach(department => {
+          departmentsMap[department.id] = department;
+        });
+        setDepartments(departmentsMap);
       } catch (error) {
         console.error("Error fetching departments:", error);
       }
@@ -132,7 +137,7 @@ export default function DoctorList() {
     console.log(row.id);
   };
   const handleCloseDelete = () => setOpenDelete(false);
-  const handleDelete = async (row) => {
+  const handleDelete = async () => {
     const result = await DeleteDoctor(indexDelete);
     if (result) {
       handleCloseDelete();
@@ -189,7 +194,9 @@ export default function DoctorList() {
                     </TableCell>
                     <TableCell align="center">{row.license_number}</TableCell>
                     <TableCell align="center">{row.status}</TableCell>
-                    <TableCell align="center">{row.department?row.department['name']:''}</TableCell>
+                    <TableCell align="center">
+                    {departments[row.department_id]?.name || 'Unknown Department'}
+                    </TableCell>
                     <TableCell align="center">
                       {row.department_head ? "Yes" : "No"}
                     </TableCell>
@@ -238,7 +245,7 @@ export default function DoctorList() {
                               type="submit"
                               variant="contained"
                               sx={{ background: "#00ACB1" }}
-                              onClick={() => handleDelete(row)}
+                              onClick={() => handleDelete()}
                             >
                               Yes
                             </Button>

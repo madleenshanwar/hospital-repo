@@ -11,6 +11,9 @@ import RoomPage from '../Pages/Room/RoomPage';
 import DoctorPage from '../Pages/Doctors/DoctorPage';
 import AddDoctor from '../Pages/Doctors/AddDoctor';
 import UpdateDoctor from '../Pages/Doctors/UpdateDoctor';
+import AddSchedules from '../Pages/Schedules/AddSchedules';
+import SchedulesPage from '../Pages/Schedules/SchedulesPage';
+import UpdateSchedules from '../Pages/Schedules/UpdateSchedules';
 
 
 
@@ -33,6 +36,10 @@ export default function Router() {
         <Route path="doctor" element={<DoctorPage/>}/>
         <Route path="adddoctor" element={<AddDoctor/>}/>
         <Route path="updatedoctor/:index" element={<UpdateDoctor/>}/>
+        {/* shift */}
+        <Route path='schedules' element={<SchedulesPage/>}></Route>
+        <Route path="addnewday" element={<AddSchedules/>}/>
+        <Route path='updateshift/:index' element={<UpdateSchedules/>}/>
     </Routes>
   </BrowserRouter>
   )

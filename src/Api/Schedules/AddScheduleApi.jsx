@@ -1,14 +1,14 @@
 import { axiosInstance } from "../axiosInstance";
 
-export const AddDepartments=async(department)=>{
+export const AddScheduleApi=async(schedule)=>{
     try{
-        const result= await axiosInstance.post('/departments',department,{
+        const result= await axiosInstance.post('/storeShift',schedule,{
             headers:{
                 "Content-Type":'application/json'
             }
         })
         if (result) {
-            console.log('Add Department:', result);
+            console.log('Add Schedule:', result);
             return result
             ;
         } else {
@@ -17,7 +17,7 @@ export const AddDepartments=async(department)=>{
         }
     }
     catch(error){
-        console.error("Error in add depatment",error);
+        console.error("Error in add schedule",error);
         return null;
     }
 }
