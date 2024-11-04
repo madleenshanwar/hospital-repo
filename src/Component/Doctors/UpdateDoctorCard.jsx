@@ -42,7 +42,6 @@ export default function UpdateDoctorCard() {
     department_id: "",
   });
   const[departments,setDepartments]=useState([]);
-  const[department_name,setDepartment_Name]=useState('')
   useEffect(()=>{
     const fetchDoctors = async () => {
       try {

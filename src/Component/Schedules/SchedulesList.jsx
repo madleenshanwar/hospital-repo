@@ -20,6 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FetchSchedule } from "../../Api/Schedules/FetchSchedule";
 import { ShowDepartments } from "../../api/Department/Show";
+import { DeleteSchedule } from "../../Api/Schedules/DeleteSchedule";
 const columns = [
   {
     field: "shift_type",
@@ -117,18 +118,24 @@ export default function SchedulesList() {
   //delete
   const [indexDelete, setIndexDelete] = useState(0);
   const [openDelete, setOpenDelete] = useState(false);
-  const handleOpenDelete = (index) => {
+  const handleOpenDelete = (row) => {
     setOpenDelete(true);
-    setIndexDelete(index);
-    console.log(index);
+    setIndexDelete(row.id);
+    console.log(row.id);
   };
   const handleCloseDelete = () => setOpenDelete(false);
-  function handleDelete(row) {
-    handleCloseDelete();
-  }
+  const handleDelete = async () => {
+    const result = await DeleteSchedule(indexDelete);
+    if (result) {
+      handleCloseDelete();
+      console.log("Schedule delete successfully!");
+    } else {
+      console.log("Failed to delete schedule.");
+    }
+  };
   //handle with update
-  const handleUpdate = (index) => {
-    route(`/updateshift/${index}`);
+  const handleUpdate = (id) => {
+    route(`/updateshift/${id}}`);
   };
   return (
     <>
@@ -216,7 +223,7 @@ export default function SchedulesList() {
                         <TableCell align="center">
                           <Button
                             title="Delete Schedule"
-                            onClick={() => handleOpenDelete(row.id)}
+                            onClick={() => handleOpenDelete(row)}
                           >
                             <DeleteIcon sx={{ color: "#07E4DB" }} />
                           </Button>
@@ -258,7 +265,7 @@ export default function SchedulesList() {
                                   type="submit"
                                   variant="contained"
                                   sx={{ background: "#00ACB1" }}
-                                  onClick={() => handleDelete(row)}
+                                  onClick={() => handleDelete()}
                                 >
                                   Yes
                                 </Button>

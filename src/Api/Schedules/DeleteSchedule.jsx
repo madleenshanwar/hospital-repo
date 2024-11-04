@@ -4,7 +4,7 @@ export const DeleteSchedule=async(id)=>{
     try{
         const result =await axiosInstance.delete(`deleteShift/${parseInt(id)}`)
         if(result){
-            console.log('delete doctor done',result)
+            console.log('delete schedule done',result)
             return result
         }
         else{
@@ -13,6 +13,6 @@ export const DeleteSchedule=async(id)=>{
         }
     }
     catch(error){
-        console.log('error in delete doctor',error)
+        console.log('error in schedule doctor',error)
     }
 }

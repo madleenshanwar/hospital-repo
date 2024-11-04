@@ -11,7 +11,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
@@ -21,13 +20,6 @@ import { ShowRoom } from "../../api/Room/ShowRoom";
 import { ShowDepartments } from "../../Api/Department/Show";
 import { DeleteRoom } from "../../Api/Room/DeleteRoom";
 const columns = [
-  {
-    field: "id",
-    headerName: " ID",
-    minWidth: 100,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
   {
     field: "number",
     headerName: "Number",
@@ -104,14 +96,14 @@ export default function RoomList() {
   //delete
   const [indexDelete, setIndexDelete] = useState(0);
   const [openDelete, setOpenDelete] = useState(false);
-  const handleOpenDelete = (index) => {
+  const handleOpenDelete = (row) => {
     setOpenDelete(true);
-    setIndexDelete(index);
-    console.log(index);
+    setIndexDelete(row.id);
+    console.log(row.id);
   };
   const handleCloseDelete = () => setOpenDelete(false);
-  const handleDelete=async(row)=> {
-    const result = await DeleteRoom(row.id);
+  const handleDelete=async()=> {
+    const result = await DeleteRoom(indexDelete);
     if(result){
       handleCloseDelete();
       console.log('Room delete successfully!');
@@ -157,7 +149,6 @@ export default function RoomList() {
               .map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align="center">{row.id}</TableCell>
                     <TableCell align="center">{row.number}</TableCell>
                     <TableCell align="center">{row.status}</TableCell>
                     <TableCell align="center">
@@ -167,7 +158,7 @@ export default function RoomList() {
                     <TableCell align="center">
                       <Button
                         title="Delete Room"
-                        onClick={() => handleOpenDelete(index)}
+                        onClick={() => handleOpenDelete(row)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
                       </Button>
@@ -209,7 +200,7 @@ export default function RoomList() {
                               type="submit"
                               variant="contained"
                               sx={{ background: "#00ACB1" }}
-                              onClick={() => handleDelete(row)}
+                              onClick={() => handleDelete()}
                             >
                               Yes
                             </Button>

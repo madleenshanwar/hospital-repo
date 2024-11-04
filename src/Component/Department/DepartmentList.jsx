@@ -11,7 +11,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
@@ -69,13 +68,13 @@ export default function DepartmentList() {
   //handle with delete
   const [indexDelete, setIndexDelete] = useState(0);
   const [openDelete, setOpenDelete] = useState(false);
-  const handleOpenDelete = (index) => {
+  const handleOpenDelete = (row) => {
     setOpenDelete(true);
-    setIndexDelete(index);
+    setIndexDelete(row.id);
   };
   const handleCloseDelete = () => setOpenDelete(false);
-  const handleDelete=async(row)=> {
-    const result = await DeleteDepartment(row.id);
+  const handleDelete=async()=> {
+    const result = await DeleteDepartment(indexDelete);
     if(result){
       handleCloseDelete();
       console.log('Department delete successfully!');
@@ -126,7 +125,7 @@ export default function DepartmentList() {
                     <TableCell align="center">
                       <Button
                         title="Delete Department"
-                        onClick={() => handleOpenDelete(index)}
+                        onClick={() => handleOpenDelete(row)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
                       </Button>
@@ -168,7 +167,7 @@ export default function DepartmentList() {
                               type="submit"
                               variant="contained"
                               sx={{ background: "#00ACB1" }}
-                              onClick={() => handleDelete(row)}
+                              onClick={() => handleDelete()}
                             >
                               Yes
                             </Button>
