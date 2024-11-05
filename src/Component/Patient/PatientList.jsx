@@ -3,6 +3,8 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import LogoutIcon from '@mui/icons-material/Logout';
+import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
   Button,
@@ -16,35 +18,48 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ShowRoom } from "../../api/Room/ShowRoom";
-import { ShowDepartments } from "../../Api/Department/Show";
-import { DeleteRoom } from "../../Api/Room/DeleteRoom";
+import { FetchPatients } from "../../Api/Patient/FetchPatients";
+import { DeletePatient } from "../../Api/Patient/DeletePatient";
 const columns = [
   {
-    field: "number",
-    headerName: "Number",
-    minWidth: 200,
+    field: "first_name",
+    headerName: " First_Name",
+    minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "status",
-    headerName: "Status",
-    minWidth: 200,
+    field: "last_name",
+    headerName: "Last_Name",
+    minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "department",
-    headerName: "Department-Name",
-    minWidth: 200,
+    field: "gender",
+    headerName: "Gender",
+    minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "bed_numbers",
-    headerName: "Bed_numbers",
-    minWidth: 200,
+    field: "blood_group",
+    headerName: "blood_group",
+    minWidth: 50,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "medical_history",
+    headerName: "Medical_History",
+    minWidth: 50,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "more_details",
+    headerName: "More Details",
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
@@ -56,34 +71,23 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
 ];
-export default function RoomList() {
-  const [rows,setRows] =useState([])
+export default function PatientList() {
   const [page, setPage] = React.useState(0);
-  const [departments,setDepartments]=useState([])
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const route = useNavigate();
-  useEffect(()=>{
-    const fetchRooms = async () => {
+  const [rows, setRows] = useState([]);
+  useEffect(() => {
+    const fetchPatients = async () => {
       try {
-        const result = await ShowRoom();
-        setRows(result.data.data)
+        const result = await FetchPatients();
+        console.log(result.data.data.data)
+        setRows(result.data.data.data);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching patient:", error);
       }
     };
-  
-    fetchRooms();
-    const fetchDepartments = async () => {
-      try {
-        const result = await ShowDepartments();
-        setDepartments(result.data.data)
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  
-    fetchDepartments();
-  },[])
+    fetchPatients();
+  }, []);
   const handleChangePage = (_event, newPage) => {
     setPage(newPage);
   };
@@ -102,19 +106,27 @@ export default function RoomList() {
     console.log(row.id);
   };
   const handleCloseDelete = () => setOpenDelete(false);
-  const handleDelete=async()=> {
-    const result = await DeleteRoom(indexDelete);
-    if(result){
+  const handleDelete = async () => {
+    const result = await DeletePatient(indexDelete);
+    if (result) {
       handleCloseDelete();
-      console.log('Room delete successfully!');
+      console.log("Patient delete successfully!");
     } else {
-      console.log('Failed to delete room.');
+      console.log("Failed to delete patient.");
     }
-    }
+  };
   //handle with update
   const handleUpdate = (row) => {
-    route(`/updatedroom/${row.id}`);
+    route(`/updatePatient/${row.id}`);
   };
+  //handle with Discharge
+  const handleDischarge=(id)=>{
+    route(`/discharge/${id}`)
+  }
+  //handle with book a room
+  const handleBookRoom=(id)=>{
+
+  }
   return (
     <Container>
       <Paper
@@ -149,15 +161,24 @@ export default function RoomList() {
               .map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align="center">{row.number}</TableCell>
-                    <TableCell align="center">{row.status}</TableCell>
+                    <TableCell align="center">{row.first_name} </TableCell>
+                    <TableCell align="center">{row.last_name}</TableCell>
+                    <TableCell align="center">{row.gender}</TableCell>
+                    <TableCell align="center">{row.blood_group}</TableCell>
+                    <TableCell align="center">{row.medical_history}</TableCell>
                     <TableCell align="center">
-                      {row.department?.name||"Unknown Department"}
-                   </TableCell>
-                    <TableCell align="center">{row.bed_numbers}</TableCell>
+                    <Button
+                        title="More Details"
+                        onClick={() => route(`/readmore/${row.id}`)}
+                        variant="contained"
+                              sx={{ background: "#07E4DB" }}
+                      >
+                        More Details
+                      </Button>
+                    </TableCell>
                     <TableCell align="center">
                       <Button
-                        title="Delete Room"
+                        title="Delete Patient"
                         onClick={() => handleOpenDelete(row)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
@@ -190,7 +211,7 @@ export default function RoomList() {
                             variant="h6"
                             component="h2"
                           >
-                            Are You Sure You Won't To Delete This Room??
+                            Are You Sure You Won't To Delete This Patient??
                           </Typography>
                           <Typography
                             id="modal-modal-description"
@@ -216,10 +237,24 @@ export default function RoomList() {
                         </Box>
                       </Modal>
                       <Button
-                        title="update Room"
+                        title="update Patient"
                         onClick={() => handleUpdate(row)}
                       >
                         <EditIcon sx={{ color: "#07E4DB" }} />
+                      </Button>
+                      <Button
+                        title="discharge Patient"
+                        onClick={() => handleDischarge(row.id)}
+                      >
+                        <LogoutIcon sx={{ color: "#07E4DB" }} />
+                      </Button>
+                      <Button
+                        title="book a room"
+                        onClick={() => handleBookRoom(row.id)}
+                      >
+                        <AddIcon sx={{ color: "#07E4DB" ,  border: "1px solid #07E4DB",
+                        fontWeight: "bold",
+                        borderRadius: "50%",}} />
                       </Button>
                     </TableCell>
                   </TableRow>

@@ -19,6 +19,10 @@ import AddRays from '../Pages/Services/Rays/AddRays';
 import UpdateRays from '../Pages/Services/Rays/UpdateRays'
 import AddTest from '../Pages/Services/Test/AddTest'
 import UpdateTest from '../Pages/Services/Test/UpdateTest'
+import AddPatient from '../Pages/Patient/AddPatient';
+import UpdatePatient from '../Pages/Patient/UpdatePatient';
+import ReadMore from '../Pages/Patient/ReadMore';
+import PatientPage from '../Pages/Patient/PatientPage';
 
 export default function Router() {
   return (
@@ -50,6 +54,11 @@ export default function Router() {
         {/* test */}
         <Route path='addtest' element={<AddTest/>}/>
         <Route path='updatetest/:index' element={<UpdateTest/>}/>
+        {/* patient */}
+        <Route path='patient' element={<PatientPage/>}/>
+        <Route path='addpatient' element={<AddPatient/>}/>
+        <Route path="updatePatient/:index" element={<UpdatePatient/>}/>
+        <Route path='readmore/:index' element={<ReadMore/>}/>
     </Routes>
   </BrowserRouter>
   )
