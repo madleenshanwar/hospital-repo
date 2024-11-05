@@ -23,6 +23,7 @@ import AddPatient from '../Pages/Patient/AddPatient';
 import UpdatePatient from '../Pages/Patient/UpdatePatient';
 import ReadMore from '../Pages/Patient/ReadMore';
 import PatientPage from '../Pages/Patient/PatientPage';
+import Admission from '../Pages/Patient/Admission';
 
 export default function Router() {
   return (
@@ -59,6 +60,7 @@ export default function Router() {
         <Route path='addpatient' element={<AddPatient/>}/>
         <Route path="updatePatient/:index" element={<UpdatePatient/>}/>
         <Route path='readmore/:index' element={<ReadMore/>}/>
+        <Route path="admission/:index" element={<Admission/>}></Route>
     </Routes>
   </BrowserRouter>
   )

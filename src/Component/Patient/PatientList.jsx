@@ -20,6 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FetchPatients } from "../../Api/Patient/FetchPatients";
 import { DeletePatient } from "../../Api/Patient/DeletePatient";
+import LoginIcon from '@mui/icons-material/Login';
 const columns = [
   {
     field: "first_name",
@@ -177,6 +178,19 @@ export default function PatientList() {
                       </Button>
                     </TableCell>
                     <TableCell align="center">
+                    <Button
+                        title="admission patient"
+                        onClick={() => route(`/admission/${row.id}`)}
+                      >
+                        <LoginIcon sx={{ color: "#07E4DB",
+                        fontWeight: "bold"}} />
+                      </Button>
+                      <Button
+                        title="update Patient"
+                        onClick={() => handleUpdate(row)}
+                      >
+                        <EditIcon sx={{ color: "#07E4DB" }} />
+                      </Button>
                       <Button
                         title="Delete Patient"
                         onClick={() => handleOpenDelete(row)}
@@ -236,12 +250,6 @@ export default function PatientList() {
                           </Typography>
                         </Box>
                       </Modal>
-                      <Button
-                        title="update Patient"
-                        onClick={() => handleUpdate(row)}
-                      >
-                        <EditIcon sx={{ color: "#07E4DB" }} />
-                      </Button>
                       <Button
                         title="discharge Patient"
                         onClick={() => handleDischarge(row.id)}
