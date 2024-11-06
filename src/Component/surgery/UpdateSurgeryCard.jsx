@@ -15,6 +15,9 @@ import * as Yup from "yup";
 import { ShowDoctors } from "../../Api/Doctors/ShowDoctors";
 import { FetchPatients } from "../../Api/Patient/FetchPatients";
 import { FetchOneSurgery } from "../../Api/Surgery/FetchOneSurgery";
+import { ShowDepartments } from "../../api/Department/Show";
+import { AvailableRoom } from "../../Api/Room/AvailableRoom";
+import { UpdateSurgeryApi } from "../../Api/Surgery/UpdateSurgeryApi";
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("name is required"),
   date: Yup.string().required("date is required"),
@@ -39,8 +42,32 @@ export default function UpdateSurgeryCard() {
   });
   const [doctors, setDoctors] = useState([]);
   const [patient, setPatient] = useState([]);
-  const room = [1, 2, 3, 4];
+  const [room, setRoom] = useState([]);
   useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const result = await ShowDepartments();
+        console.log(
+          "department",
+          result.data.data.find((el) => el.name === "surgery department")?.id
+        );
+        try {
+          const response = await AvailableRoom(
+            parseInt(
+              result.data.data.find((el) => el.name === "surgery department")
+                ?.id
+            )
+          );
+          console.log("Room", response.data.data.rooms);
+          setRoom(response.data.data.rooms);
+        } catch (error) {
+          console.log(error);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchDepartments();
     const fetchSurgery = async () => {
       try {
         const result = await FetchOneSurgery(index);
@@ -96,7 +123,13 @@ export default function UpdateSurgeryCard() {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("schedule Info:", values);
       setErrors({});
-      setIsSubmitted(true);
+      const result = await UpdateSurgeryApi(surgery,surgery.id);
+      if (result) {
+        setIsSubmitted(true);
+        console.log("Surgery updated successfully!");
+      } else {
+        console.log("Failed to update surgery.");
+      }
     } catch (err) {
       const validationErrors = {};
       err.inner.forEach((error) => {
@@ -215,10 +248,10 @@ export default function UpdateSurgeryCard() {
           sx={{ width: "300px" }}
         >
           {room.length > 0
-            ? room.map((el) => <MenuItem value={el}>{el}</MenuItem>)
+            ? room.map((el) => <MenuItem value={el.id}>{el.number}</MenuItem>)
             : ""}
         </TextField>
-        {/* <FormControl sx={{ width: "300px" }}>
+        <FormControl sx={{ width: "300px" }}>
           <InputLabel id="demo-simple-select-label"> doctors team</InputLabel>
           <Select
             id="demo-simple-select-label"
@@ -251,7 +284,7 @@ export default function UpdateSurgeryCard() {
               </MenuItem>
             ))}
           </Select>
-        </FormControl> */}
+        </FormControl>
       </Box>
       <TextField
         id="outlined-select-currency"

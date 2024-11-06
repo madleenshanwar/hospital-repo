@@ -31,6 +31,13 @@ import ForgetPass from "../Pages/Register/ForgetPass";
 import ResetPass from "../Pages/Register/ResetPass";
 import Discharge from "../Pages/Patient/Discharge";
 import BookARoom from "../Pages/Room/BookARoom";
+import ProvideTest from "../Pages/ProvideService/Test/ProvideTest";
+import PatientTest from "../Pages/ProvideService/Test/PatientTest";
+import ProvideService from "../Pages/ProvideService/ProvideService";
+import UpdatePatientTest from "../Pages/ProvideService/Test/UpdatePatientTest";
+import PatientRay from "../Pages/ProvideService/Rays/PatientRay";
+import ProvideRay from "../Pages/ProvideService/Rays/ProvideRay";
+import UpdatePatientRay from "../Pages/ProvideService/Rays/UpdatePatientRay";
 
 export default function Router() {
   return (
@@ -38,8 +45,8 @@ export default function Router() {
       <Routes>
         {/* auth */}
         <Route path="/" element={<Login />}></Route>
-        <Route path="forgetpass" element={<ForgetPass/>}></Route>
-        <Route path="resetpass" element={<ResetPass/>}></Route>
+        <Route path="forgetpass" element={<ForgetPass />}></Route>
+        <Route path="resetpass" element={<ResetPass />}></Route>
         {/* department */}
         <Route path="register" element={<SignUp />} />
         <Route path="department" element={<DepartmentPage />} />
@@ -49,7 +56,7 @@ export default function Router() {
         <Route path="room" element={<RoomPage />} />
         <Route path="addroom" element={<AddRoom />} />
         <Route path="updatedroom/:index" element={<UpdateRoom />} />
-        <Route path="bookaroom/:index" element={<BookARoom/>}/>
+        <Route path="bookaroom/:index" element={<BookARoom />} />
         {/* doctor */}
         <Route path="doctor" element={<DoctorPage />} />
         <Route path="adddoctor" element={<AddDoctor />} />
@@ -72,11 +79,21 @@ export default function Router() {
         <Route path="updatePatient/:index" element={<UpdatePatient />} />
         <Route path="readmore/:index" element={<ReadMore />} />
         <Route path="admission/:index" element={<Admission />}></Route>
-        <Route path='discharge/:id' element={<Discharge/>}/>
+        <Route path="discharge/:id" element={<Discharge />} />
         {/* surgery */}
         <Route path="surgery" element={<SurgeryPage />} />
         <Route path="addsurgery" element={<AddSurgery />}></Route>
         <Route path="updatesurgery/:index" element={<UpdateSurgery />}></Route>
+        {/* provide service */}
+        <Route path="provideservice" element={<ProvideService />} />
+        {/* patient test */}
+        <Route path="patienttest" element={<PatientTest />}></Route>
+        <Route path="addpatienttest" element={<ProvideTest />}></Route>
+        <Route path="updatepatienttest/:id" element={<UpdatePatientTest />} />
+        {/*patient ray */}
+        <Route path="patientray" element={<PatientRay />}></Route>
+        <Route path="addpatientray" element={<ProvideRay />}></Route>
+        <Route path="updatepatientray/:id" element={<UpdatePatientRay />} />
       </Routes>
     </BrowserRouter>
   );

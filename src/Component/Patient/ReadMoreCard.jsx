@@ -19,6 +19,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FetchOnePatient } from "../../Api/Patient/FetchOnePatient";
 import { FetchOneAdmission } from "../../Api/Patient/FetchOneAdmission";
+import { FetchAllInfoPatient } from "../../Api/InfoAboutPatient/FetchAllInfoPatient";
 const columns = [
   {
     field: "admission_date",
@@ -48,6 +49,13 @@ const columns = [
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
+  {
+    field: "doctor",
+    headerName: "Doctor",
+    minWidth: 200,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
 ];
 export default function ReadMoreCard() {
   const { index } = useParams();
@@ -73,6 +81,16 @@ export default function ReadMoreCard() {
         console.error("Error fetching one admission:", error);
       }
     };
+    const fetchAllInfoPatient = async () => {
+      try {
+        const result = await FetchAllInfoPatient(index);
+        console.log("All Information",result.data.data);
+        // setPatient(result.data.data);
+      } catch (error) {
+        console.error("Error fetching all info about patient:", error);
+      }
+    };
+    fetchAllInfoPatient()
     fetchPatient();
     fetchAdmission();
   }, [index]);
@@ -285,13 +303,16 @@ export default function ReadMoreCard() {
                           {row.admission_date}
                         </TableCell>
                         <TableCell align="center">
-                          {row.patient_complaint?row.patient_complaint:"no patient complaint entered"}
+                          {row.patient_complaint}
                         </TableCell>
                         <TableCell align="center">
-                          {row.discharge_date?row.discharge_date:"The patient has not been discharged yet"}
+                          {row.discharge_date?row.discharge_date:"Not out yet"}
                         </TableCell>
                         <TableCell align="center">
-                          {row.discharge_reason?row.discharge_reason:"The patient has not been discharged yet"}
+                          {row.discharge_reason?row.discharge_reason:"Not out yet"}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.doctor?row.doctor.first_name+" "+row.doctor.last_name:"Not out yet"}
                         </TableCell>
                       </TableRow>
                     );

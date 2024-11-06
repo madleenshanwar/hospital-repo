@@ -1,10 +1,10 @@
 import { axiosInstance } from "../axiosInstance";
 
-export const AvailableRoom=async(id)=>{
+export const FetchAllInfoPatient=async(id)=>{
     try{
-        const result= await axiosInstance.get(`/availableRooms/${parseInt(id)}`)
+        const result= await axiosInstance.get(`/patientMovement/${parseInt(id)}`)
         if (result) {
-            console.log('Fetched Available Room:', result.data.data.rooms);
+            console.log('Fetched All Information About Patient:', result);
             return result
             ;
         } else {
@@ -13,7 +13,7 @@ export const AvailableRoom=async(id)=>{
         }
     }
     catch(error){
-        console.error("Error in fetch available room",error);
+        console.error("Error in fetch all info about patient",error);
         return null;
     }
 }

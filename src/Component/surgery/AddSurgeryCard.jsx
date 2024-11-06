@@ -15,6 +15,8 @@ import * as Yup from "yup";
 import { AddSurgeryApi } from "../../Api/Surgery/AddSurgeryApi";
 import { ShowDoctors } from "../../Api/Doctors/ShowDoctors";
 import { FetchPatients } from "../../Api/Patient/FetchPatients";
+import { ShowDepartments } from "../../api/Department/Show";
+import { AvailableRoom } from "../../Api/Room/AvailableRoom";
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("name is required"),
   date: Yup.string().required("date is required"),
@@ -38,8 +40,26 @@ export default function AddSurgeryCard() {
   });
   const [doctors, setDoctors] = useState([]);
   const [patient, setPatient] = useState([]);
-  const room = [1, 2, 3, 4];
+  const [room,setRoom]=useState([])
   useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const result = await ShowDepartments();
+        console.log("department",result.data.data.find(el=>el.name==="surgery department")?.id)
+        try {
+          const response = await AvailableRoom(parseInt(result.data.data.find(el=>el.name==="surgery department")?.id));
+          console.log("Room",response.data.data.rooms)
+          setRoom(response.data.data.rooms);
+  
+        } catch (error) {
+          console.log(error);
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchDepartments();
     const fetchDoctors = async () => {
       try {
         const result = await ShowDoctors();
@@ -212,8 +232,8 @@ export default function AddSurgeryCard() {
         >
           {room.length > 0
             ? room.map((el) => (
-                <MenuItem key={el} value={el}>
-                  {el}
+                <MenuItem key={el} value={el.id}>
+                  {el.number}
                 </MenuItem>
               ))
             : ""}

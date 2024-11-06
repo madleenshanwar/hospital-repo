@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   Container,
-  MenuItem,
   Modal,
   Table,
   TableBody,
@@ -18,56 +17,37 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { FetchSurgery } from "../../Api/Surgery/FetchSurgery";
-import { ShowDoctors } from "../../api/Doctors/ShowDoctors";
-import { DeleteSurgery } from "../../Api/Surgery/DeleteSurgery";
+import { FetchRays } from "../../../Api/services/rays/FetchRays";
+import { ShowDoctors } from "../../../Api/Doctors/ShowDoctors";
+import { FetchPatients } from "../../../Api/Patient/FetchPatients";
+import { DeletePatientRay } from "../../../Api/ProvideService/Ray/DeletePatientRay";
+import { FetchPatientsRays } from "../../../Api/ProvideService/Ray/FetchPatientsRays";
 const columns = [
   {
-    field: "name",
-    headerName: "Name",
-    minWidth: 50,
+    field: "patient",
+    headerName: "patient",
+    minWidth: 100,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "type_ray",
+    headerName: "Type_Ray",
+    minWidth: 200,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "doctor",
+    headerName: "Doctor",
+    minWidth: 200,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "date",
     headerName: "Date",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "time",
-    headerName: "Time",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "patient_id",
-    headerName: "Patient_Id",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "anesthesia_type",
-    headerName: "Anesthesia_Yype",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "room_id",
-    headerName: "Room_Id",
-    minWidth: 50,
-    align: "center",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "doctors",
-    headerName: "Doctors",
-    minWidth: 50,
+    minWidth: 200,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
@@ -79,22 +59,43 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
 ];
-export default function SurgeryList() {
+export default function ProvideRayList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [rows, setRows] = useState([]);
+  const [rows,setRows]=useState([]);
   const route = useNavigate();
+  const[doctors,setDoctors]=useState([])
+  const [patient,setPatient]=useState([])
   useEffect(() => {
-    const fetchSurgery = async () => {
+    const fetchRays = async () => {
       try {
-        const result = await FetchSurgery();
+        const result = await FetchPatientsRays();
         console.log(result.data.data.data);
         setRows(result.data.data.data);
       } catch (error) {
-        console.error("Error fetching surgery:", error);
+        console.error("Error fetching Rays:", error);
       }
     };
-    fetchSurgery();
+    const fetchDoctors = async () => {
+      try {
+        const result = await ShowDoctors();
+        setDoctors(result.data.data);
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      }
+    };
+    const fetchPatients = async () => {
+      try {
+        const result = await FetchPatients();
+        console.log(result.data.data.data);
+        setPatient(result.data.data.data);
+      } catch (error) {
+        console.error("Error fetching patient:", error);
+      }
+    };
+    fetchPatients();
+    fetchDoctors();
+    fetchRays();
   }, []);
   const handleChangePage = (_event, newPage) => {
     setPage(newPage);
@@ -115,17 +116,17 @@ export default function SurgeryList() {
   };
   const handleCloseDelete = () => setOpenDelete(false);
   const handleDelete = async () => {
-    const result = await DeleteSurgery(indexDelete);
+    const result = await DeletePatientRay(indexDelete);
     if (result) {
       handleCloseDelete();
-      console.log("Surgery delete successfully!");
+      console.log("patient ray delete successfully!");
     } else {
-      console.log("Failed to surgery doctor.");
+      console.log("Failed to delete patient ray.");
     }
   };
   //handle with update
-  const handleUpdate = (id) => {
-    route(`/updatesurgery/${id}`);
+  const handleUpdate = (row) => {
+    route(`/updatepatientray/${row.id}`);
   };
   return (
     <Container>
@@ -161,26 +162,13 @@ export default function SurgeryList() {
               .map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align="center">{row.name}</TableCell>
+                    {/* <TableCell align="center">{row.patient.first_name+" "+row.patient.last_name}</TableCell> */}
+                    <TableCell align="center">{row.ray.type}</TableCell>
+                    <TableCell align="center">{row.doctor.first_name+" "+row.doctor.last_name}</TableCell>
                     <TableCell align="center">{row.date}</TableCell>
-                    <TableCell align="center">{row.hour}</TableCell>
-                    <TableCell align="center">
-                      {row.patient
-                        ? `${row.patient.first_name} ${row.patient.last_name}`
-                        : "unknown patient"}{" "}
-                    </TableCell>
-                    <TableCell align="center">{row.anesthesia_type}</TableCell>
-                    <TableCell align="center">{row.room_id}</TableCell>
-                    <TableCell align="center">
-                      {row.doctors.map((doctor) => (
-                        <li key={doctor.id}>
-                          {doctor.first_name + " " + doctor.last_name}
-                        </li>
-                      ))}
-                    </TableCell>
                     <TableCell align="center">
                       <Button
-                        title="Delete Surgery"
+                        title="Delete Test"
                         onClick={() => handleOpenDelete(row)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
@@ -239,8 +227,8 @@ export default function SurgeryList() {
                         </Box>
                       </Modal>
                       <Button
-                        title="update Surgery"
-                        onClick={() => handleUpdate(row.id)}
+                        title="update Test"
+                        onClick={() => handleUpdate(row)}
                       >
                         <EditIcon sx={{ color: "#07E4DB" }} />
                       </Button>
@@ -261,5 +249,5 @@ export default function SurgeryList() {
         />
       </Paper>
     </Container>
-  );
+  )
 }
