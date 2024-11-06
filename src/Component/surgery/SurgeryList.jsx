@@ -3,66 +3,70 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import LogoutIcon from '@mui/icons-material/Logout';
-import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
   Button,
   Container,
+  MenuItem,
   Modal,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { FetchPatients } from "../../Api/Patient/FetchPatients";
-import { DeletePatient } from "../../Api/Patient/DeletePatient";
-import LoginIcon from '@mui/icons-material/Login';
-import { FetchOneAdmission } from "../../Api/Patient/FetchOneAdmission";
-import { FetchLastAdmission } from "../../Api/Patient/FetchLastAdmission";
+import { FetchSurgery } from "../../Api/Surgery/FetchSurgery";
+import { ShowDoctors } from "../../api/Doctors/ShowDoctors";
 const columns = [
   {
-    field: "first_name",
-    headerName: " First_Name",
+    field: "name",
+    headerName: "Name",
     minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "last_name",
-    headerName: "Last_Name",
+    field: "date",
+    headerName: "Date",
     minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "gender",
-    headerName: "Gender",
+    field: "time",
+    headerName: "Time",
     minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "blood_group",
-    headerName: "blood_group",
+    field: "patient_id",
+    headerName: "Patient_Id",
     minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "medical_history",
-    headerName: "Medical_History",
+    field: "anesthesia_type",
+    headerName: "Anesthesia_Yype",
     minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "more_details",
-    headerName: "More Details",
-    minWidth: 150,
+    field: "room_id",
+    headerName: "Room_Id",
+    minWidth: 50,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "doctors",
+    headerName: "Doctors",
+    minWidth: 50,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
@@ -74,22 +78,22 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
 ];
-export default function PatientList() {
+export default function SurgeryList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const route = useNavigate();
   const [rows, setRows] = useState([]);
+  const route = useNavigate();
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchSurgery = async () => {
       try {
-        const result = await FetchPatients();
-        console.log(result.data.data.data)
+        const result = await FetchSurgery();
+        console.log(result.data.data.data);
         setRows(result.data.data.data);
       } catch (error) {
-        console.error("Error fetching patient:", error);
+        console.error("Error fetching surgery:", error);
       }
     };
-    fetchPatients();
+    fetchSurgery();
   }, []);
   const handleChangePage = (_event, newPage) => {
     setPage(newPage);
@@ -110,26 +114,18 @@ export default function PatientList() {
   };
   const handleCloseDelete = () => setOpenDelete(false);
   const handleDelete = async () => {
-    const result = await DeletePatient(indexDelete);
+    const result = await DeleteDoctor(indexDelete);
     if (result) {
       handleCloseDelete();
-      console.log("Patient delete successfully!");
+      console.log("Surgery delete successfully!");
     } else {
-      console.log("Failed to delete patient.");
+      console.log("Failed to surgery doctor.");
     }
   };
   //handle with update
-  const handleUpdate = (row) => {
-    route(`/updatePatient/${row.id}`);
+  const handleUpdate = (id) => {
+    route(`/updatesurgery/${id}`);
   };
-  //handle with Discharge patient
-  const handleDischarge=async(id)=>{
-      route(`/discharge/${id}`)
-  }
-  //handle with book a room
-  const handleBookRoom=(id)=>{
-      route(`/bookaroom/${id}`)
-  }
   return (
     <Container>
       <Paper
@@ -164,37 +160,26 @@ export default function PatientList() {
               .map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align="center">{row.first_name} </TableCell>
-                    <TableCell align="center">{row.last_name}</TableCell>
-                    <TableCell align="center">{row.gender}</TableCell>
-                    <TableCell align="center">{row.blood_group}</TableCell>
-                    <TableCell align="center">{row.medical_history}</TableCell>
+                    <TableCell align="center">{row.name}</TableCell>
+                    <TableCell align="center">{row.date}</TableCell>
+                    <TableCell align="center">{row.hour}</TableCell>
                     <TableCell align="center">
-                    <Button
-                        title="More Details"
-                        onClick={() => route(`/readmore/${row.id}`)}
-                        variant="contained"
-                              sx={{ background: "#07E4DB" }}
-                      >
-                        More Details
-                      </Button>
+                      {row.patient
+                        ? `${row.patient.first_name} ${row.patient.last_name}`
+                        : "unknown patient"}{" "}
+                    </TableCell>
+                    <TableCell align="center">{row.anesthesia_type}</TableCell>
+                    <TableCell align="center">{row.room_id}</TableCell>
+                    <TableCell align="center">
+                      {row.doctors.map((doctor) => (
+                        <li key={doctor.id}>
+                          {doctor.first_name + " " + doctor.last_name}
+                        </li>
+                      ))}
                     </TableCell>
                     <TableCell align="center">
-                    <Button
-                        title="admission patient"
-                        onClick={() => route(`/admission/${row.id}`)}
-                      >
-                        <LoginIcon sx={{ color: "#07E4DB",
-                        fontWeight: "bold"}} />
-                      </Button>
                       <Button
-                        title="update Patient"
-                        onClick={() => handleUpdate(row)}
-                      >
-                        <EditIcon sx={{ color: "#07E4DB" }} />
-                      </Button>
-                      <Button
-                        title="Delete Patient"
+                        title="Delete Surgery"
                         onClick={() => handleOpenDelete(row)}
                       >
                         <DeleteIcon sx={{ color: "#07E4DB" }} />
@@ -227,7 +212,7 @@ export default function PatientList() {
                             variant="h6"
                             component="h2"
                           >
-                            Are You Sure You Won't To Delete This Patient??
+                            Are You Sure You Won't To Delete This Row??
                           </Typography>
                           <Typography
                             id="modal-modal-description"
@@ -253,18 +238,10 @@ export default function PatientList() {
                         </Box>
                       </Modal>
                       <Button
-                        title="discharge Patient"
-                        onClick={() => handleDischarge(row.id)}
+                        title="update Surgery"
+                        onClick={() => handleUpdate(row.id)}
                       >
-                        <LogoutIcon sx={{ color: "#07E4DB" }} />
-                      </Button>
-                      <Button
-                        title="book a room"
-                        onClick={() => handleBookRoom(row.id)}
-                      >
-                        <AddIcon sx={{ color: "#07E4DB" ,  border: "1px solid #07E4DB",
-                        fontWeight: "bold",
-                        borderRadius: "50%",}} />
+                        <EditIcon sx={{ color: "#07E4DB" }} />
                       </Button>
                     </TableCell>
                   </TableRow>

@@ -1,16 +1,54 @@
 import {
   Box,
   Button,
+  Container,
   Divider,
   List,
   ListItem,
   ListItemText,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import TablePagination from "@mui/material/TablePagination";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FetchOnePatient } from "../../Api/Patient/FetchOnePatient";
 import { FetchOneAdmission } from "../../Api/Patient/FetchOneAdmission";
+const columns = [
+  {
+    field: "admission_date",
+    headerName: "Admission_Date",
+    minWidth: 200,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "patient_complaint",
+    headerName: "Patient_Complaint",
+    minWidth: 200,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "discharge_date",
+    headerName: "Discharge_Date",
+    minWidth: 100,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "discharge_reason",
+    headerName: "Discharge_Reason",
+    minWidth: 200,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+];
 export default function ReadMoreCard() {
   const { index } = useParams();
   const route = useNavigate();
@@ -38,6 +76,17 @@ export default function ReadMoreCard() {
     fetchPatient();
     fetchAdmission();
   }, [index]);
+  //table
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const handleChangePage = (_event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   return (
     <Box
       className="read-item "
@@ -72,7 +121,10 @@ export default function ReadMoreCard() {
                     fontSize: "x-large",
                   }}
                 >
-                  Information about {patient.first_name && patient.last_name ? `${patient.first_name} ${patient.last_name}` : 'Loading...'}
+                  Information about{" "}
+                  {patient.first_name && patient.last_name
+                    ? `${patient.first_name} ${patient.last_name}`
+                    : "Loading..."}
                 </Typography>
                 <Typography
                   component="span"
@@ -171,72 +223,97 @@ export default function ReadMoreCard() {
                 >
                   {patient.medical_history}
                 </Typography>
-                <br/>
-                <Divider variant="inset" component="li" />
-                <Typography
-                  component="div"
-                  variant="body2"
-                  align="center"
-                  sx={{
-                    color: "text.primary",
-                    fontWeight: "bold",
-                    fontSize: "large",
-                  }}
-                >
-                  Admission Info...
-                </Typography>
-                {admission.length > 0 ? (
-                  admission.map((el,index) => (
-                    <Box key={index}>
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        sx={{
-                          fontWeight: "bold",
-                          fontSize: "large",
-                          color: "#07E4DB",
-                        }}
-                      >
-                        Admission Date:
-                      </Typography>
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        sx={{ color: "text.primary" ,mr:2}}
-                      >
-                        {el.admission_date}
-                      </Typography>
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        sx={{
-                          fontWeight: "bold",
-                          fontSize: "large",
-                          color: "#07E4DB",
-                        }}
-                      >
-                        Patient Complaint:
-                      </Typography>
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        sx={{ color: "text.primary" }}
-                      >
-                        {el.patient_complaint}
-                      </Typography>
-                    </Box>
-                  ))
-                ) : (
-                  <Typography variant="body2" sx={{ color: "text.primary" }}>
-                    No data found
-                  </Typography>
-                )}
+                <br />
+                <Divider variant="fullWidth" component="li" />
               </React.Fragment>
             }
           />
         </ListItem>
-        <Divider variant="inset" component="li" />
       </List>
+      <Typography
+        component="div"
+        variant="body2"
+        align="center"
+        sx={{
+          color: "text.primary",
+          fontWeight: "bold",
+          fontSize: "large",
+        }}
+      >
+        Admission Info...
+      </Typography>
+      <Container>
+        <Paper
+          sx={{
+            width: "100%",
+            boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",
+            overflowX: "auto",
+          }}
+        >
+          <Table aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{
+                      top: 57,
+                      minWidth: column.minWidth,
+                      fontWeight: "bold",
+                      fontSize: "large",
+                    }}
+                  >
+                    {column.headerName}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {admission.length > 0 ? (
+                admission
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.id}
+                      >
+                        <TableCell align="center">
+                          {row.admission_date}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.patient_complaint?row.patient_complaint:"no patient complaint entered"}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.discharge_date?row.discharge_date:"The patient has not been discharged yet"}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.discharge_reason?row.discharge_reason:"The patient has not been discharged yet"}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+              ) : (
+                <Typography variant="body2" sx={{ color: "text.primary" }}>
+                  This patient has not yet been admitted
+                </Typography>
+              )}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={admission.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+      </Container>
       <Button
         variant="contained"
         sx={{ background: "#00ACB1", p: 1, fontWeight: "bold", width: "150px" }}

@@ -1,7 +1,4 @@
 import axios from "axios";
-import { axiosInstance } from "../axiosInstance";
-
-const BASE_URL='http://4.jamous-tech.com/api';
 export const LoginApi=async(login)=>{
     console.log(login)
     try{

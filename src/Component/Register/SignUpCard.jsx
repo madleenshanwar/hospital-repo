@@ -15,39 +15,37 @@ import EmailIcon from "@mui/icons-material/Email";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import HomeIcon from '@mui/icons-material/Home';
-import { GridColumnMenuManageItem } from "@mui/x-data-grid";
+import HomeIcon from "@mui/icons-material/Home";
+import { Register } from "../../Api/Auth/Register";
 const validationSchema = Yup.object().shape({
   full_name: Yup.string()
     .required("full_name is required")
     .min(3, "Name must have at least 3 letters")
     .max(25, "Name must have at most 30 letters"),
-  email: Yup.string()
-  .email("email is invalid")
-  .required("email is required"),
+  email: Yup.string().email("email is invalid").required("email is required"),
   password: Yup.string()
     .min(8, "Password should be at least 8 characters")
     .required("Password is required"),
-  password_confirmation:Yup.string()
-  .min(8, "ConfirmPassword should be at least 8 characters")
-  .required("ConfirmPassword is required"),
+  password_confirmation: Yup.string()
+    .min(8, "ConfirmPassword should be at least 8 characters")
+    .required("ConfirmPassword is required"),
   phone: Yup.string()
     .matches(/^[0-9]{10}$/, "phone must be 10 numbers")
     .required("phone is required"),
-    address:Yup.string()
-    .required("address is required"),
-  role:Yup.string()
-  .required("role is required")
+  address: Yup.string().required("address is required"),
+  role: Yup.string().required("role is required"),
+  user_name: Yup.string().required("user_name is required"),
 });
 export default function SignUpCard() {
   const [signUp, setSignUp] = useState({
     full_name: "",
     email: "",
     password: "",
-    password_confirmation:'',
+    password_confirmation: "",
     phone: "",
     address: "",
-    role:""
+    role: "",
+    user_name: "",
   });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -68,7 +66,7 @@ export default function SignUpCard() {
       ...prev,
       [name]: value,
     }));
-    console.log(signUp)
+    console.log(signUp);
     try {
       await validationSchema.validateAt(name, { [name]: value });
       setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -83,7 +81,13 @@ export default function SignUpCard() {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("Form Submitted:", values);
       setErrors({});
-      setIsSubmitted(true);
+      const result = await Register(signUp);
+      if (result) {
+        setIsSubmitted(true);
+        console.log("Register successfully!");
+      } else {
+        console.log("Failed to register.");
+      }
     } catch (err) {
       const validationErrors = {};
       err.inner.forEach((error) => {
@@ -101,7 +105,7 @@ export default function SignUpCard() {
   }, [isSubmitted, route]);
   return (
     <Box
-    className="at-item"
+      className="at-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{
@@ -127,7 +131,14 @@ export default function SignUpCard() {
       >
         SIGN UP
       </Typography>
-      <Box sx={{ display: "flex",flexWrap:'wrap', justifyContent: "center", gap: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: 2,
+        }}
+      >
         <TextField
           placeholder="Enter Your Full_Name"
           name="full_name"
@@ -250,7 +261,7 @@ export default function SignUpCard() {
           }}
           sx={{ maxWidth: "250px" }}
         />
-          <TextField
+        <TextField
           placeholder="Enter Your Address"
           name="address"
           fullWidth
@@ -270,35 +281,59 @@ export default function SignUpCard() {
           }}
           sx={{ maxWidth: "250px" }}
         />
+        <TextField
+          id="outlined-select-currency"
+          select
+          label="please select employee role"
+          onChange={handleChange}
+          value={signUp.role}
+          name="role"
+          error={Boolean(errors.role)}
+          helperText={errors.role}
+          sx={{ width: "250px" }}
+        >
+          <MenuItem value="superAdmin">Super Admin</MenuItem>
+          <MenuItem value="manager">Manager</MenuItem>
+          <MenuItem value="admissionStaff">Admissin Staff</MenuItem>
+          <MenuItem value="ambulanceStaff">Ambulance Staff</MenuItem>
+          <MenuItem value="hrStaff">HR Staff</MenuItem>
+        </TextField>
+        <TextField
+          placeholder="Enter Your User Name"
+          name="user_name"
+          variant="outlined"
+          value={signUp.user_name}
+          onChange={handleChange}
+          error={Boolean(errors.user_name)}
+          helperText={errors.user_name}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <PersonIcon sx={{ color: "#07E4DB" }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+          sx={{ maxWidth: "250px" }}
+        />
       </Box>
-         <TextField
-        id="outlined-select-currency"
-        select
-        label="please select employee role"
-        onChange={handleChange}
-        value={signUp.role}
-        name="role"
-        error={Boolean(errors.role)}
-        helperText={errors.role}
-        sx={{ width: "520px" }}
-      >
-        <MenuItem value="superAdmin">Super Admin</MenuItem>
-        <MenuItem value="manager">Manager</MenuItem>
-        <MenuItem value="admissionStaff">Admissin Staff</MenuItem>
-        <MenuItem value="ambulanceStaff">Ambulance Staff</MenuItem>
-        <MenuItem value="hrStaff">HR Staff</MenuItem>
-      </TextField>
       <Box sx={{ display: "flex", gap: 2 }}>
         <Button
           type="submit"
           variant="contained"
-          sx={{ background: "#00ACB1", p: 1, fontWeight: "bold" ,width:'100px'}}
+          sx={{
+            background: "#00ACB1",
+            p: 1,
+            fontWeight: "bold",
+            width: "100px",
+          }}
         >
           Submit
         </Button>
         <Button
           variant="outlined"
-          sx={{ color: "#00ACB1", p: 1, fontWeight: "bold" ,width:'100px'}}
+          sx={{ color: "#00ACB1", p: 1, fontWeight: "bold", width: "100px" }}
           onClick={() => route("/department")}
         >
           Back

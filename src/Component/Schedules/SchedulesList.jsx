@@ -210,9 +210,9 @@ export default function SchedulesList() {
                         <TableCell align="center">{row.start_time}</TableCell>
                         <TableCell align="center">{row.end_time}</TableCell>
                         <TableCell align="center">
-                          {row.doctors.map((el) => (
-                            <li key={el.id}>
-                              {el.first_name + " " + el.last_name}
+                          {row.doctors.map((doctor) => (
+                            <li key={doctor.id}>
+                              {doctor.first_name + " " + doctor.last_name}
                             </li>
                           ))}
                         </TableCell>

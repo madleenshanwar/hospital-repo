@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { LoginApi } from "../../Api/Auth/LoginApi";
+import { ResetPassApi } from "../../Api/Auth/ResetPassApi";
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email format")
@@ -20,10 +20,18 @@ const validationSchema = Yup.object({
   password: Yup.string()
     .min(8, "Password should be at least 8 characters")
     .required("Password is required"),
+  password_confirmation: Yup.string()
+    .min(8, "ConfirmPassword should be at least 8 characters")
+    .required("ConfirmPassword is required"),
 });
 
-export default function LoginCard() {
-  const [login, setLogin] = useState({ email: "", password: "" });
+export default function ResetPassCard() {
+  const [reset, setReset] = useState({
+    email: "",
+    token: localStorage.getItem("token"),
+    password: "",
+    password_confirmation: "",
+  });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const route = useNavigate();
@@ -39,10 +47,11 @@ export default function LoginCard() {
   };
   const handleChange = async (e) => {
     const { name, value } = e.target;
-    setLogin((prev) => ({
+    setReset((prev) => ({
       ...prev,
       [name]: value,
     }));
+    console.log(reset)
     try {
       await validationSchema.validateAt(name, { [name]: value });
       setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -53,18 +62,18 @@ export default function LoginCard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const values = { ...login };
+    const values = { ...reset };
     try {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("Form Submitted:", values);
       setErrors({});
-      const result=await LoginApi(login)
-      console.log('register',result.data)
-      localStorage.setItem('token',result.data.access_token
-      );
-      console.log(result.data.access_token
-      )
-      if (result)setIsSubmitted(true);
+      const result = await ResetPassApi(reset);
+      if (result) {
+        setIsSubmitted(true);
+        console.log("Change Password Done!");
+      } else {
+        console.log("Failed to Change Password.");
+      }
     } catch (err) {
       const validationErrors = {};
       err.inner.forEach((error) => {
@@ -77,7 +86,7 @@ export default function LoginCard() {
 
   useEffect(() => {
     if (isSubmitted) {
-      route("/department");
+      route("/");
     }
   }, [isSubmitted, route]);
 
@@ -107,7 +116,7 @@ export default function LoginCard() {
         component="h2"
         sx={{ color: "#00ACB1", textDecoration: "underline" }}
       >
-        LOGIN
+        Reset Password
       </Typography>
 
       <TextField
@@ -115,7 +124,7 @@ export default function LoginCard() {
         name="email"
         fullWidth
         variant="outlined"
-        value={login.email}
+        value={reset.email}
         onChange={handleChange}
         error={Boolean(errors.email)}
         helperText={errors.email}
@@ -135,7 +144,7 @@ export default function LoginCard() {
         name="password"
         fullWidth
         variant="outlined"
-        value={login.password}
+        value={reset.password}
         onChange={handleChange}
         error={Boolean(errors.password)}
         helperText={errors.password}
@@ -162,13 +171,44 @@ export default function LoginCard() {
           },
         }}
       />
-      <Typography variant="button" component="a" sx={{textDecoration:'underline',cursor:'pointer'}} onClick={()=>route('/forgetpass')}>Forget Password</Typography>
+       <TextField
+        placeholder="Enter Your password_confirmation"
+        name="password_confirmation"
+        fullWidth
+        variant="outlined"
+        value={reset.password_confirmation}
+        onChange={handleChange}
+        error={Boolean(errors.password_confirmation)}
+        helperText={errors.password_confirmation}
+        type={showPassword ? "text" : "password"}
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  onMouseUp={handleMouseUpPassword}
+                  edge="end"
+                >
+                  {showPassword ? (
+                    <VisibilityOffIcon sx={{ color: "#07E4DB" }} />
+                  ) : (
+                    <VisibilityIcon sx={{ color: "#07E4DB" }} />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
+        }}
+      />
       <Button
         type="submit"
         variant="contained"
-        sx={{ background: "#00ACB1", p: 1, fontWeight: "bold",width:'100px' }}
+        sx={{ background: "#00ACB1", p: 1, fontWeight: "bold", width: "100px" }}
       >
-        Login
+        Submit
       </Button>
     </Box>
   );

@@ -2,12 +2,15 @@ import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
+import { FetchLastAdmission } from "../../Api/Patient/FetchLastAdmission";
+import { ShowDoctors } from "../../Api/Doctors/ShowDoctors";
+import { Dischargepatient } from "../../Api/Patient/Dischargepatient";
 const validationSchema = Yup.object().shape({
   discharge_reason: Yup.string().required("discharge reason is required"),
   doctor_id: Yup.string().required("you must select your doctor name"),
 });
 export default function DischargeCard() {
-    const {id}=useParams()
+  const { id } = useParams();
   const [admission, setAdmission] = useState({
     admission_date: "",
     discharge_date: "",
@@ -15,6 +18,30 @@ export default function DischargeCard() {
     patient_id: "",
     doctor_id: "",
   });
+  const [doctors, setDoctors] = useState([]);
+  useEffect(() => {
+    const fetchAdmission = async () => {
+      try {
+        const result = await FetchLastAdmission(id);
+        console.log("admission", result.data);
+        setAdmission(result.data.data);
+      } catch (error) {
+        console.error("Error fetching one admission:", error);
+      }
+    };
+    const fetchDoctors = async () => {
+      try {
+        const result = await ShowDoctors();
+        setDoctors(result.data.data)
+        console.log(result.data.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchDoctors();
+    fetchAdmission();
+  }, [id]);
   const route = useNavigate();
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -22,7 +49,7 @@ export default function DischargeCard() {
     const { name, value } = e.target;
     setAdmission((prevD) => ({
       ...prevD,
-      patient_id:parseInt(id),
+      patient_id: parseInt(id),
       [name]: value,
     }));
     console.log(admission);
@@ -33,14 +60,22 @@ export default function DischargeCard() {
       setErrors((prev) => ({ ...prev, [name]: error.message }));
     }
   };
+  const[pdf_data,setPdf_Data]=useState('')
   const handleSubmit = async (e) => {
     e.preventDefault();
     const values = { ...admission };
     try {
       await validationSchema.validate(values, { abortEarly: false });
-      console.log("Room Info:", values);
+      console.log("discharge Info:", values);
       setErrors({});
-      setIsSubmitted(true);
+      const result = await Dischargepatient(admission,admission.id);
+      if (result) {
+        setPdf_Data(result.data)
+        setIsSubmitted(true);
+        console.log('Discharge patient successfully!');
+      } else {
+        console.log('Failed to discharge patient.');
+      }
     } catch (err) {
       const validationErrors = {};
       err.inner.forEach((error) => {
@@ -52,9 +87,20 @@ export default function DischargeCard() {
   };
   useEffect(() => {
     if (isSubmitted === true) {
-      route("/patient");
+      // route("/patient");
     }
   }, [isSubmitted, route]);
+  //handle with download the result
+  const downloadPdf = () => {
+    const byteArray = new TextEncoder().encode(pdf_data)
+    const blob = new Blob([byteArray],{type:'application/pdf'});
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'downloaded_file.pdf'; 
+    link.click();
+    URL.revokeObjectURL(link.href); 
+  };
   return (
     <Box
       className="add-item"
@@ -82,7 +128,7 @@ export default function DischargeCard() {
       >
         Handle With DischarGe
       </Typography>
-       <TextField
+      <TextField
         placeholder="Discharge Reason"
         type="text"
         name="discharge_reason"
@@ -94,26 +140,39 @@ export default function DischargeCard() {
         helperText={errors.discharge_reason}
       />
       <TextField
-          id="outlined-select-currency"
-          select
-          label="please select Doctor"
-          onChange={handleChange}
-          value={admission.doctor_id}
-          name="doctor_id"
-          error={Boolean(errors.doctor_id)}
-          helperText={errors.doctor_id}
-          fullWidth
-        >
-          {/* <MenuItem value={doctor.id}>{doctor.name}</MenuItem> */}
-        </TextField>
+        id="outlined-select-currency"
+        select
+        label="please select Doctor"
+        onChange={handleChange}
+        value={admission.doctor_id}
+        name="doctor_id"
+        error={Boolean(errors.doctor_id)}
+        helperText={errors.doctor_id}
+        fullWidth
+      >
+         <MenuItem disabled value="">
+          <em>Please Select Doctor</em>
+        </MenuItem>
+        {doctors.length>0?doctors.map((option,index) => (
+            <MenuItem key={index} value={option.id} >
+              {option.first_name+" "+option.last_name}
+            </MenuItem>
+          )):''}
+      </TextField>
       <Box sx={{ display: "flex", gap: 2 }}>
-        <Button
+        {!isSubmitted?( <Button
           variant="contained"
           type="submit"
           sx={{ background: "#00ACB1", p: 1, fontWeight: "bold" }}
         >
           Submit
-        </Button>
+        </Button>):( <Button
+          variant="contained"
+          onClick={downloadPdf}
+          sx={{ background: "#00ACB1", p: 1, fontWeight: "bold" }}
+        >
+          Download PDF
+        </Button>)}
         <Button
           variant="outlined"
           sx={{ color: "#00ACB1", p: 1, fontWeight: "bold" }}
