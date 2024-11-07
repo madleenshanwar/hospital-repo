@@ -26,27 +26,27 @@ const columns = [
   {
     field: "patient",
     headerName: "patient",
-    minWidth: 100,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "type_ray",
     headerName: "Type_Ray",
-    minWidth: 200,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "doctor",
     headerName: "Doctor",
-    minWidth: 200,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    field: "date",
-    headerName: "Date",
+    field: "Read More",
+    headerName: "Description",
     minWidth: 200,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
@@ -54,7 +54,7 @@ const columns = [
   {
     field: "action",
     headerName: "Action",
-    minWidth: 200,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
@@ -162,10 +162,20 @@ export default function ProvideRayList() {
               .map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    {/* <TableCell align="center">{row.patient.first_name+" "+row.patient.last_name}</TableCell> */}
+                    <TableCell align="center">{row.admission.patient.first_name+" "+row.admission.patient.last_name}</TableCell>
                     <TableCell align="center">{row.ray.type}</TableCell>
                     <TableCell align="center">{row.doctor.first_name+" "+row.doctor.last_name}</TableCell>
                     <TableCell align="center">{row.date}</TableCell>
+                    <TableCell align="center">
+                    <Button
+                        title="More Details"
+                        onClick={() => route(`/readmoreray/${row.id}`)}
+                        variant="contained"
+                              sx={{ background: "#07E4DB" }}
+                      >
+                        More Details
+                      </Button>
+                    </TableCell>
                     <TableCell align="center">
                       <Button
                         title="Delete Test"

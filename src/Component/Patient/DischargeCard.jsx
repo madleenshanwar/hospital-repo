@@ -18,13 +18,16 @@ export default function DischargeCard() {
     patient_id: "",
     doctor_id: "",
   });
+  const[discharge_date,setDischarge_Date]=useState("")
   const [doctors, setDoctors] = useState([]);
   useEffect(() => {
     const fetchAdmission = async () => {
       try {
         const result = await FetchLastAdmission(id);
-        console.log("admission", result.data);
+        console.log("admission", result.data.data);
         setAdmission(result.data.data);
+        if(result.data.data.discharge_date)
+        setDischarge_Date(result.data.data.discharge_date)
       } catch (error) {
         console.error("Error fetching one admission:", error);
       }
@@ -128,7 +131,9 @@ export default function DischargeCard() {
       >
         Handle With DischarGe
       </Typography>
-      <TextField
+      {
+        !discharge_date? <>
+        <TextField
         placeholder="Discharge Reason"
         type="text"
         name="discharge_reason"
@@ -159,8 +164,15 @@ export default function DischargeCard() {
             </MenuItem>
           )):''}
       </TextField>
+        </>:(  <Typography
+        variant="h5"
+        component="p"
+      >
+        This patient has been discharged
+      </Typography>)
+      }
       <Box sx={{ display: "flex", gap: 2 }}>
-        {!isSubmitted?( <Button
+        {!isSubmitted&&!discharge_date?( <Button
           variant="contained"
           type="submit"
           sx={{ background: "#00ACB1", p: 1, fontWeight: "bold" }}

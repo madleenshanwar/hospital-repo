@@ -13,7 +13,7 @@ export const ShowRoom=async()=>{
         }
     }
     catch(error){
-        console.error("Error",error);
+        console.error("Error in fetch room",error);
         return null;
     }
 }

@@ -85,9 +85,9 @@ export default function UpdateSchedulesCard() {
       setSchedule((prevD) => ({
         ...prevD,
         [name]: value,
-        doctor_ids: [], 
+        doctor_ids: [],
       }));
-      console.log(schedule)
+      console.log(schedule);
       try {
         const result = await FetchTeamDoctors(value);
         setDoctors(result.data.data);
@@ -223,27 +223,40 @@ export default function UpdateSchedulesCard() {
           <InputLabel id="doctor-select-label">Doctors Team</InputLabel>
           <Select
             multiple
-            value={schedule.doctor_ids}
+            value={schedule.doctor_ids || ""}
             onChange={handleChange}
             name="doctor_ids"
             error={Boolean(errors.doctor_ids)}
             helperText={errors.doctor_ids}
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {schedule.shiftable_id?selected.map((value) => {
-                  const doctor = doctors.find((doc) => doc.id === value);
-                  return <Chip key={value} label={doctor ? doctor.first_name+" "+ doctor.last_name: ""} />;
-                }):""}
+                {schedule.shiftable_id
+                  ? selected.map((value) => {
+                      const doctor = doctors.find((doc) => doc.id === value);
+                      return (
+                        <Chip
+                          key={value}
+                          label={
+                            doctor
+                              ? doctor.first_name + " " + doctor.last_name
+                              : ""
+                          }
+                        />
+                      );
+                    })
+                  : ""}
               </Box>
             )}
           >
-            {schedule.shiftable_id?
-            doctors.map((doctor) => (
-              <MenuItem key={doctor.id} value={doctor.id}>
-                {doctor.first_name+" "+ doctor.last_name}
-              </MenuItem>
-            ))
-            :""}
+            {schedule.shiftable_id ? (
+              doctors.map((doctor) => (
+                <MenuItem key={doctor.id} value={doctor.id}>
+                  {doctor.first_name + " " + doctor.last_name}
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem disabled>No doctors available</MenuItem>
+            )}
           </Select>
         </FormControl>
         <TextField
@@ -259,11 +272,15 @@ export default function UpdateSchedulesCard() {
           <MenuItem disabled value="">
             <em>Please Select Department</em>
           </MenuItem>
-          {departments.map((option) => (
-            <MenuItem key={option.id} value={option.id}>
-              {option.name}
-            </MenuItem>
-          ))}
+          {departments.length > 0 ? (
+            departments.map((option, index) => (
+              <MenuItem key={index} value={option.id}>
+                {option.name}
+              </MenuItem>
+            ))
+          ) : (
+            <MenuItem disabled>No department available</MenuItem>
+          )}
         </TextField>
       </Box>
       <Box sx={{ display: "flex", gap: 2 }}>

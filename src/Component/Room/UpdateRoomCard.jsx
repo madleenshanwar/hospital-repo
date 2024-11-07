@@ -21,29 +21,29 @@ export default function UpdateRoomCard() {
     department_id: "",
     bed_numbers: "",
   });
-  const[departments,setDepartments]=useState([])
-  useEffect(()=>{
+  const [departments, setDepartments] = useState([]);
+  useEffect(() => {
     const fetchDepartments = async () => {
       try {
         const result = await ShowDepartments();
-        setDepartments(result.data.data)
-        console.log(result.data.data)
+        setDepartments(result.data.data);
+        console.log(result.data.data);
       } catch (error) {
         console.log(error);
       }
     };
-  
+
     fetchDepartments();
     const fetchRoom = async () => {
       try {
         const result = await FetchOneRoom(index);
-        setRoom(result.data.data)
+        setRoom(result.data.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchRoom();
-  },[index])
+  }, [index]);
   const route = useNavigate();
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -68,12 +68,12 @@ export default function UpdateRoomCard() {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("Room Info:", values);
       setErrors({});
-      const result=await UpdateRoom(room,room.id)
+      const result = await UpdateRoom(room, room.id);
       if (result) {
         setIsSubmitted(true);
-        console.log('Room update successfully!');
+        console.log("Room update successfully!");
       } else {
-        console.log('Failed to update room.');
+        console.log("Failed to update room.");
       }
     } catch (err) {
       const validationErrors = {};
@@ -93,7 +93,7 @@ export default function UpdateRoomCard() {
     <Box
       component="form"
       onSubmit={handleSubmit}
-       className="update-item"
+      className="update-item"
       sx={{
         margin: "50px auto",
         p: 3,
@@ -148,20 +148,24 @@ export default function UpdateRoomCard() {
         id="outlined-select-currency"
         select
         label="please select your Department"
-        value={room.department_id}
+        value={room.department_id || ""}
         onChange={handleChange}
         error={Boolean(errors.department_id)}
-        name='department_id'
+        name="department_id"
         helperText={errors.department_id}
       >
         <MenuItem disabled value="">
           <em>Please Select Department</em>
         </MenuItem>
-        {departments.length>0?departments.map((option,index) => (
-            <MenuItem key={index} value={option.id} >
+        {departments.length > 0 ? (
+          departments.map((option, index) => (
+            <MenuItem key={index} value={option.id}>
               {option.name}
             </MenuItem>
-          )):''}
+          ))
+        ) : (
+          <MenuItem disabled>No department available</MenuItem>
+        )}
       </TextField>
       <TextField
         fullWidth

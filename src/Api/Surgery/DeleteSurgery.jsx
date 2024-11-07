@@ -1,6 +1,6 @@
 import { axiosInstance } from "../axiosInstance";
 
-export const DeleteSurgery= async (id) => {
+export const DeleteSurgery = async (id) => {
   try {
     const result = axiosInstance.delete(`/surgery/${parseInt(id)}`);
     if (result) {
@@ -8,7 +8,7 @@ export const DeleteSurgery= async (id) => {
       return result;
     } else {
       console.error("no data returned");
-      return null; 
+      return null;
     }
   } catch (error) {
     console.log("Error in delete surgery", error);

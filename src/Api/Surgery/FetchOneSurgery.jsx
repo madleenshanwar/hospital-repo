@@ -1,6 +1,6 @@
 import { axiosInstance } from "../axiosInstance";
 
-export const FetchOneSurgery= async (id) => {
+export const FetchOneSurgery = async (id) => {
   try {
     const result = axiosInstance.get(`/surgery/${parseInt(id)}`);
     if (result) {

@@ -1,11 +1,10 @@
 import { axiosInstance } from "../axiosInstance";
 
-export const UpdateDepartments = async (department, id) => {
-  console.log(id);
+export const ChangeRoomStatus = async (status, id) => {
   try {
     const result = await axiosInstance.put(
-      `departments/${parseInt(id)}`,
-      department,
+      `/changeRoomStatus/${parseInt(id)}`,
+      { status },
       {
         headers: {
           "Content-Type": "application/json",
@@ -13,13 +12,14 @@ export const UpdateDepartments = async (department, id) => {
       }
     );
     if (result) {
-      console.log("updated departments done", result);
+      console.log("Change Room Status:", result);
       return result;
     } else {
-      console.error("no departments found");
+      console.error("No data returned");
       return null;
     }
   } catch (error) {
-    console.log("error in update departments", error);
+    console.error("Error in change room status", error);
+    return null;
   }
 };

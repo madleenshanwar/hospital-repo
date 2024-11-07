@@ -21,8 +21,6 @@ import { useNavigate } from "react-router-dom";
 import { FetchPatients } from "../../Api/Patient/FetchPatients";
 import { DeletePatient } from "../../Api/Patient/DeletePatient";
 import LoginIcon from '@mui/icons-material/Login';
-import { FetchOneAdmission } from "../../Api/Patient/FetchOneAdmission";
-import { FetchLastAdmission } from "../../Api/Patient/FetchLastAdmission";
 const columns = [
   {
     field: "first_name",

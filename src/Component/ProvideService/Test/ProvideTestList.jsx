@@ -25,27 +25,34 @@ const columns = [
   {
     field: "patient",
     headerName: "patient",
-    minWidth: 100,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "type_test",
     headerName: "Type_Test",
-    minWidth: 200,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "doctor",
     headerName: "Doctor",
-    minWidth: 200,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "date",
     headerName: "Date",
+    minWidth: 150,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "read more",
+    headerName: "Read More",
     minWidth: 200,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
@@ -53,7 +60,7 @@ const columns = [
   {
     field: "action",
     headerName: "Action",
-    minWidth: 200,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
@@ -161,7 +168,7 @@ export default function ProvideTestList() {
               .map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align="center">{row.patient_id}</TableCell>
+                      <TableCell align="center">{row.admission.patient.first_name+" "+row.admission.patient.last_name}</TableCell>
                     <TableCell align="center">{row.test.type}</TableCell>
                     <TableCell align="center">
                       {doctors.find((el) => el.id === row.doctor_id)
@@ -171,6 +178,16 @@ export default function ProvideTestList() {
                           ?.last_name || "Not Found"}
                     </TableCell>
                     <TableCell align="center">{row.date}</TableCell>
+                    <TableCell align="center">
+                    <Button
+                        title="More Details"
+                        onClick={() => route(`/readmoretest/${row.id}`)}
+                        variant="contained"
+                              sx={{ background: "#07E4DB" }}
+                      >
+                        More Details
+                      </Button>
+                    </TableCell>
                     <TableCell align="center">
                       <Button
                         title="Delete Test"

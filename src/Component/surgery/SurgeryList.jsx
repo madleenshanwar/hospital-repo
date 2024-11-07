@@ -3,6 +3,7 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import LogoutIcon from "@mui/icons-material/Logout";
 import {
   Box,
   Button,
@@ -14,13 +15,13 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { FetchSurgery } from "../../Api/Surgery/FetchSurgery";
 import { ShowDoctors } from "../../api/Doctors/ShowDoctors";
 import { DeleteSurgery } from "../../Api/Surgery/DeleteSurgery";
+import { ChangeRoomStatus } from "../../Api/Room/ChangeRoomStatus";
 const columns = [
   {
     field: "name",
@@ -127,6 +128,25 @@ export default function SurgeryList() {
   const handleUpdate = (id) => {
     route(`/updatesurgery/${id}`);
   };
+  //handle with empty room
+  const status="vacant"
+  const [index, setIndex] = useState(0);
+  const [open, setOpen] = useState(false);
+  const handleOpen = (row) => {
+    setOpen(true);
+    setIndex(row.room_id);
+    console.log(row.room_id);
+  };
+  const handleClose = () => setOpen(false);
+  const handleEmptyRoom = async () => {
+    const result = await ChangeRoomStatus(status,index);
+    if (result) {
+      handleClose();
+      console.log("Empty Room successfully!");
+    } else {
+      console.log("Failed to empty room.");
+    }
+  };
   return (
     <Container>
       <Paper
@@ -165,8 +185,8 @@ export default function SurgeryList() {
                     <TableCell align="center">{row.date}</TableCell>
                     <TableCell align="center">{row.hour}</TableCell>
                     <TableCell align="center">
-                      {row.patient
-                        ? `${row.patient.first_name} ${row.patient.last_name}`
+                      {row.admission.patient
+                        ? `${row.admission.patient.first_name} ${row.admission.patient.last_name}`
                         : "unknown patient"}{" "}
                     </TableCell>
                     <TableCell align="center">{row.anesthesia_type}</TableCell>
@@ -244,6 +264,65 @@ export default function SurgeryList() {
                       >
                         <EditIcon sx={{ color: "#07E4DB" }} />
                       </Button>
+                      <Button
+                        title="Empty the room"
+                        onClick={() => handleOpen(row)}
+                      >
+                        <LogoutIcon sx={{ color: "#07E4DB" }} />
+                      </Button>
+                      <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                      >
+                        <Box
+                          sx={{
+                            margin: "100px auto",
+                            p: 3,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: 3,
+                            boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",
+                            borderRadius: 8,
+                            backgroundColor: "rgba(255,255,255,0.9)",
+                            border: "1px solid #00ACB1",
+                            height: "200px",
+                            maxWidth: "550px",
+                          }}
+                        >
+                          <Typography
+                            id="modal-modal-title"
+                            variant="h6"
+                            component="h2"
+                          >
+                            Are You Sure You Won't To Empty This Room??
+                          </Typography>
+                          <Typography
+                            id="modal-modal-description"
+                            sx={{ mt: 2 }}
+                          >
+                            <Button
+                              type="submit"
+                              variant="contained"
+                              sx={{ background: "#00ACB1" }}
+                              onClick={() => handleEmptyRoom()}
+                            >
+                              Yes
+                            </Button>
+                            <Button
+                              type="submit"
+                              variant="outlined"
+                              sx={{ color: "#00ACB1", ml: 1 }}
+                              onClick={handleClose}
+                            >
+                              No
+                            </Button>
+                          </Typography>
+                        </Box>
+                      </Modal>
                     </TableCell>
                   </TableRow>
                 );

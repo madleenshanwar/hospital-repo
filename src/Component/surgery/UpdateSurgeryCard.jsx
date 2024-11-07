@@ -18,6 +18,7 @@ import { FetchOneSurgery } from "../../Api/Surgery/FetchOneSurgery";
 import { ShowDepartments } from "../../api/Department/Show";
 import { AvailableRoom } from "../../Api/Room/AvailableRoom";
 import { UpdateSurgeryApi } from "../../Api/Surgery/UpdateSurgeryApi";
+import { FetchLastAdmission } from "../../Api/Patient/FetchLastAdmission";
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("name is required"),
   date: Yup.string().required("date is required"),
@@ -25,7 +26,7 @@ const validationSchema = Yup.object().shape({
   patient_id: Yup.string().required("you must select the patien"),
   anesthesia_type: Yup.string().required("anesthesia_type is required"),
   room_id: Yup.string().required("you must select the number of room"),
-  doctor_id: Yup.array()
+  doctors_surgery: Yup.array()
     .min(1, "you must select at least one option")
     .of(Yup.string().required("option is required")),
 });
@@ -38,7 +39,8 @@ export default function UpdateSurgeryCard() {
     patient_id: "",
     anesthesia_type: "",
     room_id: "",
-    // doctor_id: [],
+    surgery_doctor: [],
+    end_hour:""
   });
   const [doctors, setDoctors] = useState([]);
   const [patient, setPatient] = useState([]);
@@ -98,7 +100,7 @@ export default function UpdateSurgeryCard() {
     fetchSurgery();
     fetchPatients();
     fetchDoctors();
-  }, []);
+  }, [index]);
   const route = useNavigate();
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -123,7 +125,7 @@ export default function UpdateSurgeryCard() {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("schedule Info:", values);
       setErrors({});
-      const result = await UpdateSurgeryApi(surgery,surgery.id);
+      const result = await UpdateSurgeryApi(surgery, surgery.id);
       if (result) {
         setIsSubmitted(true);
         console.log("Surgery updated successfully!");
@@ -241,15 +243,17 @@ export default function UpdateSurgeryCard() {
           select
           label="please select your room_id"
           onChange={handleChange}
-          value={surgery.room_id}
+          value={surgery.room_id || ""}
           name="room_id"
           error={Boolean(errors.room_id)}
           helperText={errors.room_id}
           sx={{ width: "300px" }}
         >
-          {room.length > 0
-            ? room.map((el) => <MenuItem value={el.id}>{el.number}</MenuItem>)
-            : ""}
+          {room.length > 0 ? (
+            room.map((el,index) => <MenuItem key={index} value={el.id}>{el.number}</MenuItem>)
+          ) : (
+            <MenuItem disabled>No Room available</MenuItem>
+          )}
         </TextField>
         <FormControl sx={{ width: "300px" }}>
           <InputLabel id="demo-simple-select-label"> doctors team</InputLabel>
@@ -258,10 +262,10 @@ export default function UpdateSurgeryCard() {
             select
             multiple
             onChange={handleChange}
-            value={surgery.doctor_id}
-            name="doctor_id"
-            error={Boolean(errors.doctor_id)}
-            helperText={errors.doctor_id}
+            value={surgery.surgery_doctor || []}
+            name="surgery_doctor"
+            error={Boolean(errors.surgery_doctor)}
+            helperText={errors.surgery_doctor}
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                 {selected.map((value) => {
@@ -278,33 +282,48 @@ export default function UpdateSurgeryCard() {
               </Box>
             )}
           >
-            {doctors.map((doctor) => (
-              <MenuItem key={doctor.id} value={doctor.id}>
-                {doctor.first_name + " " + doctor.last_name}
-              </MenuItem>
-            ))}
+            {doctors.length > 0 ? (
+              doctors.map((option, index) => (
+                <MenuItem key={index} value={option.id}>
+                  {option.first_name} {option.last_name}
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem disabled>No doctors available</MenuItem>
+            )}
           </Select>
         </FormControl>
-      </Box>
       <TextField
         id="outlined-select-currency"
         select
         label="please select your patient_id"
         onChange={handleChange}
-        value={surgery.patient_id}
+        value={surgery.patient_id || ""}
         name="patient_id"
         error={Boolean(errors.patient_id)}
         helperText={errors.patient_id}
-        sx={{ width: "620px" }}
+        sx={{ width: "300px" }}
       >
-        {patient.length > 0
-          ? patient.map((el) => (
-              <MenuItem key={el.id} value={el.id}>
-                {el.first_name + " " + el.last_name}
-              </MenuItem>
-            ))
-          : ""}
+        {patient.length > 0 ? (
+          patient.map((el) => (
+            <MenuItem key={el.id} value={el.id}>
+              {el.first_name + " " + el.last_name}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem disabled>No patient available</MenuItem>
+        )}
       </TextField>
+      <TextField
+          placeholder="Start hour"
+          type="time"
+          name="end_hour"
+          variant="outlined"
+          value={surgery.end_hour}
+          onChange={handleChange}
+          sx={{ width: "300px" }}
+        />
+      </Box>
       <Box sx={{ display: "flex", gap: 2 }}>
         <Button
           variant="contained"
