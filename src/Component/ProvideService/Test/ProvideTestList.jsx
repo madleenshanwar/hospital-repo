@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -103,14 +103,14 @@ export default function ProvideTestList() {
     fetchDoctors();
     fetchTests();
   }, []);
-  const handleChangePage = (_event, newPage) => {
+  const handleChangePage = useCallback((_event, newPage) => {
     setPage(newPage);
-  };
+  }, []);
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+  }, []);
   //handle with delete
   //delete
   const [indexDelete, setIndexDelete] = useState(0);
@@ -168,22 +168,29 @@ export default function ProvideTestList() {
               .map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                      <TableCell align="center">{row.admission.patient.first_name+" "+row.admission.patient.last_name}</TableCell>
+                    <TableCell align="center">
+                      {row.admission.patient.first_name +
+                        " " +
+                        row.admission.patient.last_name}
+                    </TableCell>
                     <TableCell align="center">{row.test.type}</TableCell>
                     <TableCell align="center">
-                      {doctors.find((el) => el.id === row.doctor_id)
-                        ?.first_name +
-                        " " +
-                        doctors.find((el) => el.id === row.doctor_id)
-                          ?.last_name || "Not Found"}
+                      {(() => {
+                        const doctor = doctors.find(
+                          (el) => el.id === row.doctor_id
+                        );
+                        return doctor
+                          ? `${doctor.first_name} ${doctor.last_name}`
+                          : "this doctor not available";
+                      })()}
                     </TableCell>
                     <TableCell align="center">{row.date}</TableCell>
                     <TableCell align="center">
-                    <Button
+                      <Button
                         title="More Details"
                         onClick={() => route(`/readmoretest/${row.id}`)}
                         variant="contained"
-                              sx={{ background: "#07E4DB" }}
+                        sx={{ background: "#07E4DB" }}
                       >
                         More Details
                       </Button>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,7 +13,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -59,13 +58,13 @@ const columns = [
 export default function TestList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [rows,setRows]=useState([]);
+  const [rows, setRows] = useState([]);
   const route = useNavigate();
   useEffect(() => {
     const fetchTests = async () => {
       try {
         const result = await FetchTest();
-        console.log(result.data.data.data)
+        console.log(result.data.data.data);
         setRows(result.data.data.data);
       } catch (error) {
         console.error("Error fetching tests:", error);
@@ -73,14 +72,14 @@ export default function TestList() {
     };
     fetchTests();
   }, []);
-  const handleChangePage = (_event, newPage) => {
+  const handleChangePage = useCallback((_event, newPage) => {
     setPage(newPage);
-  };
+  },[]);
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+  },[]);
   //handle with delete
   //delete
   const [indexDelete, setIndexDelete] = useState(0);

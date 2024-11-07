@@ -1,6 +1,6 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import UpdateSurgeryCard from '../../Component/surgery/UpdateSurgeryCard'
+import { Box } from "@mui/material";
+import React from "react";
+import UpdateSurgeryCard from "../../Component/surgery/UpdateSurgeryCard";
 
 export default function UpdateSurgery() {
   return (
@@ -11,5 +11,5 @@ export default function UpdateSurgery() {
       />
       <UpdateSurgeryCard />
     </Box>
-  )
+  );
 }

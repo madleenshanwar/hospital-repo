@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -7,14 +7,12 @@ import {
   Box,
   Button,
   Container,
-  MenuItem,
   Modal,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -74,14 +72,14 @@ export default function RaysList() {
     };
     fetchRays();
   }, []);
-  const handleChangePage = (_event, newPage) => {
+  const handleChangePage = useCallback((_event, newPage) => {
     setPage(newPage);
-  };
+  },[]);
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+  },[]);
   //handle with delete
   //delete
   const [indexDelete, setIndexDelete] = useState(0);

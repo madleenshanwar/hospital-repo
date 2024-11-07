@@ -54,7 +54,7 @@ export default function UpdateTestCard() {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("Test Info:", values);
       setErrors({});
-      const result = await UpdateTestApi(test,test.id);
+      const result = await UpdateTestApi(test, test.id);
       if (result) {
         setIsSubmitted(true);
         console.log("Test update successfully!");
@@ -79,7 +79,7 @@ export default function UpdateTestCard() {
     <Box
       component="form"
       onSubmit={handleSubmit}
-       className="update-item"
+      className="update-item"
       sx={{
         margin: "80px auto",
         p: 3,
@@ -96,7 +96,7 @@ export default function UpdateTestCard() {
         maxWidth: "500px",
       }}
     >
-        <Typography
+      <Typography
         variant="h5"
         component="h2"
         sx={{ color: "#00ACB1", textDecoration: "underline" }}

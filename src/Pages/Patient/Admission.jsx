@@ -1,7 +1,7 @@
 import React from 'react'
 import AdmissionCard from '../../Component/Patient/AdmissionCard'
-import SideBar from '../../Component/SideBar/SideBar'
 import { Box } from '@mui/material'
+import SideBar from '../../component/SideBar/SideBar'
 
 export default function Admission() {
   return (

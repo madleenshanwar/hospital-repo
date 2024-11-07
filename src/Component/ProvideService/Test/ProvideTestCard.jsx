@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { FetchTest } from '../../../Api/services/Test/FetchTest';
-import { useNavigate } from 'react-router-dom';
-import { AddPatientTest } from '../../../Api/ProvideService/Test/AddPatientTest';
-import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
-import { ShowDoctors } from '../../../Api/Doctors/ShowDoctors';
-import { FetchPatients } from '../../../Api/Patient/FetchPatients';
+import React, { useEffect, useState } from "react";
+import { FetchTest } from "../../../Api/services/Test/FetchTest";
+import { useNavigate } from "react-router-dom";
+import { AddPatientTest } from "../../../Api/ProvideService/Test/AddPatientTest";
+import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
+import { ShowDoctors } from "../../../Api/Doctors/ShowDoctors";
+import { FetchPatients } from "../../../Api/Patient/FetchPatients";
 import * as Yup from "yup";
 const validationSchema = Yup.object().shape({
   patient_id: Yup.number().required("patient is required"),
   doctor_id: Yup.number().required("doctor is required"),
   test_id: Yup.number().required("test is required"),
   date: Yup.string().required("date is required"),
-})
+});
 export default function ProvideTestCard() {
-  const[patientTest,setPatientTest]=useState({
-    patient_id:"",
-    doctor_id:"",
-    test_id:"",
-    date:""
-  })
-  const [test,setTest]=useState([])
+  const [patientTest, setPatientTest] = useState({
+    patient_id: "",
+    doctor_id: "",
+    test_id: "",
+    date: "",
+  });
+  const [test, setTest] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [patient, setPatient] = useState([]);
   useEffect(() => {
@@ -78,12 +78,12 @@ export default function ProvideTestCard() {
       console.log("patientTest Info:", values);
       setErrors({});
       const result = await AddPatientTest(patientTest);
-        if (result) {
-          setIsSubmitted(true);
-          console.log('patientTest added successfully!');
-        } else {
-          console.log('Failed to add patientTest.');
-        }
+      if (result) {
+        setIsSubmitted(true);
+        console.log("patientTest added successfully!");
+      } else {
+        console.log("Failed to add patientTest.");
+      }
     } catch (err) {
       const validationErrors = {};
       err.inner.forEach((error) => {
@@ -100,7 +100,7 @@ export default function ProvideTestCard() {
   }, [isSubmitted, route]);
   return (
     <Box
-    className="add-item"
+      className="add-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{
@@ -140,11 +140,13 @@ export default function ProvideTestCard() {
         <MenuItem disabled value="">
           <em>Please Select Patient</em>
         </MenuItem>
-        {patient.length>0?patient.map((option,index) => (
-            <MenuItem key={index} value={option.id} >
-              {option.first_name}  {option.last_name}
-            </MenuItem>
-          )):''}
+        {patient.length > 0
+          ? patient.map((option, index) => (
+              <MenuItem key={index} value={option.id}>
+                {option.first_name} {option.last_name}
+              </MenuItem>
+            ))
+          : ""}
       </TextField>
       <TextField
         fullWidth
@@ -160,11 +162,13 @@ export default function ProvideTestCard() {
         <MenuItem disabled value="">
           <em>Please Select Test</em>
         </MenuItem>
-        {test.length>0?test.map((option,index) => (
-            <MenuItem key={index} value={option.id} >
-              {option.type} 
-            </MenuItem>
-          )):''}
+        {test.length > 0
+          ? test.map((option, index) => (
+              <MenuItem key={index} value={option.id}>
+                {option.type}
+              </MenuItem>
+            ))
+          : ""}
       </TextField>
       <TextField
         fullWidth
@@ -180,14 +184,16 @@ export default function ProvideTestCard() {
         <MenuItem disabled value="">
           <em>Please Select Doctor</em>
         </MenuItem>
-        {doctors.length>0?doctors.map((option,index) => (
-            <MenuItem key={index} value={option.id} >
-              {option.first_name}  {option.last_name}
-            </MenuItem>
-          )):''}
+        {doctors.length > 0
+          ? doctors.map((option, index) => (
+              <MenuItem key={index} value={option.id}>
+                {option.first_name} {option.last_name}
+              </MenuItem>
+            ))
+          : ""}
       </TextField>
       <TextField
-     label='Please Enter the date of this test'
+        label="Please Enter the date of this test"
         type="date"
         name="date"
         variant="outlined"
@@ -220,6 +226,6 @@ export default function ProvideTestCard() {
           Back
         </Button>
       </Box>
-      </Box>
-  )
+    </Box>
+  );
 }

@@ -14,7 +14,7 @@ export default function BookARoom() {
           top: "70px",
         }}
       />
-      <BookARoomCard/>
+      <BookARoomCard />
     </Box>
   );
 }

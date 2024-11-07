@@ -1,7 +1,7 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import TestService from '../../../Component/ProvideService/Test/TestService'
-import ProvideTestList from '../../../Component/ProvideService/Test/ProvideTestList'
+import { Box } from "@mui/material";
+import React from "react";
+import TestService from "../../../Component/ProvideService/Test/TestService";
+import ProvideTestList from "../../../Component/ProvideService/Test/ProvideTestList";
 
 export default function PatientTest() {
   return (
@@ -13,8 +13,8 @@ export default function PatientTest() {
         alignItems: "center",
       }}
     >
-        <TestService/>
-        <ProvideTestList/>
+      <TestService />
+      <ProvideTestList />
     </Box>
-  )
+  );
 }

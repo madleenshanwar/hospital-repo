@@ -1,7 +1,7 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import RayService from '../../../Component/ProvideService/Rays/RayService'
-import ProvideRayList from '../../../Component/ProvideService/Rays/ProvideRayList'
+import { Box } from "@mui/material";
+import React from "react";
+import RayService from "../../../Component/ProvideService/Rays/RayService";
+import ProvideRayList from "../../../Component/ProvideService/Rays/ProvideRayList";
 
 export default function PatientRay() {
   return (
@@ -13,8 +13,8 @@ export default function PatientRay() {
         alignItems: "center",
       }}
     >
-        <RayService/>
-        <ProvideRayList/>
+      <RayService />
+      <ProvideRayList />
     </Box>
-  )
+  );
 }

@@ -1,14 +1,15 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import DischargeCard from '../../component/Patient/DischargeCard'
+import { Box } from "@mui/material";
+import React from "react";
+import DischargeCard from "../../component/Patient/DischargeCard";
 
 export default function Discharge() {
   return (
     <Box>
       <img
         src="/assest/images/discharge.svg"
-        style={{ position: "absolute", zIndex: "-1",height:'100%' }}
+        style={{ position: "absolute", zIndex: "-1", height: "100%" }}
       />
-      <DischargeCard/>
-    </Box>)
+      <DischargeCard />
+    </Box>
+  );
 }

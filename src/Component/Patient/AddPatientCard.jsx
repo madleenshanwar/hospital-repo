@@ -16,10 +16,8 @@ const validationSchema = Yup.object().shape({
   birthday: Yup.string().required("birthday is required"),
   gender: Yup.string().required("gender is required"),
   blood_group: Yup.string().required("  blood_group is required"),
-   allergies:Yup.string()
-   .required("allergies is required"),
-   medical_history:Yup.string()
-   .required("medical_history is required"),
+  allergies: Yup.string().required("allergies is required"),
+  medical_history: Yup.string().required("medical_history is required"),
 });
 export default function AddPatientCard() {
   const [patient, setPatient] = useState({
@@ -58,9 +56,9 @@ export default function AddPatientCard() {
       const result = await AddPatientApi(patient);
       if (result) {
         setIsSubmitted(true);
-        console.log('Patient added successfully!');
+        console.log("Patient added successfully!");
       } else {
-        console.log('Failed to add patien.');
+        console.log("Failed to add patien.");
       }
     } catch (err) {
       const validationErrors = {};
@@ -78,7 +76,7 @@ export default function AddPatientCard() {
   }, [isSubmitted, route]);
   return (
     <Box
-    className="add-item"
+      className="add-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{
@@ -197,7 +195,7 @@ export default function AddPatientCard() {
           error={Boolean(errors.allergies)}
           helperText={errors.allergies}
           sx={{ width: "300px" }}
-          rows={4}  
+          rows={4}
           multiline
         />
         <TextField
@@ -210,7 +208,7 @@ export default function AddPatientCard() {
           error={Boolean(errors.medical_history)}
           helperText={errors.medical_history}
           sx={{ width: "300px" }}
-          rows={4}  
+          rows={4}
           multiline
         />
       </Box>

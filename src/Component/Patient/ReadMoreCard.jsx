@@ -15,13 +15,12 @@ import {
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FetchOnePatient } from "../../Api/Patient/FetchOnePatient";
 import { FetchOneAdmission } from "../../Api/Patient/FetchOneAdmission";
 import { FetchAllInfoPatient } from "../../Api/InfoAboutPatient/FetchAllInfoPatient";
 import { ShowRoom } from "../../Api/Room/ShowRoom";
-import { FetchOnePatientTest } from "../../Api/ProvideService/Test/FetchOnePatientTest";
 import { FetchTest } from "../../Api/services/Test/FetchTest";
 import { FetchLastAdmission } from "../../Api/Patient/FetchLastAdmission";
 import { ShowDoctors } from "../../Api/Doctors/ShowDoctors";
@@ -111,28 +110,28 @@ const rayColumns = [
   {
     field: "type",
     headerName: "Type",
-    minWidth: 200,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "date",
     headerName: "Date",
-    minWidth: 200,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "doctor",
     headerName: "Doctor",
-    minWidth: 100,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "result",
     headerName: "Result",
-    minWidth: 100,
+    minWidth: 200,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
@@ -141,28 +140,28 @@ const testColumns = [
   {
     field: "type",
     headerName: "Type",
-    minWidth: 200,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "date",
     headerName: "Date",
-    minWidth: 200,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "doctor",
     headerName: "Doctor",
-    minWidth: 100,
+    minWidth: 150,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     field: "result",
     headerName: "Result",
-    minWidth: 100,
+    minWidth: 200,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
@@ -176,7 +175,7 @@ export default function ReadMoreCard() {
   const [room, setRoom] = useState([]);
   const [patientRays, setPatientRays] = useState([]);
   const [patientTest, setPatientTest] = useState([]);
-  const[doctors,setDoctors]=useState([])
+  const [doctors, setDoctors] = useState([]);
   const [test, setTest] = useState([]);
   const [rays, setRays] = useState([]);
   useEffect(() => {
@@ -237,7 +236,7 @@ export default function ReadMoreCard() {
     const fetchDoctors = async () => {
       try {
         const result = await ShowDoctors();
-        console.log("doctor",result.data.data);
+        console.log("doctor", result.data.data);
         setDoctors(result.data.data);
       } catch (error) {
         console.error("Error fetching Doctor:", error);
@@ -252,7 +251,7 @@ export default function ReadMoreCard() {
         console.error("Error fetching tests:", error);
       }
     };
-    fetchRays()
+    fetchRays();
     fetchDoctors();
     fetchTests();
     fetchRooms();
@@ -263,14 +262,14 @@ export default function ReadMoreCard() {
   //table
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const handleChangePage = (_event, newPage) => {
+  const handleChangePage = useCallback((_event, newPage) => {
     setPage(newPage);
-  };
+  }, []);
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+  }, []);
   return (
     <Box
       className="read-item "
@@ -569,7 +568,7 @@ export default function ReadMoreCard() {
                           {row.end_hour ? row.end_hour : "Not finished yet"}
                         </TableCell>
                         <TableCell align="center">
-                          {room.find(el=>el.id===row.room_id)?.number}
+                          {room.find((el) => el.id === row.room_id)?.number}
                         </TableCell>
                       </TableRow>
                     );
@@ -644,10 +643,25 @@ export default function ReadMoreCard() {
                         tabIndex={-1}
                         key={row.id}
                       >
-                        <TableCell align="center">{test.find(el=>el.id===row.test_id)?.type}</TableCell>
+                        <TableCell align="center">
+                          {test.find((el) => el.id === row.test_id)?.type}
+                        </TableCell>
                         <TableCell align="center">{row.date}</TableCell>
-                        <TableCell align="center">{doctors.find(el=>el.id===row.doctor_id)?.first_name}</TableCell>
-                        <TableCell align="center">{row.result?row.result:"the result is not out yet"}</TableCell>
+                        <TableCell align="center">
+                          {(() => {
+                            const doctor = doctors.find(
+                              (el) => el.id === row.doctor_id
+                            );
+                            return doctor
+                              ? `${doctor.first_name} ${doctor.last_name}`
+                              : "this doctor not available";
+                          })()}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.result
+                            ? row.result
+                            : "the result is not out yet"}
+                        </TableCell>
                       </TableRow>
                     );
                   })
@@ -721,10 +735,25 @@ export default function ReadMoreCard() {
                         tabIndex={-1}
                         key={row.id}
                       >
-                        <TableCell align="center">{rays.find(el=>el.id===row.ray_id)?.type}</TableCell>
+                        <TableCell align="center">
+                          {rays.find((el) => el.id === row.ray_id)?.type}
+                        </TableCell>
                         <TableCell align="center">{row.date}</TableCell>
-                        <TableCell align="center">{doctors.find(el=>el.id===row.doctor_id)?.first_name}</TableCell>
-                        <TableCell align="center">{row.result?row.result:"the result is not out yet"}</TableCell>
+                        <TableCell align="center">
+                          {(() => {
+                            const doctor = doctors.find(
+                              (el) => el.id === row.doctor_id
+                            );
+                            return doctor
+                              ? `${doctor.first_name} ${doctor.last_name}`
+                              : "this doctor not available";
+                          })()}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.result
+                            ? row.result
+                            : "the result is not out yet"}
+                        </TableCell>
                       </TableRow>
                     );
                   })

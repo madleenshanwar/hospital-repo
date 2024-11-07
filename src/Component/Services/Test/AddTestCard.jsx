@@ -42,12 +42,12 @@ export default function AddTestCard() {
       console.log("schedule Info:", values);
       setErrors({});
       const result = await AddTestApi(test);
-        if (result) {
-          setIsSubmitted(true);
-          console.log('Test added successfully!');
-        } else {
-          console.log('Failed to add test.');
-        }
+      if (result) {
+        setIsSubmitted(true);
+        console.log("Test added successfully!");
+      } else {
+        console.log("Failed to add test.");
+      }
     } catch (err) {
       const validationErrors = {};
       err.inner.forEach((error) => {
@@ -64,7 +64,7 @@ export default function AddTestCard() {
   }, [isSubmitted, route]);
   return (
     <Box
-    className="add-item"
+      className="add-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{

@@ -11,7 +11,7 @@ export default function Rays() {
       sx={{ background: "#00ACB1", p: 1, fontWeight: "bold" }}
       onClick={() => route("/addray")}
     >
-      Add New Rays type{" "}
+      Add New Rays Service{" "}
       <AddIcon
         sx={{
           border: "1px solid white",

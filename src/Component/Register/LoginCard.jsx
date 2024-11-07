@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Button,
   TextField,
@@ -29,7 +29,7 @@ export default function LoginCard() {
   const route = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword =useCallback(() => setShowPassword((show) => !show),[]);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -58,13 +58,11 @@ export default function LoginCard() {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("Form Submitted:", values);
       setErrors({});
-      const result=await LoginApi(login)
-      console.log('register',result.data)
-      localStorage.setItem('token',result.data.access_token
-      );
-      console.log(result.data.access_token
-      )
-      if (result)setIsSubmitted(true);
+      const result = await LoginApi(login);
+      console.log("register", result.data);
+      localStorage.setItem("token", result.data.access_token);
+      console.log(result.data.access_token);
+      if (result) setIsSubmitted(true);
     } catch (err) {
       const validationErrors = {};
       err.inner.forEach((error) => {
@@ -162,11 +160,18 @@ export default function LoginCard() {
           },
         }}
       />
-      <Typography variant="button" component="a" sx={{textDecoration:'underline',cursor:'pointer'}} onClick={()=>route('/forgetpass')}>Forget Password</Typography>
+      <Typography
+        variant="button"
+        component="a"
+        sx={{ textDecoration: "underline", cursor: "pointer" }}
+        onClick={() => route("/forgetpass")}
+      >
+        Forget Password
+      </Typography>
       <Button
         type="submit"
         variant="contained"
-        sx={{ background: "#00ACB1", p: 1, fontWeight: "bold",width:'100px' }}
+        sx={{ background: "#00ACB1", p: 1, fontWeight: "bold", width: "100px" }}
       >
         Login
       </Button>

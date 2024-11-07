@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
@@ -20,7 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FetchPatients } from "../../Api/Patient/FetchPatients";
 import { DeletePatient } from "../../Api/Patient/DeletePatient";
-import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from "@mui/icons-material/Login";
 const columns = [
   {
     field: "first_name",
@@ -81,7 +81,7 @@ export default function PatientList() {
     const fetchPatients = async () => {
       try {
         const result = await FetchPatients();
-        console.log(result.data.data.data)
+        console.log(result.data.data.data);
         setRows(result.data.data.data);
       } catch (error) {
         console.error("Error fetching patient:", error);
@@ -89,14 +89,14 @@ export default function PatientList() {
     };
     fetchPatients();
   }, []);
-  const handleChangePage = (_event, newPage) => {
+  const handleChangePage = useCallback((_event, newPage) => {
     setPage(newPage);
-  };
+  }, []);
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+  }, []);
   //handle with delete
   //delete
   const [indexDelete, setIndexDelete] = useState(0);
@@ -121,13 +121,13 @@ export default function PatientList() {
     route(`/updatePatient/${row.id}`);
   };
   //handle with Discharge patient
-  const handleDischarge=async(id)=>{
-      route(`/discharge/${id}`)
-  }
+  const handleDischarge = async (id) => {
+    route(`/discharge/${id}`);
+  };
   //handle with book a room
-  const handleBookRoom=(id)=>{
-      route(`/bookaroom/${id}`)
-  }
+  const handleBookRoom = (id) => {
+    route(`/bookaroom/${id}`);
+  };
   return (
     <Container>
       <Paper
@@ -168,22 +168,23 @@ export default function PatientList() {
                     <TableCell align="center">{row.blood_group}</TableCell>
                     <TableCell align="center">{row.medical_history}</TableCell>
                     <TableCell align="center">
-                    <Button
+                      <Button
                         title="More Details"
                         onClick={() => route(`/readmore/${row.id}`)}
                         variant="contained"
-                              sx={{ background: "#07E4DB" }}
+                        sx={{ background: "#07E4DB" }}
                       >
                         More Details
                       </Button>
                     </TableCell>
                     <TableCell align="center">
-                    <Button
+                      <Button
                         title="admission patient"
                         onClick={() => route(`/admission/${row.id}`)}
                       >
-                        <LoginIcon sx={{ color: "#07E4DB",
-                        fontWeight: "bold"}} />
+                        <LoginIcon
+                          sx={{ color: "#07E4DB", fontWeight: "bold" }}
+                        />
                       </Button>
                       <Button
                         title="update Patient"
@@ -260,9 +261,14 @@ export default function PatientList() {
                         title="book a room"
                         onClick={() => handleBookRoom(row.id)}
                       >
-                        <AddIcon sx={{ color: "#07E4DB" ,  border: "1px solid #07E4DB",
-                        fontWeight: "bold",
-                        borderRadius: "50%",}} />
+                        <AddIcon
+                          sx={{
+                            color: "#07E4DB",
+                            border: "1px solid #07E4DB",
+                            fontWeight: "bold",
+                            borderRadius: "50%",
+                          }}
+                        />
                       </Button>
                     </TableCell>
                   </TableRow>

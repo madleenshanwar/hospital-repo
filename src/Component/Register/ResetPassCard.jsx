@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Button,
   TextField,
@@ -21,8 +21,8 @@ const validationSchema = Yup.object({
     .min(8, "Password should be at least 8 characters")
     .required("Password is required"),
   password_confirmation: Yup.string()
-    .min(8, "ConfirmPassword should be at least 8 characters")
-    .required("ConfirmPassword is required"),
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required"),
 });
 
 export default function ResetPassCard() {
@@ -37,7 +37,10 @@ export default function ResetPassCard() {
   const route = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = useCallback(
+    () => setShowPassword((show) => !show),
+    []
+  );
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -51,7 +54,7 @@ export default function ResetPassCard() {
       ...prev,
       [name]: value,
     }));
-    console.log(reset)
+    console.log(reset);
     try {
       await validationSchema.validateAt(name, { [name]: value });
       setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -171,7 +174,7 @@ export default function ResetPassCard() {
           },
         }}
       />
-       <TextField
+      <TextField
         placeholder="Enter Your password_confirmation"
         name="password_confirmation"
         fullWidth

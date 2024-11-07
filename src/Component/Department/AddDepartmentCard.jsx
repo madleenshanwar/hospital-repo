@@ -46,9 +46,9 @@ export default function AddDepartmentCard() {
       const result = await AddDepartments(department);
       if (result) {
         setIsSubmitted(true);
-        console.log('Department added successfully!');
+        console.log("Department added successfully!");
       } else {
-        console.log('Failed to add department.');
+        console.log("Failed to add department.");
       }
     } catch (err) {
       const validationErrors = {};
@@ -66,7 +66,7 @@ export default function AddDepartmentCard() {
   }, [isSubmitted, route]);
   return (
     <Box
-    className="add-item"
+      className="add-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{

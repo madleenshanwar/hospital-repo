@@ -4,9 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { AdmissionPatientApi } from "../../Api/Patient/AdmissionPatientApi";
 const validationSchema = Yup.object().shape({
-    patient_complaint: Yup.string()
-      .required("patient_complaint is required")
-})
+  patient_complaint: Yup.string().required("patient_complaint is required"),
+});
 export default function AdmissionCard() {
   const { index } = useParams();
   const [admission, setAdmission] = useState({
@@ -39,9 +38,9 @@ export default function AdmissionCard() {
       const result = await AdmissionPatientApi(admission);
       if (result) {
         setIsSubmitted(true);
-        console.log('Admission successfully!');
+        console.log("Admission successfully!");
       } else {
-        console.log('Failed to admission.');
+        console.log("Failed to admission.");
       }
     } catch (err) {
       const validationErrors = {};

@@ -41,7 +41,7 @@ export default function BookARoomCard() {
         setRooms(result.data.data.rooms);
         console.log(result.data.data);
       } catch (error) {
-        console.log(error);
+        console.log("error in fetch available room", error);
       }
     };
 
@@ -154,13 +154,15 @@ export default function BookARoomCard() {
         <MenuItem disabled value="">
           <em>Please Select Room</em>
         </MenuItem>
-        {rooms.length > 0
-          ? rooms.map((option, index) => (
-              <MenuItem key={index} value={option.id}>
-                {option.number}
-              </MenuItem>
-            ))
-          : ""}
+        {rooms.length > 0 ? (
+          rooms.map((option, index) => (
+            <MenuItem key={index} value={option.id}>
+              {option.number}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem disabled>no rooms available</MenuItem>
+        )}
       </TextField>
       <Box sx={{ display: "flex", gap: 2 }}>
         <Button

@@ -37,20 +37,20 @@ export default function AddDoctorCard() {
     department_head: "",
     department_id: "",
   });
-  const[departments,setDepartments]=useState([])
-  useEffect(()=>{
+  const [departments, setDepartments] = useState([]);
+  useEffect(() => {
     const fetchDepartments = async () => {
       try {
         const result = await ShowDepartments();
-        setDepartments(result.data.data)
-        console.log(result.data.data)
+        setDepartments(result.data.data);
+        console.log(result.data.data);
       } catch (error) {
         console.log(error);
       }
     };
-  
+
     fetchDepartments();
-  },[])
+  }, []);
   const route = useNavigate();
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -77,9 +77,9 @@ export default function AddDoctorCard() {
       const result = await AddDoctors(doctor);
       if (result) {
         setIsSubmitted(true);
-        console.log('Doctor added successfully!');
+        console.log("Doctor added successfully!");
       } else {
-        console.log('Failed to add doctor.');
+        console.log("Failed to add doctor.");
       }
     } catch (err) {
       const validationErrors = {};
@@ -97,7 +97,7 @@ export default function AddDoctorCard() {
   }, [isSubmitted, route]);
   return (
     <Box
-    className="add-item"
+      className="add-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{
@@ -238,25 +238,27 @@ export default function AddDoctorCard() {
           <MenuItem value="1">No</MenuItem>
         </TextField>
         <TextField
-         sx={{ width: "740px" }}
-        id="outlined-select-currency"
-        select
-        label="please select your Department"
-        value={doctor.department_id}
-        name="department_id"
-        onChange={handleChange}
-        error={Boolean(errors.department_id)}
-        helperText={errors.department_id}
-      >
-        <MenuItem disabled value="">
-          <em>Please Select Department</em>
-        </MenuItem>
-        {departments.length>0?departments.map((option,index) => (
-            <MenuItem key={index} value={option.id} >
-              {option.name}
-            </MenuItem>
-          )):''}
-      </TextField>
+          sx={{ width: "740px" }}
+          id="outlined-select-currency"
+          select
+          label="please select your Department"
+          value={doctor.department_id}
+          name="department_id"
+          onChange={handleChange}
+          error={Boolean(errors.department_id)}
+          helperText={errors.department_id}
+        >
+          <MenuItem disabled value="">
+            <em>Please Select Department</em>
+          </MenuItem>
+          {departments.length > 0
+            ? departments.map((option, index) => (
+                <MenuItem key={index} value={option.id}>
+                  {option.name}
+                </MenuItem>
+              ))
+            : ""}
+        </TextField>
       </Box>
       <Box sx={{ display: "flex", gap: 2 }}>
         <Button

@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
-import SideBar from "../../Component/SideBar/SideBar";
 import AddSchedulesCard from "../../Component/Schedules/AddSchedulesCard";
+import SideBar from "../../component/SideBar/SideBar";
 
 export default function AddSchedules() {
   return (

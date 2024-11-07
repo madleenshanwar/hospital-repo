@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { FetchSurgery } from "../../Api/Surgery/FetchSurgery";
-import { ShowDoctors } from "../../api/Doctors/ShowDoctors";
 import { DeleteSurgery } from "../../Api/Surgery/DeleteSurgery";
 import { ChangeRoomStatus } from "../../Api/Room/ChangeRoomStatus";
 const columns = [
@@ -97,14 +96,14 @@ export default function SurgeryList() {
     };
     fetchSurgery();
   }, []);
-  const handleChangePage = (_event, newPage) => {
+  const handleChangePage = useCallback((_event, newPage) => {
     setPage(newPage);
-  };
+  },[]);
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+  },[]);
   //handle with delete
   //delete
   const [indexDelete, setIndexDelete] = useState(0);
@@ -121,7 +120,7 @@ export default function SurgeryList() {
       handleCloseDelete();
       console.log("Surgery delete successfully!");
     } else {
-      console.log("Failed to surgery doctor.");
+      console.log("Failed to delete surgery .");
     }
   };
   //handle with update
@@ -129,7 +128,7 @@ export default function SurgeryList() {
     route(`/updatesurgery/${id}`);
   };
   //handle with empty room
-  const status="vacant"
+  const status = "vacant";
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const handleOpen = (row) => {
@@ -139,7 +138,7 @@ export default function SurgeryList() {
   };
   const handleClose = () => setOpen(false);
   const handleEmptyRoom = async () => {
-    const result = await ChangeRoomStatus(status,index);
+    const result = await ChangeRoomStatus(status, index);
     if (result) {
       handleClose();
       console.log("Empty Room successfully!");

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -72,8 +72,8 @@ const columns = [
   },
   {
     field: "department_head",
-    headerName: "is a head?",
-    minWidth: 150,
+    headerName: "is Ahead?",
+    minWidth: 100,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
@@ -106,7 +106,7 @@ export default function DoctorList() {
         const result = await ShowDepartments();
         const departmentsData = result.data.data;
         const departmentsMap = {};
-        departmentsData.forEach(department => {
+        departmentsData.forEach((department) => {
           departmentsMap[department.id] = department;
         });
         setDepartments(departmentsMap);
@@ -118,15 +118,13 @@ export default function DoctorList() {
     fetchDoctors();
     fetchDepartments();
   }, []);
-
-  const handleChangePage = (_event, newPage) => {
+  const handleChangePage = useCallback((_event, newPage) => {
     setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
+  }, []);
+  const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+  }, []);
   //handle with delete
   //delete
   const [indexDelete, setIndexDelete] = useState(0);
@@ -195,7 +193,8 @@ export default function DoctorList() {
                     <TableCell align="center">{row.license_number}</TableCell>
                     <TableCell align="center">{row.status}</TableCell>
                     <TableCell align="center">
-                    {departments[row.department_id]?.name || 'Unknown Department'}
+                      {departments[row.department_id]?.name ||
+                        "Unknown Department"}
                     </TableCell>
                     <TableCell align="center">
                       {row.department_head ? "Yes" : "No"}

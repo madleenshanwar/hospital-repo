@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -46,9 +46,6 @@ export default function DepartmentList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const route = useNavigate();
-  const handleChangePage = (_event, newPage) => {
-    setPage(newPage);
-  };
   useEffect(()=>{
     const fetchDepartments = async () => {
       try {
@@ -58,13 +55,16 @@ export default function DepartmentList() {
         console.log(error);
       }
     };
-  
+    
     fetchDepartments();
   },[])
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangePage = useCallback((_event, newPage) => {
+    setPage(newPage);
+  },[]);
+  const handleChangeRowsPerPage =useCallback((event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+  },[]);
   //handle with delete
   const [indexDelete, setIndexDelete] = useState(0);
   const [openDelete, setOpenDelete] = useState(false);

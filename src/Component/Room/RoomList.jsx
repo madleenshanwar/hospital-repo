@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -57,41 +57,41 @@ const columns = [
   },
 ];
 export default function RoomList() {
-  const [rows,setRows] =useState([])
+  const [rows, setRows] = useState([]);
   const [page, setPage] = React.useState(0);
-  const [departments,setDepartments]=useState([])
+  const [departments, setDepartments] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const route = useNavigate();
-  useEffect(()=>{
+  useEffect(() => {
     const fetchRooms = async () => {
       try {
         const result = await ShowRoom();
-        setRows(result.data.data)
+        setRows(result.data.data);
       } catch (error) {
         console.log(error);
       }
     };
-  
+
     fetchRooms();
     const fetchDepartments = async () => {
       try {
         const result = await ShowDepartments();
-        setDepartments(result.data.data)
+        setDepartments(result.data.data);
       } catch (error) {
         console.log(error);
       }
     };
-  
-    fetchDepartments();
-  },[])
-  const handleChangePage = (_event, newPage) => {
-    setPage(newPage);
-  };
 
-  const handleChangeRowsPerPage = (event) => {
+    fetchDepartments();
+  }, []);
+  const handleChangePage = useCallback((_event, newPage) => {
+    setPage(newPage);
+  }, []);
+
+  const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+  }, []);
   //handle with delete
   //delete
   const [indexDelete, setIndexDelete] = useState(0);
@@ -102,15 +102,15 @@ export default function RoomList() {
     console.log(row.id);
   };
   const handleCloseDelete = () => setOpenDelete(false);
-  const handleDelete=async()=> {
+  const handleDelete = async () => {
     const result = await DeleteRoom(indexDelete);
-    if(result){
+    if (result) {
       handleCloseDelete();
-      console.log('Room delete successfully!');
+      console.log("Room delete successfully!");
     } else {
-      console.log('Failed to delete room.');
+      console.log("Failed to delete room.");
     }
-    }
+  };
   //handle with update
   const handleUpdate = (row) => {
     route(`/updatedroom/${row.id}`);
@@ -152,8 +152,8 @@ export default function RoomList() {
                     <TableCell align="center">{row.number}</TableCell>
                     <TableCell align="center">{row.status}</TableCell>
                     <TableCell align="center">
-                      {row.department?.name||"Unknown Department"}
-                   </TableCell>
+                      {row.department?.name || "Unknown Department"}
+                    </TableCell>
                     <TableCell align="center">{row.bed_numbers}</TableCell>
                     <TableCell align="center">
                       <Button

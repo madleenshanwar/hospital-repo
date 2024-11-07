@@ -1,8 +1,7 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import SideBar from '../../../component/SideBar/SideBar'
-import Rays from '../../../component/Services/Rays/Rays'
-import RaysList from '../../../component/Services/Rays/RaysList'
+import { Box } from "@mui/material";
+import React from "react";
+import Rays from "../../../component/Services/Rays/Rays";
+import RaysList from "../../../component/Services/Rays/RaysList";
 
 export default function RaysPage() {
   return (
@@ -14,8 +13,8 @@ export default function RaysPage() {
         alignItems: "center",
       }}
     >
-        <Rays/>
-        <RaysList/>
+      <Rays />
+      <RaysList />
     </Box>
-  )
+  );
 }

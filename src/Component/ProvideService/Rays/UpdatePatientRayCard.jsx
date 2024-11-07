@@ -15,7 +15,6 @@ const validationSchema = Yup.object().shape({
   date: Yup.string().required("date is required"),
   result: Yup.string().required("result is required"),
   description: Yup.string().required("description is required"),
-  // image: Yup.string().required("image is required")
 });
 export default function UpdatePatientRayCard() {
   const { id } = useParams();

@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import PersonIcon from "@mui/icons-material/Person";
@@ -27,8 +27,8 @@ const validationSchema = Yup.object().shape({
     .min(8, "Password should be at least 8 characters")
     .required("Password is required"),
   password_confirmation: Yup.string()
-    .min(8, "ConfirmPassword should be at least 8 characters")
-    .required("ConfirmPassword is required"),
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required"),
   phone: Yup.string()
     .matches(/^[0-9]{10}$/, "phone must be 10 numbers")
     .required("phone is required"),
@@ -52,7 +52,7 @@ export default function SignUpCard() {
   const route = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = () => useCallback(setShowPassword((show) => !show),[]);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };

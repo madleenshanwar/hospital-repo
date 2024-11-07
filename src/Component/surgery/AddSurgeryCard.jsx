@@ -40,21 +40,27 @@ export default function AddSurgeryCard() {
   });
   const [doctors, setDoctors] = useState([]);
   const [patient, setPatient] = useState([]);
-  const [room,setRoom]=useState([])
+  const [room, setRoom] = useState([]);
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
         const result = await ShowDepartments();
-        console.log("department",result.data.data.find(el=>el.name==="surgery department")?.id)
+        console.log(
+          "department",
+          result.data.data.find((el) => el.name === "surgery department")?.id
+        );
         try {
-          const response = await AvailableRoom(parseInt(result.data.data.find(el=>el.name==="surgery department")?.id));
-          console.log("Room",response.data.data.rooms)
+          const response = await AvailableRoom(
+            parseInt(
+              result.data.data.find((el) => el.name === "surgery department")
+                ?.id
+            )
+          );
+          console.log("Room", response.data.data.rooms);
           setRoom(response.data.data.rooms);
-  
         } catch (error) {
           console.log(error);
         }
-
       } catch (error) {
         console.log(error);
       }
@@ -72,7 +78,7 @@ export default function AddSurgeryCard() {
     const fetchPatients = async () => {
       try {
         const result = await FetchPatients();
-        console.log("patient",result.data.data.data);
+        console.log("patient", result.data.data.data);
         setPatient(result.data.data.data);
       } catch (error) {
         console.log(error);
@@ -284,13 +290,13 @@ export default function AddSurgeryCard() {
         helperText={errors.patient_id}
         sx={{ width: "620px" }}
       >
-        {patient.length > 0 ? (
-          patient.map((el) => (
-            <MenuItem key={el.id} value={el.id}>
-              {el.first_name + " " + el.last_name}
-            </MenuItem>
-          ))
-        ) : ""}
+        {patient.length > 0
+          ? patient.map((el) => (
+              <MenuItem key={el.id} value={el.id}>
+                {el.first_name + " " + el.last_name}
+              </MenuItem>
+            ))
+          : ""}
       </TextField>
       <Box sx={{ display: "flex", gap: 2 }}>
         <Button

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,7 +17,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { FetchRays } from "../../../Api/services/rays/FetchRays";
 import { ShowDoctors } from "../../../Api/Doctors/ShowDoctors";
 import { FetchPatients } from "../../../Api/Patient/FetchPatients";
 import { DeletePatientRay } from "../../../Api/ProvideService/Ray/DeletePatientRay";
@@ -62,10 +61,10 @@ const columns = [
 export default function ProvideRayList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [rows,setRows]=useState([]);
+  const [rows, setRows] = useState([]);
   const route = useNavigate();
-  const[doctors,setDoctors]=useState([])
-  const [patient,setPatient]=useState([])
+  const [doctors, setDoctors] = useState([]);
+  const [patient, setPatient] = useState([]);
   useEffect(() => {
     const fetchRays = async () => {
       try {
@@ -97,14 +96,14 @@ export default function ProvideRayList() {
     fetchDoctors();
     fetchRays();
   }, []);
-  const handleChangePage = (_event, newPage) => {
+  const handleChangePage = useCallback((_event, newPage) => {
     setPage(newPage);
-  };
+  },[]);
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+  },[]);
   //handle with delete
   //delete
   const [indexDelete, setIndexDelete] = useState(0);
@@ -162,16 +161,29 @@ export default function ProvideRayList() {
               .map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align="center">{row.admission.patient.first_name+" "+row.admission.patient.last_name}</TableCell>
+                    <TableCell align="center">
+                      {row.admission.patient.first_name +
+                        " " +
+                        row.admission.patient.last_name}
+                    </TableCell>
                     <TableCell align="center">{row.ray.type}</TableCell>
-                    <TableCell align="center">{row.doctor.first_name+" "+row.doctor.last_name}</TableCell>
+                    <TableCell align="center">
+                      {(() => {
+                        const doctor = doctors.find(
+                          (el) => el.id === row.doctor_id
+                        );
+                        return doctor
+                          ? `${doctor.first_name} ${doctor.last_name}`
+                          : "this doctor not available";
+                      })()}
+                    </TableCell>
                     <TableCell align="center">{row.date}</TableCell>
                     <TableCell align="center">
-                    <Button
+                      <Button
                         title="More Details"
                         onClick={() => route(`/readmoreray/${row.id}`)}
                         variant="contained"
-                              sx={{ background: "#07E4DB" }}
+                        sx={{ background: "#07E4DB" }}
                       >
                         More Details
                       </Button>
@@ -259,5 +271,5 @@ export default function ProvideRayList() {
         />
       </Paper>
     </Container>
-  )
+  );
 }

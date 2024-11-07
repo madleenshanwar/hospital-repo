@@ -54,7 +54,7 @@ export default function UpdateRaysCard() {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("Ray Info:", values);
       setErrors({});
-      const result = await UpdateRayApi(rays,rays.id);
+      const result = await UpdateRayApi(rays, rays.id);
       if (result) {
         setIsSubmitted(true);
         console.log("Ray update successfully!");

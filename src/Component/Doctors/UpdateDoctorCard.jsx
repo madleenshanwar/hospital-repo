@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
-import { FetchOneDepartment } from "../../Api/Department/FetchOneDepartment";
 import { UpdateDoctors } from "../../Api/Doctors/UpdateDoctors";
 import { FetchOneDoctor } from "../../Api/Doctors/FetchOneDoctor";
 import { ShowDepartments } from "../../api/Department/Show";
@@ -41,13 +40,13 @@ export default function UpdateDoctorCard() {
     department_head: "",
     department_id: "",
   });
-  const[departments,setDepartments]=useState([]);
-  useEffect(()=>{
+  const [departments, setDepartments] = useState([]);
+  useEffect(() => {
     const fetchDoctors = async () => {
       try {
         const result = await FetchOneDoctor(index);
-        console.log("fetch one doctor",result.data.data)
-        setDoctor(result.data.data)
+        console.log("fetch one doctor", result.data.data);
+        setDoctor(result.data.data);
       } catch (error) {
         console.log(error);
       }
@@ -56,19 +55,19 @@ export default function UpdateDoctorCard() {
     const fetchDepartments = async () => {
       try {
         const result = await ShowDepartments();
-        setDepartments(result.data.data)
-        console.log(result.data.data)
+        setDepartments(result.data.data);
+        console.log(result.data.data);
       } catch (error) {
         console.log(error);
       }
     };
-  
+
     fetchDepartments();
-  },[index])
+  }, [index]);
   const route = useNavigate();
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
+
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setDoctor((prevD) => ({
@@ -89,12 +88,12 @@ export default function UpdateDoctorCard() {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("Doctor Info:", values);
       setErrors({});
-      const result = await UpdateDoctors(doctor,doctor.id);
+      const result = await UpdateDoctors(doctor, doctor.id);
       if (result) {
         setIsSubmitted(true);
-        console.log('Doctor update successfully!');
+        console.log("Doctor update successfully!");
       } else {
-        console.log('Failed to update doctor.');
+        console.log("Failed to update doctor.");
       }
     } catch (err) {
       const validationErrors = {};
@@ -114,7 +113,7 @@ export default function UpdateDoctorCard() {
     <Box
       component="form"
       onSubmit={handleSubmit}
-       className="update-item"
+      className="update-item"
       sx={{
         margin: "70px auto",
         p: 3,
@@ -261,25 +260,29 @@ export default function UpdateDoctorCard() {
           <MenuItem value="0">No</MenuItem>
         </TextField>
         <TextField
-         sx={{ width: "740px" }}
-        id="outlined-select-currency"
-        select
-        label="please select your Department"
-        value={doctor.department_id}
-        name="department_id"
-        onChange={handleChange}
-        error={Boolean(errors.department_id)}
-        helperText={errors.department_id}
-      >
-        <MenuItem disabled value="">
-          <em>Please Select Department</em>
-        </MenuItem>
-        {departments.length>0?departments.map((option,index) => (
-            <MenuItem key={index} value={option.id} >
-              {option.name}
-            </MenuItem>
-          )):''}
-      </TextField>
+          sx={{ width: "740px" }}
+          id="outlined-select-currency"
+          select
+          label="please select your Department"
+          value={doctor.department_id || ""}
+          name="department_id"
+          onChange={handleChange}
+          error={Boolean(errors.department_id)}
+          helperText={errors.department_id}
+        >
+          <MenuItem disabled value="">
+            <em>Please Select Department</em>
+          </MenuItem>
+          {departments.length > 0 ? (
+            departments.map((option, index) => (
+              <MenuItem key={index} value={option.id}>
+                {option.name}
+              </MenuItem>
+            ))
+          ) : (
+            <MenuItem disabled>No departments available</MenuItem>
+          )}
+        </TextField>
       </Box>
       <Box sx={{ display: "flex", gap: 2 }}>
         <Button

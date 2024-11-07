@@ -18,10 +18,8 @@ const validationSchema = Yup.object().shape({
   birthday: Yup.string().required("birthday is required"),
   gender: Yup.string().required("gender is required"),
   blood_group: Yup.string().required("  blood_group is required"),
-   allergies:Yup.string()
-   .required("allergies is required"),
-   medical_history:Yup.string()
-   .required("medical_history is required"),
+  allergies: Yup.string().required("allergies is required"),
+  medical_history: Yup.string().required("medical_history is required"),
 });
 export default function UpdatePatientCard() {
   const { index } = useParams();
@@ -47,7 +45,7 @@ export default function UpdatePatientCard() {
       ...prevD,
       [name]: value,
     }));
-    console.log(patient)
+    console.log(patient);
     try {
       await validationSchema.validateAt(name, { [name]: value });
       setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -62,12 +60,12 @@ export default function UpdatePatientCard() {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("Patient Info:", values);
       setErrors({});
-      const result = await UpdatePatientApi(patient,patient.id);
+      const result = await UpdatePatientApi(patient, patient.id);
       if (result) {
         setIsSubmitted(true);
-        console.log('Patient update successfully!');
+        console.log("Patient update successfully!");
       } else {
-        console.log('Failed to update patient.');
+        console.log("Failed to update patient.");
       }
     } catch (err) {
       const validationErrors = {};

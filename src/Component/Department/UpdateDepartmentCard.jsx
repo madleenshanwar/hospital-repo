@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { UpdateDepartments } from "../../Api/Department/UpdateDepartments";
-import { ShowDepartments } from "../../Api/Department/Show";
 import { FetchOneDepartment } from "../../Api/Department/FetchOneDepartment";
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -24,17 +23,17 @@ export default function UpdateDepartmentCard() {
   const [department, setDepartment] = useState({
     name: "",
   });
-  useEffect(()=>{
+  useEffect(() => {
     const fetchDepartments = async () => {
       try {
         const result = await FetchOneDepartment(index);
-        setDepartment(result.data.data)
+        setDepartment(result.data.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchDepartments();
-  },[index])
+  }, [index]);
   const route = useNavigate();
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -58,12 +57,12 @@ export default function UpdateDepartmentCard() {
       await validationSchema.validate(values, { abortEarly: false });
       console.log("Department Info:", values);
       setErrors({});
-      const result = await UpdateDepartments(department,department.id);
+      const result = await UpdateDepartments(department, department.id);
       if (result) {
         setIsSubmitted(true);
-        console.log('Department update successfully!');
+        console.log("Department update successfully!");
       } else {
-        console.log('Failed to update department.');
+        console.log("Failed to update department.");
       }
     } catch (err) {
       const validationErrors = {};
@@ -81,7 +80,7 @@ export default function UpdateDepartmentCard() {
   }, [isSubmitted, route]);
   return (
     <Box
-    className="update-item"
+      className="update-item"
       component="form"
       onSubmit={handleSubmit}
       sx={{

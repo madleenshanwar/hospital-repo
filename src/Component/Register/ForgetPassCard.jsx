@@ -22,7 +22,7 @@ export default function ForgetPassCard() {
   const route = useNavigate();
   const handleChange = async (e) => {
     const { value } = e.target;
-    setEmail(value); 
+    setEmail(value);
     try {
       await validationSchema.validateAt("email", { email: value });
       setErrors((prev) => ({ ...prev, email: undefined }));
@@ -34,7 +34,7 @@ export default function ForgetPassCard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await validationSchema.validate({email}, { abortEarly: false });
+      await validationSchema.validate({ email }, { abortEarly: false });
       console.log("Form Submitted:", email);
       setErrors({});
       const result = await ForgetPassApi(email);
@@ -56,7 +56,7 @@ export default function ForgetPassCard() {
 
   useEffect(() => {
     if (isSubmitted) {
-        route("/resetpass");
+      route("/resetpass");
     }
   }, [isSubmitted, route]);
 

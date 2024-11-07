@@ -92,12 +92,12 @@ export default function Router() {
         <Route path="patienttest" element={<PatientTest />}></Route>
         <Route path="addpatienttest" element={<ProvideTest />}></Route>
         <Route path="updatepatienttest/:id" element={<UpdatePatientTest />} />
-        <Route path="readmoretest/:id" element={<ReadMoreTest/>}/>
+        <Route path="readmoretest/:id" element={<ReadMoreTest />} />
         {/*patient ray */}
         <Route path="patientray" element={<PatientRay />}></Route>
         <Route path="addpatientray" element={<ProvideRay />}></Route>
         <Route path="updatepatientray/:id" element={<UpdatePatientRay />} />
-        <Route path="readmoreray/:id" element={<ReadMoreRay/>}/>
+        <Route path="readmoreray/:id" element={<ReadMoreRay />} />
       </Routes>
     </BrowserRouter>
   );
