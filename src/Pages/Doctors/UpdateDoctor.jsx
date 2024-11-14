@@ -7,7 +7,7 @@ export default function UpdateDoctor() {
     <Box>
       <img
         src="/assest/images/doctor.svg"
-        style={{ position: "absolute", zIndex: "-1", height: "100%", top: 0 }}
+        style={{ position: "absolute", zIndex: "-1", height: "100%",  top: 0,bottom:0}}
       />
       <UpdateDoctorCard />
     </Box>

@@ -127,7 +127,7 @@ export default function UpdateDoctorCard() {
         backgroundColor: "rgba(255,255,255,0.7)",
         border: "1px solid #00ACB1",
         height: "fit-content",
-        maxWidth: "800px",
+        width: "800px",
       }}
     >
       <Typography

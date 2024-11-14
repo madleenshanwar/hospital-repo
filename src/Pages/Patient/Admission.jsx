@@ -8,7 +8,7 @@ export default function Admission() {
     <Box>
       <img
         src="/assest/images/patient.svg"
-        style={{ position: "absolute", zIndex: "-1",height:'100%' }}
+        style={{ position: "absolute", zIndex: "-1", top: 0,bottom:0,height:'100%' }}
       />
       <SideBar/>
       <AdmissionCard/>

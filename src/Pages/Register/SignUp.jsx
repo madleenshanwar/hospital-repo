@@ -6,7 +6,7 @@ export default function SignUp() {
     <Box>
       <img
         src="/assest/images/signup.svg"
-        style={{ position: "absolute", zIndex: "-1", height: "100%", top: 0 }}
+        style={{ position: "absolute", zIndex: "-1", top: 0,bottom:0, height: "100%", top: 0 }}
       />
       <SignUpCard />
     </Box>

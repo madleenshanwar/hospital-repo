@@ -7,7 +7,7 @@ export default function UpdateDepartment() {
     <Box>
       <img
         src="/assest/images/department.svg"
-        style={{ position: "absolute", zIndex: "-1", height: "100%", top: 0 }}
+        style={{ position: "absolute", zIndex: "-1", height: "100%", top: 0,bottom:0 }}
       />
       <UpdateDepartmentCard />
     </Box>
